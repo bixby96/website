@@ -3,8 +3,6 @@ title: "The NFL, NBA, & MLB's Center of Gravity"
 author: "Chad Bixby"
 date: '2018-09-06'
 slug: the-nfl-nba-mlb-s-center-of-gravity
-tags: []
-categories: []
 ---
 
 ```{r setup, include=FALSE}
