@@ -27,7 +27,7 @@
       <pubDate>Thu, 30 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/08/30/spotify/</guid>
-      <description>IntroductionAs the Internet of Things (IoT) landscape continues to grow, practically everyone and everything, it seems, is compiling data or at least generating statistics for any variable imaginable. And music is no exception. The music streaming service, Spotify, stores an array of features for each song in its library. They record characteristics such as acousticness, danceability, energy and more. With these variables in mind, I conducted some exploratory analysis along with a couple clustering methods on Kanye West’s Spotify discography.</description>
+      <description>IntroductionExploratory Data AnalysisLoad PackagesImport DataDanceabilityValenceOther VariablesClusteringHierarchical ClusteringPrinciple Component AnalysisIntroductionAs the Internet of Things (IoT) landscape continues to grow, practically everyone and everything, it seems, is compiling data or at least generating statistics for any variable imaginable. And music is no exception. The music streaming service, Spotify, stores an array of features for each song in its library.</description>
     </item>
     
     <item>

@@ -2,6 +2,9 @@
 title: "Spotify Anal-*YE*-sis"
 author: "Chad Bixby"
 date: '2018-08-30'
+output:
+  blogdown::html_page:
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
@@ -21,8 +24,7 @@ library(spotifyr)
 library(tidyverse)
 library(knitr)
 library(kableExtra)
-library(plotly) 
-library(DT)
+library(plotly)
 library(scales)
 library(ggfortify)
 library(ggdendro)
@@ -112,7 +114,7 @@ kanye_dance_songs <- kanye2 %>%
   select(album_name, track_name, danceability)
 
 kable(head(kanye_dance_songs, 10)) %>%
-    kable_styling(bootstrap_options = c("striped", "hover"))
+    kable_styling(bootstrap_options = c("striped"))
 ```
 
 ###Valence
@@ -161,14 +163,15 @@ ggplotly(q2) %>%
  style(hoverinfo = "y") 
 ```
 
-With a valence score of 14.68, the happiest Kanye release came way back in 2004 with his debut hit *The College Dropout*.  Interestingly, the four albums with the lowest valence score also make up his most recent work.  Check out the the valence for each track below.
+With a valence score of 14.68, the happiest Kanye release came way back in 2004 with his debut hit *The College Dropout*.  Interestingly, the four albums with the lowest valence score also make up his most recent work.  Check out the the 
 
 ```{r}
 kanye_valence_songs <- kanye2 %>%
   select(album_name, track_name, valence) %>%
   arrange(desc(valence))
 
-datatable(kanye_valence_songs)
+kable(head(kanye_valence_songs,10), caption = "Top 10 Valence") %>%
+    kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
 ###Other Variables
