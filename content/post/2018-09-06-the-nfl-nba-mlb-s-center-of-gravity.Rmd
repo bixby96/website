@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
 ```
 
 ##Introduction
-Drawing inspiration from FiveThirtyEight's [article](https://fivethirtyeight.com/features/the-stanley-cup-center-of-gravity-is-somewhere-in-lake-huron/) locating the Stanley Cup's center of gravity, or the average geographic point of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies' geographical center could lie.  Using Cartesian coordinates for each champions's city, I mapped the location for each league.  The corresponding code and plots are shown below.
+Drawing inspiration from FiveThirtyEight's [article](https://fivethirtyeight.com/features/the-stanley-cup-center-of-gravity-is-somewhere-in-lake-huron/) locating the Stanley Cup's center of gravity, or the average geographic point of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies' geographical center could lie.  Using Cartesian coordinates for each champion's city, I mapped the location for each league.  The corresponding code and plots are shown below.
 
 ### Load Packages 
 ```{r packages, results='hide'}

@@ -48,8 +48,8 @@ googleAnalytics = "XXX"
     post = "/:year/:month/:day/:filename/"
 
 [[menu.main]]
-    name = "Projects"
-    url = "/post"
+    name = "Posts"
+    url = "/post/"
     weight = 1
 
 [[menu.main]]
