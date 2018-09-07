@@ -1,0 +1,272 @@
+---
+title: "Spotify Anal-*YE*-sis"
+author: "Chad Bixby"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+    theme: yeti
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T, messages = F, warning = F)
+```
+
+##Introduction
+As the [Internet of Things](https://en.wikipedia.org/wiki/Internet_of_things) (IoT) landscape continues to grow, practically everything, it seems, is compiling data and generating statistics for any variable imaginable.  And music is no exception.  The music streaming service, Spotify, compiles an array of features for each song in its library.  They record characteristics such as acousticness, danceability, energy and more.  With these variables in mind, I conducted some exploratory analysis along with a couple clustering methods on Kanye West's *Spotify* discography.  The following report utilizes Spotify's Web API through Charlie Thompson's `spotifyr` package which you can check out [here](http://www.rdocumentation.org/packages/spotifyr).
+
+##Exploratory Data Analysis
+###Load Packages
+
+The following code and plots make use of these packages:
+
+```{r packages, include=FALSE}
+library(spotifyr)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(plotly) 
+library(DT)
+library(scales)
+library(ggfortify)
+library(ggdendro)
+library(dendextend)
+```
+
+```{r spotify, include = FALSE}
+library(devtools)
+library(spotifyr)
+
+Sys.setenv(SPOTIFY_CLIENT_ID = '0b6eacbb2bac4331926d3943b9354b1a')
+Sys.setenv(SPOTIFY_CLIENT_SECRET = '0524dc6bd6d740028a0278fb0bc5f6f1')
+
+access_token <- get_spotify_access_token()
+```
+
+###Import Data
+
+First lets import the audio features for Kanye West and take a quick look at the data.  
+
+```{r data, message = F}
+kanye <- get_artist_audio_features(artist = "kanye west")
+```
+
+After viewing the data, I noticted a few tracks (rows) are duplicated since some albums contain edited, clean, and/or live versions.  Those rows will be removed in addition to some unuseful columns. Also let's be sure we don't have any missing values.
+
+```{r clean}
+kanye2 <- kanye %>%
+  filter(!(album_name %in% c("808s & Heartbreak (Softpak)", "Late Orchestration", 
+                             "The College Dropout (Edited)", 
+                             "Graduation (Alternative Business Partners)"))) %>%
+    select(-c(artist_uri, album_uri, album_type, is_collaboration, track_uri,
+            track_preview_url, album_release_year, artist_name, album_img, 
+            album_release_date, track_open_spotify_url, track_number,
+            disc_number, key, mode, key_mode, album_popularity, time_signature))
+
+sum(is.na(kanye2))
+```
+
+The dataset we will be working with now has `r nrow(kanye2)` rows and `r ncol(kanye2)` columns with no missing observations!
+
+###Danceability
+Spotify defines danceability as
+
+> "How suitable a track is for dancing based on a combination of musical elements including tempo,
+> rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and
+> 1.0 is most danceable."
+
+Before determining which album Spotify deems the most danceable, let's take a look at how danceability is distributed on each album.
+
+```{r echo = F}
+p1 <- ggplot(kanye2, aes(x = danceability)) +
+  geom_density(aes(fill = album_name), alpha = .85) +
+  geom_rug() +
+  geom_vline(aes(xintercept = .5), lty = 2, alpha = .5) +
+  facet_wrap(album_name ~ ., ncol = 2) +
+  theme(legend.position = "none", axis.title.y = element_blank(), axis.text.y = element_blank(), axis.ticks.y = element_blank()) +
+  scale_fill_brewer(palette = "Spectral")
+
+ggplotly(p1, height = 750) %>%
+  style(hoverinfo  = "x")
+```
+
+The dashed vertical line represents the midpoint on the danceability scale.  Also the tick marks at the bottom of each plot represent one song on an album. Each album appears to be more danceable than not, but let's weight each song by its duration to get a better picture of each album as a whole.  The following graph outlines the results.
+
+```{r}
+kanye_dance <- kanye2 %>%
+  mutate(total_dance = danceability*duration_ms) %>%
+  group_by(album_name) %>%
+  summarise(avg_danceability = sum(total_dance)/length(album_name)/10000)
+```
+
+```{r echo = F}
+p2 <- ggplot(kanye_dance,aes(x = reorder(album_name, -avg_danceability), 
+                             y = avg_danceability)) +
+    geom_col(aes(fill = avg_danceability), alpha = .85) +
+  geom_hline(aes(yintercept = mean(kanye_dance$avg_danceability)), linetype = 2,
+             col = "red") +
+  annotate("text", x = 7.3, y = mean(kanye_dance$avg_danceability) + 1, label =
+             paste("Mean Album Danceability =", 
+                   round(mean(kanye_dance$avg_danceability),2))) +
+  theme(legend.position = "none", axis.title.x = element_blank(),
+        axis.text.x=element_text(hjust=1)) +
+  scale_x_discrete(labels = wrap_format(5)) +
+  scale_fill_gradient() +
+  ggtitle("Which Kanye Album should you party to?")
+
+ggplotly(p2) %>%
+ style(hoverinfo = "y")
+```
+
+Overall, *My Beautiful Dark Twisted Fantasy* and *808s & Heartbreak* represent Kanye's most danceable albums.  The following table lists his top 10 most danceable songs.
+
+```{r}
+kanye_dance_songs <- kanye2 %>%
+  arrange(desc(danceability)) %>%
+  select(album_name, track_name, danceability)
+
+kable(head(kanye_dance_songs, 10)) %>%
+    kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+###Valence
+Spotify defines Valence as 
+
+>"A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a 
+>track. Tracks with high valence sound more positive (e.g. happy, cheerful, 
+>euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)""
+
+Again, lets's look at the overall distribution for each album, but for valence this time.
+
+```{r echo = F}
+q1 <- ggplot(kanye2, aes(x = valence)) +
+  geom_density(aes(fill = album_name), alpha = .85) +
+  geom_rug() +
+  geom_vline(aes(xintercept = .5), lty = 2, alpha = .5) +
+  facet_wrap(album_name ~ ., ncol = 2) +
+  theme(legend.position = "none", axis.title.y = element_blank(), axis.text.y = element_blank(), axis.ticks.y = element_blank()) +
+  scale_fill_brewer(palette = "Spectral")
+
+ggplotly(q1, height = 750) %>%
+  style(hoverinfo  = "x")
+```
+
+Perhaps a bit more polarizing than the danceability metric, most albums seem to have their fair share of both positive and negative sounding songs.  Now weighting valence by song duration, let's discover Kanye's happiest (and saddest) album.
+
+```{r}
+kanye_val <- kanye2 %>%
+  mutate(total_valence = valence*duration_ms) %>%
+  group_by(album_name) %>%
+  summarise(avg_valence = sum(total_valence/length(album_name)/10000))
+```
+
+```{r echo = F}
+q2 <- ggplot(kanye_val,aes(x = reorder(album_name, avg_valence), y = avg_valence)) +
+    geom_col(aes(fill = avg_valence), alpha = .85) +
+  geom_hline(aes(yintercept = mean(kanye_val$avg_valence)), linetype = 2, col = "red") +
+  annotate("text", x = 3, y = mean(kanye_val$avg_valence) + 1, label = 
+             paste("Mean Album Valence =", round(mean(kanye_val$avg_valence), 2))) +
+  theme(legend.position = "none", axis.title.x = element_blank(), axis.text.x=element_text(hjust=1)) +
+  scale_x_discrete(labels = wrap_format(10)) +
+  scale_fill_gradient2() +
+  ggtitle("What is Kanye's happiest album?")
+
+ggplotly(q2) %>%
+ style(hoverinfo = "y") 
+```
+
+With a valence score of 14.68, the happiest Kanye release came way back in 2004 with his debut hit *The College Dropout*.  Interestingly, the four albums with the lowest valence score also make up his most recent work.  Check out the the valence for each track below.
+
+```{r}
+kanye_valence_songs <- kanye2 %>%
+  select(album_name, track_name, valence) %>%
+  arrange(desc(valence))
+
+datatable(kanye_valence_songs)
+```
+
+###Other Variables
+
+Interested in exploring the rest of the variables?  Select which albums to compare and choose which characterisics to plot [here](https://chadbixby.shinyapps.io/kanye-song-attributes/)!
+
+##Clustering
+
+###Hierarchical Clustering
+
+Now on to some clustering methods.  Let's determine which albums sound the most alike using hierarchical clustering.  A tree with a height of 4 and complete linkage is shown below.  
+
+```{r}
+kanye3 <- kanye2 %>%
+  select(-c(track_name, track_popularity)) %>%
+  group_by(album_name) %>%
+  summarise(dance = sum(danceability*duration_ms)/length(album_name),
+            energy = sum(energy*duration_ms)/length(album_name),
+            loudness = sum(loudness*duration_ms)/length(album_name),
+            speechiness = sum(speechiness*duration_ms)/length(album_name),
+            acousticness = sum(acousticness*duration_ms)/length(album_name),
+            instrumentalness = sum(instrumentalness*duration_ms)/length(album_name),
+            liveness = sum(liveness*duration_ms)/length(album_name),
+            valence = sum(valence*duration_ms)/length(album_name),
+            tempo = sum(tempo*duration_ms)/length(album_name)) %>%
+  remove_rownames() %>%
+  column_to_rownames("album_name")
+
+kanye.hc <- hclust(dist(scale(kanye3)), method = "complete")
+kanye.tree <- dendro_data(kanye.hc, type = "rectangle")
+kanye.hc.4 <- cutree(kanye.hc, k = 4)
+```
+
+```{r echo = F}
+clust.df <- data.frame(label=names(kanye.hc.4), cluster=factor(kanye.hc.4))
+kanye.tree[["labels"]] <- merge(kanye.tree[["labels"]],clust.df, by="label")
+x <- ggplot() + 
+  geom_segment(data=segment(kanye.tree), aes(x=x, y=y, xend=xend, yend=yend)) + 
+  geom_text(data=label(kanye.tree), aes(x, y, label=label, hjust= .5, vjust = -.5, color=cluster), 
+           size=4) +
+  coord_flip() +
+  scale_y_reverse(expand=c(0.2, 0)) + 
+  theme(axis.line.y=element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.title.y=element_blank(),
+        panel.background=element_rect(fill="white"),
+        panel.grid=element_blank(),
+        legend.position = "none") +
+  ggtitle("Dendrogram (4 Clusters)") +
+  theme(plot.title =element_text(color="#666666", face="bold", size=16, hjust=.5))
+
+ggplotly(x) %>%
+  style(hoverinfo = "none")
+```
+
+Kanye's first three releases belong to one cluster while his last four belong to another.  The middle releases, *808s & Heartbreak* and *Twisted Fantasy*, are not only his most danceable records but his most unique souding as well.   They each in belong to their own cluster.  
+
+###Principle Component Analysis
+
+Now lets use those variables and see if we can discover if his more popular songs score similiarily for each varaible.  Using a PCA to reduce dimensionality and account for correlation we can try to reveal any trends.
+
+```{r pca}
+kanye.pca <- prcomp(kanye2[,3:11], center = T, scale = T)
+summary(kanye.pca)
+```
+
+Using two principle components we can describe a little over 46% of the variability in the data (shown in the plot below).  In order to explain over 90% of the variability, we need to use 7 principle components.  The following graph shows the top two principle components with the top quartile of his most popular songs mapped to one color and the rest to another.    
+
+```{r biplot, echo = F}
+kanye2 <- kanye2  %>%
+  mutate(is_popular = ifelse(track_popularity > quantile(track_popularity, .75),                        "Yes", "No"))
+kanye2$is_popular <- factor(kanye2$is_popular)
+
+b1 <- autoplot(kanye.pca, loadings = T, loadings.label = T, data = kanye2, colour =
+           'is_popular', alpha = .75, loadings.colour = "gray", loadings.label.size = 3,
+           loadings.label.colour = "black") +
+  ggtitle("Biplot")
+
+ggplotly(b1) %>%
+  style(hoverinfo = "none")
+```
+
+The most popular songs don't appear to belong to any specific area or cluster on the graph, but it does look like `Energy` and `Loudness` are fairly correlated.  Try graphing them using the interactive plot linked above!
+
