@@ -1,0 +1,254 @@
+---
+title: "The NFL, NBA, & MLB's Center of Gravity"
+author: "Chad Bixby"
+date: '2018-09-06'
+slug: the-nfl-nba-mlb-s-center-of-gravity
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+```
+
+##Introduction
+Drawing inspiration from FiveThirtyEight's [article](https://fivethirtyeight.com/features/the-stanley-cup-center-of-gravity-is-somewhere-in-lake-huron/) locating the Stanley Cup's center of gravity, or the average geographic point of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies' geographical center could lie.  Using Cartesian coordinates for each champions's city, I mapped the location for each league.  The corresponding code and plots are shown below.
+
+### Load Packages 
+```{r packages, results='hide'}
+library(rvest) 
+library(tidyverse)
+library(ggmap) 
+library(plotly) 
+library(leaflet) 
+```
+
+
+### Scrape and Clean Data
+```{r nfl}
+#scrape NFL table
+nfl <- read_html("http://www.espn.com/nfl/superbowl/history/winners") %>%
+  html_node("table") %>%
+  html_table()
+
+#remove top two header rows
+nfl <- nfl[-c(1:2),]
+
+#remove losing teams
+nfl <- nfl %>%
+  separate(X4, into = "Winner", sep = ",")
+
+#remove winning team score
+nfl$Winner <- gsub('[[:digit:]]+', '', nfl[,"Winner"])
+
+#create vector of team names in column
+teams <- c("Jets", "Giants", "Steelers", "Saints", "Packers", "Ravens", "Seahawks", "Patriots", "Broncos", "Eagles")
+
+#remove team names from column and replace ambiguous city names
+nfl$Winner <- gsub(paste0(teams,collapse = "|"),"", nfl$Winner) %>%
+  trimws("right") %>%
+  recode("New York" = "New York, NY", "New England" = "Boston", "Washington" = "Washington, D.C.")
+
+#optain latitude and longitude
+nfl_locations <- geocode(nfl$Winner)
+nfl <- bind_cols(nfl, nfl_locations)
+```
+
+```{r nba}
+#scrape NBA data
+nba <- read_html("https://simple.wikipedia.org/wiki/List_of_NBA_champions") %>%
+  html_node("table") %>%
+  html_table()
+
+#clean data
+nba <- nba[,1:2] %>%
+  rename(winner = `Winning team`) %>%
+  separate(winner, into = "Winner", sep = " ")
+
+#replace ambiguous city names
+nba$Winner <- recode(nba$Winner,"St." = "St. Louis", "New" = "New York, NY", "Los" = "Los Angeles",   "Golden" = "Oakland", "San" = "San Antonio", "Washington" = "Washington, D.C.")
+
+#optain latitude and longitude
+nba_locations <- geocode(nba$Winner)
+nba <- bind_cols(nba, nba_locations)
+```
+
+```{r mlb}
+#scrape MLB data
+mlb <- read_html("http://www.espn.com/mlb/worldseries/history/winners") %>%
+  html_node("table") %>%
+  html_table()
+
+#remove, sort, and seperate rows
+mlb <- mlb[-c(1:2),] %>%
+  separate(X2, into = "Winner", sep = " ") %>%
+  arrange(-row_number())
+
+#replace ambiguous city names
+mlb$Winner <- recode(mlb$Winner, "St." = "St. Louis", "New" = "New York, NY", "Los" = "Los Angeles", "Kansas" = "Kansas City", "Florida" = "Miami", "Washington" = "Washington, D.C.", "Arizona" = "Phoenix", "San" = "San Francisco")
+
+#optain latitude and longitude
+mlb_locations <- geocode(mlb$Winner)
+mlb <- bind_cols(mlb, mlb_locations)
+```
+
+### Calculate Center of Gravity
+
+```{r echo = F}
+#double check to make sure geocode didn't fail
+for (i in 1:nrow(nfl)) {
+                    ifelse(is.na(nfl$lon)[[i]], nfl$lon[i] <- geocode(nfl$Winner[[i]])[[1]], NA)
+                    ifelse(is.na(nfl$lat)[[i]], nfl$lat[i] <- geocode(nfl$Winner[[i]])[[2]], NA)
+}
+
+for (i in 1:nrow(nfl)) {
+                    ifelse(is.na(nfl$lon)[[i]], nfl$lon[i] <- geocode(nfl$Winner[[i]])[[1]], NA)
+                    ifelse(is.na(nfl$lat)[[i]], nfl$lat[i] <- geocode(nfl$Winner[[i]])[[2]], NA)
+}
+
+for (i in 1:nrow(mlb)) {
+                    ifelse(is.na(mlb$lon)[[i]], mlb$lon[i] <- geocode(mlb$Winner[[i]])[[1]], NA)
+                    ifelse(is.na(mlb$lat)[[i]], mlb$lat[i] <- geocode(mlb$Winner[[i]])[[2]], NA)
+}
+for (i in 1:nrow(mlb)) {
+                    ifelse(is.na(mlb$lon)[[i]], mlb$lon[i] <- geocode(mlb$Winner[[i]])[[1]], NA)
+                    ifelse(is.na(mlb$lat)[[i]], mlb$lat[i] <- geocode(mlb$Winner[[i]])[[2]], NA)
+}
+for (i in 1:nrow(mlb)) {
+                    ifelse(is.na(mlb$lon)[[i]], mlb$lon[i] <- geocode(mlb$Winner[[i]])[[1]], NA)
+                    ifelse(is.na(mlb$lat)[[i]], mlb$lat[i] <- geocode(mlb$Winner[[i]])[[2]], NA)
+}
+
+for (i in 1:nrow(nba)) {
+                    ifelse(is.na(nba$lon)[[i]], nba$lon[i] <- geocode(nba$Winner[[i]])[[1]], NA)
+                    ifelse(is.na(nba$lat)[[i]], nba$lat[i] <- geocode(nba$Winner[[i]])[[2]], NA)
+}
+
+
+for (i in 1:nrow(nba)) {
+                    ifelse(is.na(nba$lon)[[i]], nba$lon[i] <- geocode(nba$Winner[[i]])[[1]], NA)
+                    ifelse(is.na(nba$lat)[[i]], nba$lat[i] <- geocode(nba$Winner[[i]])[[2]], NA)
+}
+for (i in 1:nrow(nba)) {
+                    ifelse(is.na(nba$lon)[[i]], nba$lon[i] <- geocode(nba$Winner[[i]])[[1]], NA)
+                    ifelse(is.na(nba$lat)[[i]], nba$lat[i] <- geocode(nba$Winner[[i]])[[2]], NA)
+}
+
+```
+
+```{r center_of_gravity}
+#create function to find average point
+find_center <- function(df){
+  
+df2 <- df %>%
+  mutate(rad_lon = df[,"lon"]*pi/180, rad_lat = df[,"lat"]*pi/180) %>% 
+  mutate(X = cos(rad_lat) * cos(rad_lon)) %>%
+  mutate(Y = cos(rad_lat) * sin(rad_lon)) %>%
+  mutate(Z = sin(rad_lat)) %>%
+  summarise(X = mean(X), Y = mean(Y), Z = mean(Z)) %>% #find mean
+  mutate(Lon = atan2(Y,X), Hyp = sqrt(X*X+Y*Y), Lat = atan2(Z, Hyp)) %>%  
+  select(Lon, Lat) %>%
+  mutate(Lon = Lon*180/pi, Lat = Lat*180/pi)
+
+return(df2)
+}
+
+#locate center of gravity for each league
+nfl_center <- find_center(nfl)
+nba_center <- find_center(nba)
+mlb_center <- find_center(mlb)
+```
+
+```{r }
+#find center of gravity after each year
+for (i in 1:nrow(nfl)) {
+                    nfl$lon_center[i] <- find_center(nfl[1:i,])[[1]]
+                    nfl$lat_center[i] <- find_center(nfl[1:i,])[[2]]
+}
+
+
+for (i in 1:nrow(nba)) {
+                    nba$lon_center[i] <- find_center(nba[1:i,])[[1]]
+                    nba$lat_center[i] <- find_center(nba[1:i,])[[2]]
+  }
+
+for (i in 1:nrow(mlb)) {
+                    mlb$lon_center[i] <- find_center(mlb[1:i,])[[1]]
+                    mlb$lat_center[i] <- find_center(mlb[1:i,])[[2]]
+}
+```
+
+```{r echo = F}
+#plot results
+all_states <- map_data("state")
+states <- subset(all_states, region %in% c( "illinois", "indiana", "kentucky", "michigan","missouri", "ohio", "wisconsin", "new york", "pennsylvania", "maryland", "new jersey", "massachusetts", "rhode island", "connecticut", "vermont", "new hampshire", "maine", "west virginia", "virginia", "iowa", "minnesota", "delaware") )
+m <- ggplot()
+m <- m + geom_polygon(data=states, aes(x=long, y=lat, group = group),colour="white", fill="gray70" )
+
+p <- m +
+  geom_point(data = nfl, aes(x=lon_center, y=lat_center, color="red"), alpha = .25) + 
+  geom_path(data = nfl, aes(x=lon_center, y=lat_center), color = "red", alpha = .9) +
+  geom_point(data = nba, aes(x = lon_center, y = lat_center, color = "blue"),  
+             alpha = .25) +
+  geom_path(data = nba, aes(x = lon_center, y = lat_center), color = "blue", alpha =.9) +
+  geom_point(data = mlb, aes(x=lon_center, y=lat_center, color="forestgreen"), 
+             alpha = .25) + 
+  geom_path(data = mlb, aes(x=lon_center, y=lat_center), color = "forestgreen", alpha = .9)
+
+p <- p + ggtitle("The Center of Gravity for NBA, MLB, & NFL Champions") + ggthemes::theme_map() +
+  theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", face="bold", size=16, hjust=.5), legend.position = "none") +  
+   scale_colour_manual(name = "League", 
+         values =c('red'='red','blue'='blue', 'forestgreen' = 'forestgreen'), labels = c("NBA", "MLB", "NFL")) +
+   annotate("text", x =c(-75.16522, -88.01330, -71.05888), y =c(40.4, 45,
+                                                                42.66008),
+            label = c("NBA-1947", "NFL-1967", "MLB-1903"), family = "Trebuchet MS")
+
+ggplotly(p) %>%
+  style(hoverinfo = "none")
+```
+
+
+The NBA and and MLB seem to be trending westward while the NFL looks to be boomeranging back east of the Mississppi.  With the Yankees' 27 championships (not to mention the NY Giants 5 titles plus the Mets 2) it's no surprise that the MLB's center of gravity is the furthest east.  The Boston Celtic's '60s dynasty seems to have left its mark on the Larry O'Brien trophy, carrying the midpoint to upstate New York before ultimately trickling down through Illinois.  Use the map below to toggle between leagues and a see which cities have won the most hardware. 
+
+### Count Total Titles by City
+```{r}
+nfl_total <- nfl %>%
+  group_by(Winner) %>%
+  select(Winner, lon, lat) %>%
+  add_tally()
+
+mlb_total <- mlb %>%
+  group_by(Winner) %>%
+  select(Winner, lon, lat) %>%
+  add_tally()
+
+nba_total <- nba %>%
+  group_by(Winner) %>%
+  select(Winner, lon, lat) %>%
+  add_tally()
+```
+
+```{r echo = F}
+leaflet() %>%
+  addTiles() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addCircleMarkers(data = nfl_total, radius = ~n+3,  fillColor = "red",  stroke = FALSE, fillOpacity  = 0.2,
+                   label = ~paste0(Winner,": ", n), group = "NFL") %>%
+  addMarkers(data = nfl_center, label =
+                     ~paste0("Lombardi Trophy Center of Gravity"), group = "NFL") %>%
+  addCircleMarkers(data = nba_total, radius = ~n+3, fillColor = "blue", label =
+                     ~paste0(Winner,": ", n), group = "NBA",  stroke = FALSE, fillOpacity = 0.2) %>%
+  addMarkers(data = nba_center, label = 
+                     ~paste0("Larry O'Brien Trophy Center of Gravity"), group = "NBA") %>%
+  addCircleMarkers(data = mlb_total, radius = ~n+3, fillColor = "forestgreen", label =
+                     ~paste0(Winner,": ", n), group = "MLB",  stroke = FALSE, fillOpacity = 0.2) %>%
+  addMarkers(data = mlb_center, label =
+                     ~paste0("Commissioner's Trophy Center of Gravity"), group = "MLB") %>%
+  addLayersControl(baseGroups = c("NFL", "NBA", "MLB"),
+                   options = layersControlOptions(collapsed = FALSE)) %>%
+  hideGroup(c("NBA", "MLB"))
+
+```
+
+#### References
+D. Kahle and H. Wickham. ggmap: Spatial Visualization with ggplot2. The R
+  Journal, 5(1), 144-161. URL
+  http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf
