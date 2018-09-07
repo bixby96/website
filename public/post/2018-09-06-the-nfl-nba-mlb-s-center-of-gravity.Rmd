@@ -116,6 +116,14 @@ for (i in 1:nrow(mlb)) {
                     ifelse(is.na(mlb$lon)[[i]], mlb$lon[i] <- geocode(mlb$Winner[[i]])[[1]], NA)
                     ifelse(is.na(mlb$lat)[[i]], mlb$lat[i] <- geocode(mlb$Winner[[i]])[[2]], NA)
 }
+for (i in 1:nrow(mlb)) {
+                    ifelse(is.na(mlb$lon)[[i]], mlb$lon[i] <- geocode(mlb$Winner[[i]])[[1]], NA)
+                    ifelse(is.na(mlb$lat)[[i]], mlb$lat[i] <- geocode(mlb$Winner[[i]])[[2]], NA)
+}
+for (i in 1:nrow(mlb)) {
+                    ifelse(is.na(mlb$lon)[[i]], mlb$lon[i] <- geocode(mlb$Winner[[i]])[[1]], NA)
+                    ifelse(is.na(mlb$lat)[[i]], mlb$lat[i] <- geocode(mlb$Winner[[i]])[[2]], NA)
+}
 
 for (i in 1:nrow(nba)) {
                     ifelse(is.na(nba$lon)[[i]], nba$lon[i] <- geocode(nba$Winner[[i]])[[1]], NA)

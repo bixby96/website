@@ -163,15 +163,15 @@ ggplotly(q2) %>%
  style(hoverinfo = "y") 
 ```
 
-With a valence score of 14.68, the happiest Kanye release came way back in 2004 with his debut hit *The College Dropout*.  Interestingly, the four albums with the lowest valence score also make up his most recent work.  Check out the the 
+With a valence score of 14.68, the happiest Kanye release came way back in 2004 with his debut hit *The College Dropout*.  Interestingly, the four albums with the lowest valence score also make up his most recent work.  The tracks with the lowest valence scores are shown below.
 
 ```{r}
 kanye_valence_songs <- kanye2 %>%
   select(album_name, track_name, valence) %>%
-  arrange(desc(valence))
+  arrange(valence)
 
-kable(head(kanye_valence_songs,10), caption = "Top 10 Valence") %>%
-    kable_styling(bootstrap_options = c("striped", "hover"))
+kable(head(kanye_valence_songs,10)) %>%
+    kable_styling(bootstrap_options = c("striped"))
 ```
 
 ###Other Variables
