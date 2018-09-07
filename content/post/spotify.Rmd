@@ -1,6 +1,7 @@
 ---
 title: "Spotify Anal-*YE*-sis"
 author: "Chad Bixby"
+date: '2018-09-06'
 output:
   html_document:
     toc: true
@@ -22,7 +23,7 @@ As the [Internet of Things](https://en.wikipedia.org/wiki/Internet_of_things) (I
 
 The following code and plots make use of these packages:
 
-```{r packages, include=FALSE}
+```{r packages, results='hide', message=FALSE, warning=FALSE}
 library(spotifyr)
 library(tidyverse)
 library(knitr)
