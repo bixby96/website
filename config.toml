@@ -25,11 +25,11 @@ googleAnalytics = "XXX"
 
 [Params]
     intro = true
-    headline = "My Data Blog"
-    description = "A place to share data driven discoveries"
+    headline = "Chad Bixby"
+    description = "My Data Blog"
     github = "https://github.com/XXX"
     linkedin = "https://linkedin.com/in/XXX/"
-    stackoverflow = "https://stackoverflow.com/users/XXX/YYY"
+    stackoverflow = ""
     email = "chadbixby15@gmail.com"
     opengraph = true
     shareTwitter = true
@@ -49,7 +49,7 @@ googleAnalytics = "XXX"
 
 [[menu.main]]
     name = "Projects"
-    url = "/"
+    url = "/post"
     weight = 1
 
 [[menu.main]]
