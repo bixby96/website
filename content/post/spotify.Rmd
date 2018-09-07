@@ -1,14 +1,8 @@
 ---
 title: "Spotify Anal-*YE*-sis"
 author: "Chad Bixby"
-date: '2018-09-06'
-output:
-  html_document:
-    toc: true
-    toc_float: true
-    code_folding: show
-    theme: yeti
-    highlight: tango
+date: '2018-08-30'
+toc: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -16,7 +10,7 @@ knitr::opts_chunk$set(echo = T, messages = F, warning = F)
 ```
 
 ##Introduction
-As the [Internet of Things](https://en.wikipedia.org/wiki/Internet_of_things) (IoT) landscape continues to grow, practically everything, it seems, is compiling data and generating statistics for any variable imaginable.  And music is no exception.  The music streaming service, Spotify, compiles an array of features for each song in its library.  They record characteristics such as acousticness, danceability, energy and more.  With these variables in mind, I conducted some exploratory analysis along with a couple clustering methods on Kanye West's *Spotify* discography.  The following report utilizes Spotify's Web API through Charlie Thompson's `spotifyr` package which you can check out [here](http://www.rdocumentation.org/packages/spotifyr).
+As the [Internet of Things](https://en.wikipedia.org/wiki/Internet_of_things) (IoT) landscape continues to grow, practically everyone and everything, it seems, is compiling data or at least generating statistics for any variable imaginable.  And music is no exception.  The music streaming service, Spotify, stores an array of features for each song in its library.  They record characteristics such as acousticness, danceability, energy and more.  With these variables in mind, I conducted some exploratory analysis along with a couple clustering methods on Kanye West's *Spotify* discography.  The following report utilizes Spotify's Web API through Charlie Thompson's `spotifyr` package which you can check out [here](http://www.rdocumentation.org/packages/spotifyr).
 
 ##Exploratory Data Analysis
 ###Load Packages
@@ -34,16 +28,6 @@ library(scales)
 library(ggfortify)
 library(ggdendro)
 library(dendextend)
-```
-
-```{r spotify, include = FALSE}
-library(devtools)
-library(spotifyr)
-
-Sys.setenv(SPOTIFY_CLIENT_ID = '0b6eacbb2bac4331926d3943b9354b1a')
-Sys.setenv(SPOTIFY_CLIENT_SECRET = '0524dc6bd6d740028a0278fb0bc5f6f1')
-
-access_token <- get_spotify_access_token()
 ```
 
 ###Import Data
@@ -246,14 +230,14 @@ Kanye's first three releases belong to one cluster while his last four belong to
 
 ###Principle Component Analysis
 
-Now lets use those variables and see if we can discover if his more popular songs score similiarily for each varaible.  Using a PCA to reduce dimensionality and account for correlation we can try to reveal any trends.
+Now lets use those variables and see if we can discover if his more popular songs score similiarily for each varaible.  Using a PCA to reduce dimensionality and account for correlation we can try to reveal any patterns.
 
 ```{r pca}
 kanye.pca <- prcomp(kanye2[,3:11], center = T, scale = T)
 summary(kanye.pca)
 ```
 
-Using two principle components we can describe a little over 46% of the variability in the data (shown in the plot below).  In order to explain over 90% of the variability, we need to use 7 principle components.  The following graph shows the top two principle components with the top quartile of his most popular songs mapped to one color and the rest to another.    
+Using two principle components we can describe a little over 46% of the variability in the data (shown in the plot below).  In order to explain at least 90% of the variability, we need to use 7 principle components.  The following graph shows the top two principle components with the top quartile of his most popular songs mapped to one color and the rest to another.    
 
 ```{r biplot, echo = F}
 kanye2 <- kanye2  %>%

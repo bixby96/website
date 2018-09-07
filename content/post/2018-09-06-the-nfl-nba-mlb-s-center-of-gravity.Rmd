@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
 ```
 
 ##Introduction
-Drawing inspiratin from FiveThirtyEight's [article](https://fivethirtyeight.com/features/the-stanley-cup-center-of-gravity-is-somewhere-in-lake-huron/) locating the Stanley Cup's center of gravity, or the average geograpchic location of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies' geographical center could lie.  Using Cartesian coordinates for each champions's city, I mapped the location for each league.  The corresponding code is shown below.
+Drawing inspiration from FiveThirtyEight's [article](https://fivethirtyeight.com/features/the-stanley-cup-center-of-gravity-is-somewhere-in-lake-huron/) locating the Stanley Cup's center of gravity, or the average geographic point of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies' geographical center could lie.  Using Cartesian coordinates for each champions's city, I mapped the location for each league.  The corresponding code and plots are shown below.
 
 ### Load Packages 
 ```{r packages, results='hide'}
@@ -93,14 +93,12 @@ mlb <- bind_cols(mlb, mlb_locations)
 ### Calculate Center of Gravity
 
 ```{r echo = F}
+#double check to make sure geocode didn't fail
 for (i in 1:nrow(nfl)) {
                     ifelse(is.na(nfl$lon)[[i]], nfl$lon[i] <- geocode(nfl$Winner[[i]])[[1]], NA)
                     ifelse(is.na(nfl$lat)[[i]], nfl$lat[i] <- geocode(nfl$Winner[[i]])[[2]], NA)
 }
-for (i in 1:nrow(nfl)) {
-                    ifelse(is.na(nfl$lon)[[i]], nfl$lon[i] <- geocode(nfl$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(nfl$lat)[[i]], nfl$lat[i] <- geocode(nfl$Winner[[i]])[[2]], NA)
-}
+
 for (i in 1:nrow(nfl)) {
                     ifelse(is.na(nfl$lon)[[i]], nfl$lon[i] <- geocode(nfl$Winner[[i]])[[1]], NA)
                     ifelse(is.na(nfl$lat)[[i]], nfl$lat[i] <- geocode(nfl$Winner[[i]])[[2]], NA)
@@ -118,27 +116,13 @@ for (i in 1:nrow(mlb)) {
                     ifelse(is.na(mlb$lon)[[i]], mlb$lon[i] <- geocode(mlb$Winner[[i]])[[1]], NA)
                     ifelse(is.na(mlb$lat)[[i]], mlb$lat[i] <- geocode(mlb$Winner[[i]])[[2]], NA)
 }
-for (i in 1:nrow(mlb)) {
-                    ifelse(is.na(mlb$lon)[[i]], mlb$lon[i] <- geocode(mlb$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(mlb$lat)[[i]], mlb$lat[i] <- geocode(mlb$Winner[[i]])[[2]], NA)
-}
-for (i in 1:nrow(mlb)) {
-                    ifelse(is.na(mlb$lon)[[i]], mlb$lon[i] <- geocode(mlb$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(mlb$lat)[[i]], mlb$lat[i] <- geocode(mlb$Winner[[i]])[[2]], NA)
-}
 
 for (i in 1:nrow(nba)) {
                     ifelse(is.na(nba$lon)[[i]], nba$lon[i] <- geocode(nba$Winner[[i]])[[1]], NA)
                     ifelse(is.na(nba$lat)[[i]], nba$lat[i] <- geocode(nba$Winner[[i]])[[2]], NA)
 }
-for (i in 1:nrow(nba)) {
-                    ifelse(is.na(nba$lon)[[i]], nba$lon[i] <- geocode(nba$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(nba$lat)[[i]], nba$lat[i] <- geocode(nba$Winner[[i]])[[2]], NA)
-}
-for (i in 1:nrow(nba)) {
-                    ifelse(is.na(nba$lon)[[i]], nba$lon[i] <- geocode(nba$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(nba$lat)[[i]], nba$lat[i] <- geocode(nba$Winner[[i]])[[2]], NA)
-}
+
+
 for (i in 1:nrow(nba)) {
                     ifelse(is.na(nba$lon)[[i]], nba$lon[i] <- geocode(nba$Winner[[i]])[[1]], NA)
                     ifelse(is.na(nba$lat)[[i]], nba$lat[i] <- geocode(nba$Winner[[i]])[[2]], NA)
