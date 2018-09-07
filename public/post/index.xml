@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on A Hugo website</title>
+    <title>Posts on Minimal Academic</title>
     <link>/post/</link>
-    <description>Recent content in Posts on A Hugo website</description>
+    <description>Recent content in Posts on Minimal Academic</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <copyright>&amp;copy; Chad Bixby 2018</copyright>
     <lastBuildDate>Thu, 06 Sep 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
@@ -13,19 +13,19 @@
     
     <item>
       <title>Spotify Anal-*YE*-sis</title>
-      <link>/spotify-anal-ye-sis/</link>
+      <link>/post/spotify/</link>
       <pubDate>Thu, 06 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/spotify-anal-ye-sis/</guid>
+      <guid>/post/spotify/</guid>
       <description>IntroductionAs the Internet of Things (IoT) landscape continues to grow, practically everything, it seems, is compiling data and generating statistics for any variable imaginable. And music is no exception. The music streaming service, Spotify, compiles an array of features for each song in its library. They record characteristics such as acousticness, danceability, energy and more. With these variables in mind, I conducted some exploratory analysis along with a couple clustering methods on Kanye West’s Spotify discography.</description>
     </item>
     
     <item>
       <title>The NFL, NBA, &amp; MLB&#39;s Center of Gravity</title>
-      <link>/the-nfl-nba-mlb-s-center-of-gravity/</link>
+      <link>/post/the-nfl-nba-mlb-s-center-of-gravity/</link>
       <pubDate>Thu, 06 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/the-nfl-nba-mlb-s-center-of-gravity/</guid>
+      <guid>/post/the-nfl-nba-mlb-s-center-of-gravity/</guid>
       <description>IntroductionDrawing inspiratin from FiveThirtyEight’s article locating the Stanley Cup’s center of gravity, or the average geograpchic location of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies’ geographical center could lie. Using Cartesian coordinates for each champions’s city, I mapped the location for each league. The corresponding code is shown below.
 Load Packageslibrary(rvest) library(tidyverse)library(ggmap) library(plotly) library(leaflet) Scrape and Clean Data#scrape NFL tablenfl &amp;lt;- read_html(&amp;quot;http://www.</description>
     </item>
