@@ -3,8 +3,8 @@ title = "Chad Bixby"
 theme = "ghostwriter"
 languageCode = "en-us"
 copyright = "Chad Bixby"
-disqusShortname = "XXX"
-googleAnalytics = "XXX"
+disqusShortname = "https-chadbixby-netlify-com"
+googleAnalytics = "UA-125431650-1"
 
 [Privacy]
 
@@ -17,7 +17,7 @@ googleAnalytics = "XXX"
     useSessionStorage = false
 
 [Author]
-    name = "Home"
+    name = "Chad Bixby"
     profile = "https://google.com/+XXX"
 
 [Taxonomies]

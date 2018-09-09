@@ -18,7 +18,7 @@
       <pubDate>Thu, 06 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/09/06/2018-09-06-the-nfl-nba-mlb-s-center-of-gravity/</guid>
-      <description>IntroductionDrawing inspiration from FiveThirtyEight’s article locating the Stanley Cup’s center of gravity, or the average geographic point of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies’ geographical center could lie. Using Cartesian coordinates for each champions’s city, I mapped the location for each league. The corresponding code and plots are shown below.</description>
+      <description>IntroductionDrawing inspiration from FiveThirtyEight’s article locating the Stanley Cup’s center of gravity, or the average geographic point of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies’ geographical center could lie. Using Cartesian coordinates for each champion’s city, I mapped the location for each league. The corresponding code and plots are shown below.</description>
     </item>
     
     <item>
@@ -36,7 +36,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/page/about/</guid>
-      <description>The purpose of creating this website was to generate a space to not only share my independent analytical work but to also serve as a portfolio of sorts. I hope you enjoy my posts and feel free to contact me about anything! (suggestions, what you liked, didn’t like, etc.)</description>
+      <description>The purpose of creating this website was to generate a space to not only share my independent analytical work but to also serve as a portfolio of sorts. I hope you enjoy my posts and feel free to contact me about anything! (suggestions, what you liked, didn’t like, etc.)
+EducationBS, Statistics University of Missouri May 2018
+</description>
     </item>
     
     <item>
