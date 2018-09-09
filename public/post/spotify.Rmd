@@ -31,21 +31,15 @@ library(ggdendro)
 library(dendextend)
 ```
 
-```{r spotify, include = FALSE}
-library(devtools)
-library(spotifyr)
-
-Sys.setenv(SPOTIFY_CLIENT_ID = '0b6eacbb2bac4331926d3943b9354b1a')
-Sys.setenv(SPOTIFY_CLIENT_SECRET = '0524dc6bd6d740028a0278fb0bc5f6f1')
-
-access_token <- get_spotify_access_token()
+```{r, include = F}
+load(file = "kanye.Rda")
 ```
 
 ###Import Data
 
 First lets import the audio features for Kanye West and take a quick look at the data.  
 
-```{r data, message = F}
+```{r data, message = F, eval = F}
 kanye <- get_artist_audio_features(artist = "kanye west")
 ```
 

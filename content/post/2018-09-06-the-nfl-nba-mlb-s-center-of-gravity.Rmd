@@ -2,7 +2,7 @@
 title: "The NFL, NBA, & MLB's Center of Gravity"
 author: "Chad Bixby"
 date: '2018-09-06'
-slug: the-nfl-nba-mlb-s-center-of-gravity
+slug: center-of-gravity
 ---
 
 ```{r setup, include=FALSE}
@@ -21,9 +21,15 @@ library(plotly)
 library(leaflet) 
 ```
 
+```{r data, echo = F}
+#loading previously saved data from code below
+load(file = "mlb.Rda")
+load(file = "nba.Rda")
+load(file = "nfl.Rda")
+```
 
 ### Scrape and Clean Data
-```{r nfl}
+```{r nfl, eval = F}
 #scrape NFL table
 nfl <- read_html("http://www.espn.com/nfl/superbowl/history/winners") %>%
   html_node("table") %>%
@@ -52,7 +58,7 @@ nfl_locations <- geocode(nfl$Winner)
 nfl <- bind_cols(nfl, nfl_locations)
 ```
 
-```{r nba}
+```{r nba, eval = F}
 #scrape NBA data
 nba <- read_html("https://simple.wikipedia.org/wiki/List_of_NBA_champions") %>%
   html_node("table") %>%
@@ -71,7 +77,7 @@ nba_locations <- geocode(nba$Winner)
 nba <- bind_cols(nba, nba_locations)
 ```
 
-```{r mlb}
+```{r mlb, eval = F}
 #scrape MLB data
 mlb <- read_html("http://www.espn.com/mlb/worldseries/history/winners") %>%
   html_node("table") %>%
@@ -91,56 +97,6 @@ mlb <- bind_cols(mlb, mlb_locations)
 ```
 
 ### Calculate Center of Gravity
-
-```{r echo = F}
-#double check to make sure geocode didn't fail
-for (i in 1:nrow(nfl)) {
-                    ifelse(is.na(nfl$lon)[[i]], nfl$lon[i] <- geocode(nfl$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(nfl$lat)[[i]], nfl$lat[i] <- geocode(nfl$Winner[[i]])[[2]], NA)
-}
-
-for (i in 1:nrow(nfl)) {
-                    ifelse(is.na(nfl$lon)[[i]], nfl$lon[i] <- geocode(nfl$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(nfl$lat)[[i]], nfl$lat[i] <- geocode(nfl$Winner[[i]])[[2]], NA)
-}
-
-for (i in 1:nrow(mlb)) {
-                    ifelse(is.na(mlb$lon)[[i]], mlb$lon[i] <- geocode(mlb$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(mlb$lat)[[i]], mlb$lat[i] <- geocode(mlb$Winner[[i]])[[2]], NA)
-}
-for (i in 1:nrow(mlb)) {
-                    ifelse(is.na(mlb$lon)[[i]], mlb$lon[i] <- geocode(mlb$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(mlb$lat)[[i]], mlb$lat[i] <- geocode(mlb$Winner[[i]])[[2]], NA)
-}
-for (i in 1:nrow(mlb)) {
-                    ifelse(is.na(mlb$lon)[[i]], mlb$lon[i] <- geocode(mlb$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(mlb$lat)[[i]], mlb$lat[i] <- geocode(mlb$Winner[[i]])[[2]], NA)
-}
-for (i in 1:nrow(mlb)) {
-                    ifelse(is.na(mlb$lon)[[i]], mlb$lon[i] <- geocode(mlb$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(mlb$lat)[[i]], mlb$lat[i] <- geocode(mlb$Winner[[i]])[[2]], NA)
-}
-for (i in 1:nrow(mlb)) {
-                    ifelse(is.na(mlb$lon)[[i]], mlb$lon[i] <- geocode(mlb$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(mlb$lat)[[i]], mlb$lat[i] <- geocode(mlb$Winner[[i]])[[2]], NA)
-}
-
-for (i in 1:nrow(nba)) {
-                    ifelse(is.na(nba$lon)[[i]], nba$lon[i] <- geocode(nba$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(nba$lat)[[i]], nba$lat[i] <- geocode(nba$Winner[[i]])[[2]], NA)
-}
-
-
-for (i in 1:nrow(nba)) {
-                    ifelse(is.na(nba$lon)[[i]], nba$lon[i] <- geocode(nba$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(nba$lat)[[i]], nba$lat[i] <- geocode(nba$Winner[[i]])[[2]], NA)
-}
-for (i in 1:nrow(nba)) {
-                    ifelse(is.na(nba$lon)[[i]], nba$lon[i] <- geocode(nba$Winner[[i]])[[1]], NA)
-                    ifelse(is.na(nba$lat)[[i]], nba$lat[i] <- geocode(nba$Winner[[i]])[[2]], NA)
-}
-
-```
 
 ```{r center_of_gravity}
 #create function to find average point
