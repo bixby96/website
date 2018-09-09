@@ -259,5 +259,5 @@ ggplotly(b1) %>%
   style(hoverinfo = "none")
 ```
 
-The most popular songs don't appear to belong to any specific area or cluster on the graph, but it does look like `Energy` and `Loudness` are fairly correlated.  Try graphing them using the interactive plot linked above!
+The most popular songs don't appear to belong to any specific area or cluster on the graph, but it does look like `Energy` and `Loudness` are fairly correlated.  Try graphing them using the interactive plot linked above! [or here](https://chadbixby.shinyapps.io/kanye-song-attributes/)
 
