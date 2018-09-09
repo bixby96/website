@@ -2,6 +2,7 @@
 title: "Spotify Anal-*YE*-sis"
 author: "Chad Bixby"
 date: '2018-08-30'
+comments: true
 output:
   blogdown::html_page:
     toc: true
