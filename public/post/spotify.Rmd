@@ -5,7 +5,6 @@ date: '2018-08-30'
 output:
   blogdown::html_page:
     toc: true
-    comments: true
 ---
 
 ```{r setup, include=FALSE}
