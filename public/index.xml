@@ -13,13 +13,13 @@
     
     
     <item>
-      <title>Avocados</title>
+      <title>Avocado Market Research</title>
       <link>/2018/09/13/avocados/</link>
       <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/09/13/avocados/</guid>
-      <description>IntroductionLoad DataLoad PackagesClean DataQuick Look at the DataEDA plotsElasticityIntroductionThe following report intends to analyze avocado prices from 2015 to early 2018 across the US. The dataset comes from the Hass Avocado Board. The corresponding code and plots are shown below.
-Load DataLoad PackagesClean DataThe dataset contains weekly average prices and total amount sold for both organic and conventional avocados for 45 different markets (New York, Boise, St.</description>
+      <description>IntroductionData Pre-ProcessingLoad DataLoad PackagesClean DataExploratory Data AnalysisDistributionAvocado PricesAvocado VolumeElasticityIntroductionThe following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US. The dataset comes from the Hass Avocado Board. The corresponding code and plots are shown below.
+Data Pre-ProcessingLoad Data#load avocado dataload(file = &amp;quot;avocados.</description>
     </item>
     
     <item>
@@ -28,7 +28,8 @@ Load DataLoad PackagesClean DataThe dataset contains weekly average prices 
       <pubDate>Thu, 06 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/09/06/2018-09-06-the-nfl-nba-mlb-s-center-of-gravity/</guid>
-      <description>IntroductionDrawing inspiration from FiveThirtyEight’s article locating the Stanley Cup’s center of gravity, or the average geographic point of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies’ geographical center could lie. Using Cartesian coordinates for each champion’s city, I mapped the location for each league. The corresponding code and plots are shown below.</description>
+      <description>IntroductionDrawing inspiration from FiveThirtyEight’s article locating the Stanley Cup’s center of gravity, or the average geographic point of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies’ geographical center could lie. Using Cartesian coordinates for each champion’s city, I mapped the location for each league. The corresponding code and plots are shown below.
+Load Packageslibrary(rvest) library(tidyverse)library(ggmap) library(plotly) library(leaflet) Scrape and Clean Data#scrape NFL tablenfl &amp;lt;- read_html(&amp;quot;http://www.</description>
     </item>
     
     <item>

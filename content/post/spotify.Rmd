@@ -212,7 +212,7 @@ kanye.hc.4 <- cutree(kanye.hc, k = 4)
 ```{r echo = F}
 clust.df <- data.frame(label=names(kanye.hc.4), cluster=factor(kanye.hc.4))
 kanye.tree[["labels"]] <- merge(kanye.tree[["labels"]],clust.df, by="label")
-x <- ggplot() + 
+ggplot() + 
   geom_segment(data=segment(kanye.tree), aes(x=x, y=y, xend=xend, yend=yend)) + 
   geom_text(data=label(kanye.tree), aes(x, y, label=label, hjust= .5, vjust = -.5, color=cluster), 
            size=4) +
@@ -227,9 +227,6 @@ x <- ggplot() +
         legend.position = "none") +
   ggtitle("Dendrogram (4 Clusters)") +
   theme(plot.title =element_text(color="#666666", face="bold", size=16, hjust=.5))
-
-ggplotly(x) %>%
-  style(hoverinfo = "none")
 ```
 
 Kanye's first three releases belong to one cluster while his last four belong to another.  The middle releases, *808s & Heartbreak* and *Twisted Fantasy*, are not only his most danceable records but his most unique souding as well.   They each in belong to their own cluster.  

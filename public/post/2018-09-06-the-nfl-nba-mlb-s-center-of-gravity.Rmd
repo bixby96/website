@@ -158,15 +158,14 @@ p <- m +
   geom_path(data = mlb, aes(x=lon_center, y=lat_center), color = "forestgreen", alpha = .9)
 
 p <- p + ggtitle("The Center of Gravity for NBA, MLB, & NFL Champions") + ggthemes::theme_map() +
-  theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", face="bold", size=16, hjust=.5), legend.position = "none") +  
+  theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", face="bold", size=16, hjust=.5), legend.position = c(.80,.10)) +  
    scale_colour_manual(name = "League", 
          values =c('red'='red','blue'='blue', 'forestgreen' = 'forestgreen'), labels = c("NBA", "MLB", "NFL")) +
    annotate("text", x =c(-75.16522, -88.01330, -71.05888), y =c(40.4, 45,
                                                                 42.66008),
             label = c("NBA-1947", "NFL-1967", "MLB-1903"), family = "Trebuchet MS")
 
-ggplotly(p) %>%
-  style(hoverinfo = "none")
+p
 ```
 
 
