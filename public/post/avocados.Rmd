@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 ##Introduction
 
-The following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US.  The dataset comes from the Hass Avocado Board.  The corresponding code and plots are shown below.  
+The following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US.  I'll first familiarize myself with the data before examining price elastiticies.  The dataset comes from the Hass Avocado Board.  
 
 ##Data Pre-Processing
 ###Load Data
@@ -132,15 +132,16 @@ avocados_region %>%
   filter(Date > "2015-06-20" & Date < "2015-08-20") %>%
 ggplot(aes(x = Date, y = AveragePrice, col = type)) +
   geom_line() +
-  facet_grid(region ~ .) +
+  facet_grid(. ~ region) +
   scale_color_manual(values=wes_palette(n=2, name="Darjeeling1")) +
   theme_minimal() +
   theme(plot.title = element_text(hjust = .5),
         plot.subtitle = element_text(hjust = .5),
         legend.position = "top",
         legend.title = element_blank(),
-        axis.text.x = element_text(angle = -55, hjust = 0,vjust = .5)) +
-  scale_x_date(date_breaks = "1 week", date_labels = "%m-%d-%y")  +
+        axis.title.y = element_blank()) +
+  scale_x_date(date_breaks = "1 month", date_labels = "%b")  +
+  scale_y_continuous(labels = dollar_format()) +
   ggtitle("Average US Avocado Prices Across Region", subtitle = "Mid-Summer 2015")
 ```
 
@@ -239,10 +240,10 @@ plot2 <- avocados_region %>%
 cowplot::plot_grid(plot1, plot2)
 ```
 
-It looks like there could be a slight L-shaped curve for both types of avocados, but the linear model does an adequate job of describing the data. For simplicity, let's just fit a linear price-response function for all markets to compare their elasticities.
+It looks like the organic avocado price vs. sales relationship is more uniform, hinting that it has a less elastic demand than conventional avocados.  The linear model seems to do an adequate job of describing the data so, for simplicity, let's just fit a linear price-response function for all markets and compare their overall elasticities.
 
 ```{r}
-out <- lapply(unique(avocados_market$region), function(b){
+elas <- lapply(unique(avocados_market$region), function(b){
             df <- avocados_market %>%
               filter(region == b)
             m <- lm(Total_Volume ~ AveragePrice, data = df)
@@ -252,7 +253,7 @@ out <- lapply(unique(avocados_market$region), function(b){
             x*y/z
         })
 
-out <- do.call(rbind, out) %>%
+elas <- do.call(rbind, elas) %>%
   data.frame() %>%
   mutate(market = unique(avocados_market$region)) %>%
   mutate(elasticity = round(., 2)) %>%
@@ -261,7 +262,7 @@ out <- do.call(rbind, out) %>%
 ```
 
 ```{r echo = F}
-p9 <- ggplot(out, aes(x=market, y=abs(elasticity))) +
+p9 <- ggplot(elas, aes(x=market, y=abs(elasticity))) +
   geom_segment( aes(x=reorder(market, elasticity), xend=reorder(market, elasticity), y=0, yend=abs(elasticity)), color="grey") +
   geom_point( color="#00A08A", size=2, alpha = .5) +
   theme_minimal() +

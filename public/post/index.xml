@@ -18,7 +18,7 @@
       <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/09/13/avocados/</guid>
-      <description>IntroductionData Pre-ProcessingLoad DataLoad PackagesClean DataExploratory Data AnalysisDistributionAvocado PricesAvocado VolumeElasticityIntroductionThe following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US. The dataset comes from the Hass Avocado Board. The corresponding code and plots are shown below.
+      <description>IntroductionData Pre-ProcessingLoad DataLoad PackagesClean DataExploratory Data AnalysisDistributionAvocado PricesAvocado VolumeElasticityIntroductionThe following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US. I’ll first familiarize myself with the data before examining price elastiticies. The dataset comes from the Hass Avocado Board.
 Data Pre-ProcessingLoad Data#load avocado dataload(file = &amp;quot;avocados.</description>
     </item>
     
