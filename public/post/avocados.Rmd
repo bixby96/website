@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 ##Introduction
 
-The following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US.  I'll first familiarize myself with the data before examining price elastiticies.  The dataset comes from the Hass Avocado Board.  
+The following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US.  In addition to a thorough exploratory anaysis, I'll also try to calculate the price elasticity of demand for each individual market.  The dataset comes from the [Hass Avocado Board](http://www.hassavocadoboard.com/).  
 
 ##Data Pre-Processing
 ###Load Data
@@ -73,12 +73,12 @@ sum(is.na(avocados_total)))
 Bravocado! Also let's see if there are any hidden markets that make up a region.
 
 ```{r}
-paste("Market Volume:",
-sum(avocados_market$avocado_volume))
+cat(paste("Market Volume:",
+sum(avocados_market$avocado_volume),"\n"),
 paste("Region Volume:",
-sum(avocados_region$avocado_volume))
+sum(avocados_region$avocado_volume), "\n"),
 paste("Total Volume:",
-sum(avocados_total$avocado_volume))
+sum(avocados_total$avocado_volume)))
 ```
 
 So it looks like some avocados (`r comma(sum(avocados_region$avocado_volume) - sum(avocados_market$avocado_volume))` to be exact) were sold over the past few years in markets not found in the dataset.  But the eight regions do in fact contain the entirety of US avocado sales (minus rounding error).  
@@ -94,6 +94,7 @@ ggplot(avocados_region, aes(x = AveragePrice, fill = type)) +
   geom_vline(aes(xintercept = mean(AveragePrice)), lty = 2) +
   scale_fill_manual(values=wes_palette(n=2, name="Darjeeling1")) +
   scale_color_manual(values=wes_palette(n=2, name="Darjeeling1")) +
+  scale_x_continuous(labels = dollar_format()) +
   theme_minimal() +
   theme(legend.position = c(.85,.75)) +
   theme(axis.title.y = element_blank(),
@@ -145,7 +146,7 @@ ggplot(aes(x = Date, y = AveragePrice, col = type)) +
   ggtitle("Average US Avocado Prices Across Region", subtitle = "Mid-Summer 2015")
 ```
 
-Nothing out of the ordinary here.  I will just leave the US dataset as is and focus the rest of my analysis on the regions dataset.  Now, let's see how avocado prices vary across regions.
+Nothing out of the ordinary here.  Organic prices never drop below conventional prices in each region.  I will just leave the US dataset as is and focus the rest of my analysis on the regions dataset.  Now, let's see how avocado prices vary across regions.
 
 ```{r echo = F}
 ggplot(avocados_region, aes(x = region, y = AveragePrice, fill = type)) +
@@ -160,7 +161,7 @@ ggplot(avocados_region, aes(x = region, y = AveragePrice, fill = type)) +
   labs(fill = "Type")
 ```
 
-The Northeast region sells avocados at the highest average price. let's determine which size of avocados each region buys.
+The Northeast region sells avocados at the highest average price. Now, let's determine which size of avocados each region buys.
 
 ###Avocado Volume
 ```{r echo = F}
@@ -173,7 +174,7 @@ ggplot(avocados_region, aes(x = reorder(region, -avocado_volume), y = avocado_vo
   scale_y_discrete(name = "Avocado Volume (in Millions)", limits = seq(0,3000, 500)) +
   scale_fill_manual(values = wes_palette("Darjeeling1", 4)) +
   labs(fill = "Avocado Type") +
-  ggtitle("Avocado Sales Makeup for Regions")
+  ggtitle("Avocado Sales Makeup by Region")
 ```
 
 The South Central, California, and West regions make up the three largest avocado regions by volume.  The Northeast region sells the most large Hass avocados (both proportionally to total regional sales and overall) which probably contributes to them having the highest average price.  Let's take a look at how each market consumes avocados.
@@ -187,12 +188,12 @@ ggplot(avocados_market, aes(x = reorder(region, avocado_volume), y = avocado_vol
         legend.position = c(.85, .25),
         axis.title.y = element_blank()) +
   scale_y_discrete(name = "Avocado Volume (in Millions)", limits = seq(0,1500, 250)) +
-  ggtitle("Avocado Volume by Market") +
+  ggtitle("Avocado Sales Makeup by Market") +
   labs(fill = "Avocado Type") +
   coord_flip()
 ```
 
-The LA market appears to be ripe for avocados; it doubles the second largest market (New York) in terms of volume.  Avocados seem to be most popular in western or warm weather climates.  Even smaller markets like Denver and Portland rank near among the largest US cities suggesting avocado consumption has a geophraphical element to it.
+The LA market appears to be ripe for avocados; it doubles the second largest market (New York) in terms of volume.  Avocados seem to be most popular in western or warm weathered markets.  Even smaller markets like Denver and Portland rank near among the largest US cities suggesting avocado consumption has a geophraphical element to it.
 
 ## Elasticity
 Finally let's take a look at the price elasticity of avocados. We can try to determine which markets avocados are the most price elastic. First, let's plot total volume against average price for all avocados.  
