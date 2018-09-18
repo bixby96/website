@@ -5,9 +5,13 @@ date: []
 slug: contact
 categories: []
 tags: []
-description: ''
+description: Get in Touch with Me
 ---
 
 ###Email
 
 chadbixby15@gmail.com
+
+###Other
+
+In addition to email, my LinkedIn and Github accounts are linked at the top of each page.
