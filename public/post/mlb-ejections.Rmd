@@ -1,0 +1,76 @@
+---
+title: 'MLB: Ejections and Replay Review'
+author: ''
+date: '2018-09-27'
+slug: mlb-ejections
+categories: []
+tags: ["sports"]
+description: 'A Case for Automated Strikezones'
+output:
+  blogdown::html_page:
+    toc: true
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+### Introduction
+
+The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire's ruling.  Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion.  Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected.  But let's consult the data first.  I looked at ten years (2008-17) of ejection data coming from (UEFL Portal)[http://portal.closecallsports.com/] to see if I could find any noticeable patterns.  The following code and graphs are shown below:
+
+### Load Packages
+```{r}
+library(tidyverse)
+library(readxl)
+library(lubridate)
+```
+
+```{r, echo = F}  
+load(file = "ejections.rda")
+```
+
+```{r}
+map(ejections, names)
+
+fix_columns <- function(df){
+  new_names <- c("W/L Pre-" = "W/L at time?" , 
+                 "W/L Final" ="W/L at final?",
+                 "Ej Pos" = "Pos__1")
+  df %>%
+    rename(!!new_names)
+}
+
+ejections[6:10] <- map(ejections[6:10], fix_columns)
+ejections[5:10] <- map(ejections[5:10], function(.x) .x %>% rename("Name" = "Ejected Name") %>% rename("Reason" = "Eject Reason"))
+ejections[9:10] <- map(ejections[9:10], function(.x) .x %>% rename("Team" = "Ej Team"))
+
+select_columns<- function(df){
+  df %>%
+  filter(`W/L Final` != "NA") %>%
+    select("Date", "Team", "Ej Pos", "Name", "H", "AB", "W/L Pre-", "W/L Final", "RS", "RA", "AB", "Inn", "Reason", "Play Result")
+}
+
+ejections <- map(ejections, select_columns)
+
+map(ejections, dim)
+
+ejections <- bind_rows(ejections)
+
+ejections$Date <- ymd(ejections$Date)
+ejections$Year <- year(ejections$Date)
+
+ggplot(ejections, aes(x = Year)) +
+  geom_bar() +
+  scale_x_discrete(labels = c(2008:2017)) +
+  coord_flip()
+
+ejections %>%
+  group_by(Team) %>%
+  count() %>%
+  arrange(desc(n))
+
+ejections$Team <-
+  fct_recode(ejections$Team, FLA = "MIA", AZ = "ARI", FL = "MIA", WAS = "WSH")
+```

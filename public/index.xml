@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Chad Bixby</title>
+    <title>Home</title>
     <link>/</link>
-    <description>Recent content on Chad Bixby</description>
+    <description>Recent content on Home</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Chad Bixby</copyright>
@@ -46,10 +46,7 @@ Load Packageslibrary(rvest) library(tidyverse)library(ggmap) library(plotly) l
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/page/about/</guid>
-      <description>PurposeThe purpose of creating this website was to generate a space to not only share my independent analytical work but to also serve as a portfolio of sorts. Please feel free to contact me about anything! (suggestions, what you liked, didn’t like, etc.)
-EducationBS, Statistics
-University of Missouri
-</description>
+      <description>PurposeThe purpose of creating this website was to generate a space to not only share my independent analytical work but to also serve as a portfolio of sorts. Each post will center around dissecting a dataset and revealing any underlying information. I’ll try to keep it fresh and analyze a variety of topics, but ultimately, I’ll explore whatever I find most interesting (so expect a few sports-related posts). My goal is to publish at least a couple of times a month so feel free to contact me about anything!</description>
     </item>
     
     <item>

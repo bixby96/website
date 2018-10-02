@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Music on Home</title>
+    <link>/tags/music/</link>
+    <description>Recent content in Music on Home</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Chad Bixby</copyright>
+    <lastBuildDate>Thu, 30 Aug 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/music/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Spotify Anal-*YE*-sis</title>
+      <link>/2018/08/30/spotify/</link>
+      <pubDate>Thu, 30 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/08/30/spotify/</guid>
+      <description>IntroductionExploratory Data AnalysisLoad PackagesImport DataDanceabilityValenceOther VariablesClusteringHierarchical ClusteringPrinciple Component AnalysisIntroductionAs the Internet of Things (IoT) landscape continues to grow, practically everyone and everything, it seems, is compiling data or at least generating statistics for any variable imaginable. And music is no exception. The music streaming service, Spotify, stores an array of features for each song in its library.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>MLB: Ejections and Replay Review &middot; Chad Bixby</title>
+        <meta name="description" content="A Case for Automated Strikezones">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.48" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="MLB: Ejections and Replay Review">
+<meta property="og:description" content="A Case for Automated Strikezones">
+<meta property="og:type" content="article">
+<meta property="og:url" content="/2018/09/27/mlb-ejections/">
+        <link rel="stylesheet" href="/dist/styles.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        
+        
+    </head>
+    <body>
+        
+<script type="application/javascript">
+var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+var doNotTrack = (dnt == "1" || dnt == "yes");
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-125431650-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a title="Home" href="/">Home</a>
+                            </h1>
+                        
+                        <a class="button-square" href="/index.xml"><i class="fa fa-rss"></i></a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" title="Github" href="https://github.com/bixby96">
+                                <i class="fa fa-github-alt"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" title="LinkedIn" href="https://linkedin.com/in/chadbixby">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" title="Email" href="mailto:chadbixby15@gmail.com">
+                                <i class="fa fa-envelope"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a title="Posts" href="/post/">Posts</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Contact" href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="About" href="/page/about/">About</a>
+    </li>
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">MLB: Ejections and Replay Review</h1>
+    
+        <p class="post-description" itemprop="description">A Case for Automated Strikezones</p>
+    
+    <p class="post-date">
+        <span>Published <time datetime="2018-09-27" itemprop="datePublished">Sep 27, 2018</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://google.com/&#43;XXX" itemprop="url" rel="author">Chad Bixby</a>
+            </span>
+        </span>
+    </p>
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#load-packages">Load Packages</a></li>
+</ul>
+</div>
+
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p>The 2014 MLB season marked the first time, managers could ca calls. Now with a few years of</p>
+</div>
+<div id="load-packages" class="section level3">
+<h3>Load Packages</h3>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## -- Attaching packages ------------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## v ggplot2 3.0.0     v purrr   0.2.5
+## v tibble  1.4.2     v dplyr   0.7.6
+## v tidyr   0.8.1     v stringr 1.3.1
+## v readr   1.1.1     v forcats 0.3.0</code></pre>
+<pre><code>## -- Conflicts ---------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(readxl)
+library(lubridate)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     date</code></pre>
+<pre class="r"><code>map(ejections, names)</code></pre>
+<pre><code>## $`2017 Ejections`
+##  [1] &quot;Date&quot;        &quot;E#&quot;          &quot;P#&quot;          &quot;M#&quot;          &quot;U#&quot;         
+##  [6] &quot;Pos&quot;         &quot;Umpire&quot;      &quot;Team&quot;        &quot;Ej Pos&quot;      &quot;Name&quot;       
+## [11] &quot;H&quot;           &quot;AB&quot;          &quot;W/L Pre-&quot;    &quot;W/L Final&quot;   &quot;RS&quot;         
+## [16] &quot;RA&quot;          &quot;Inn&quot;         &quot;T/B&quot;         &quot;Reason&quot;      &quot;O/D&quot;        
+## [21] &quot;Play Result&quot; &quot;E-QOC&quot;       &quot;1 / 2&quot;       &quot;CC&quot;          &quot;Day of Week&quot;
+## [26] &quot;AAA&quot;        
+## 
+## $`2016 Ejections`
+##  [1] &quot;Date&quot;        &quot;E#&quot;          &quot;P#&quot;          &quot;M#&quot;          &quot;U#&quot;         
+##  [6] &quot;Pos&quot;         &quot;Umpire&quot;      &quot;EU#&quot;         &quot;Team&quot;        &quot;Ej Pos&quot;     
+## [11] &quot;Name&quot;        &quot;H&quot;           &quot;AB&quot;          &quot;W/L Pre-&quot;    &quot;W/L Final&quot;  
+## [16] &quot;RS&quot;          &quot;RA&quot;          &quot;Inn&quot;         &quot;T/B&quot;         &quot;Reason&quot;     
+## [21] &quot;O/D&quot;         &quot;Play Result&quot; &quot;E-QOC&quot;       &quot;1 / 2&quot;       &quot;CC&quot;         
+## [26] &quot;Day of Week&quot; &quot;AAA&quot;        
+## 
+## $`2015 Ejections`
+##  [1] &quot;Date&quot;        &quot;E#&quot;          &quot;P#&quot;          &quot;M#&quot;          &quot;U#&quot;         
+##  [6] &quot;Pos&quot;         &quot;Umpire&quot;      &quot;EU#&quot;         &quot;Team&quot;        &quot;Ej Pos&quot;     
+## [11] &quot;Name&quot;        &quot;H&quot;           &quot;AB&quot;          &quot;W/L Pre-&quot;    &quot;W/L Final&quot;  
+## [16] &quot;RS&quot;          &quot;RA&quot;          &quot;Inn&quot;         &quot;T/B&quot;         &quot;Reason&quot;     
+## [21] &quot;O/D&quot;         &quot;Play Result&quot; &quot;E-QOC&quot;       &quot;1 / 2&quot;       &quot;CC&quot;         
+## [26] &quot;Day of Week&quot; &quot;AAA&quot;        
+## 
+## $`2014 Ejections`
+##  [1] &quot;Date&quot;        &quot;E#&quot;          &quot;P#&quot;          &quot;M#&quot;          &quot;U#&quot;         
+##  [6] &quot;Pos&quot;         &quot;Umpire&quot;      &quot;EU#&quot;         &quot;Team&quot;        &quot;Ej Pos&quot;     
+## [11] &quot;Name&quot;        &quot;H&quot;           &quot;AB&quot;          &quot;W/L Pre-&quot;    &quot;W/L Final&quot;  
+## [16] &quot;RS&quot;          &quot;RA&quot;          &quot;Inn&quot;         &quot;T/B&quot;         &quot;Reason&quot;     
+## [21] &quot;O/D&quot;         &quot;Play Result&quot; &quot;E-QOC&quot;       &quot;1 / 2&quot;       &quot;CC&quot;         
+## [26] &quot;Day of Week&quot; &quot;AAA&quot;        
+## 
+## $`2013 Ejections`
+##  [1] &quot;Date&quot;         &quot;E#&quot;           &quot;P#&quot;           &quot;M#&quot;          
+##  [5] &quot;U#&quot;           &quot;Pos&quot;          &quot;Umpire&quot;       &quot;IU#&quot;         
+##  [9] &quot;Team&quot;         &quot;Ej Pos&quot;       &quot;Ejected Name&quot; &quot;H&quot;           
+## [13] &quot;AB&quot;           &quot;W/L Pre-&quot;     &quot;W/L Final&quot;    &quot;RS&quot;          
+## [17] &quot;RA&quot;           &quot;Inn&quot;          &quot;T/B&quot;          &quot;Eject Reason&quot;
+## [21] &quot;O/D&quot;          &quot;Play Result&quot;  &quot;QOC&quot;          &quot;1 / 2&quot;       
+## [25] &quot;CC&quot;           &quot;Day of Week&quot;  &quot;AAA&quot;         
+## 
+## $`2012 Ejections`
+##  [1] &quot;Date&quot;          &quot;E#&quot;            &quot;P#&quot;            &quot;M#&quot;           
+##  [5] &quot;U#&quot;            &quot;Pos&quot;           &quot;Umpire&quot;        &quot;U #&quot;          
+##  [9] &quot;Team&quot;          &quot;Pos__1&quot;        &quot;Ejected Name&quot;  &quot;H&quot;            
+## [13] &quot;AB&quot;            &quot;W/L at time?&quot;  &quot;W/L at final?&quot; &quot;RS&quot;           
+## [17] &quot;RA&quot;            &quot;Inn&quot;           &quot;Top/Bot&quot;       &quot;Eject Reason&quot; 
+## [21] &quot;O/D&quot;           &quot;Play Result&quot;   &quot;Correct?&quot;      &quot;1,2&quot;          
+## [25] &quot;CC&quot;            &quot;Day of Week&quot;   &quot;AAA&quot;          
+## 
+## $`2011 Ejections`
+##  [1] &quot;Date&quot;          &quot;E#&quot;            &quot;P#&quot;            &quot;M#&quot;           
+##  [5] &quot;U#&quot;            &quot;Pos&quot;           &quot;Umpire&quot;        &quot;UE#&quot;          
+##  [9] &quot;Team&quot;          &quot;Pos__1&quot;        &quot;Ejected Name&quot;  &quot;H&quot;            
+## [13] &quot;AB&quot;            &quot;W/L at time?&quot;  &quot;W/L at final?&quot; &quot;RS&quot;           
+## [17] &quot;RA&quot;            &quot;Inn&quot;           &quot;Top/Bot&quot;       &quot;Eject Reason&quot; 
+## [21] &quot;O/D&quot;           &quot;Play Result&quot;   &quot;Correct?&quot;      &quot;1,2&quot;          
+## [25] &quot;Primary Pts&quot;   &quot;Secondary Pts&quot; &quot;AAA&quot;           &quot;Day of Week&quot;  
+## 
+## $`2010 Ejections`
+##  [1] &quot;Date&quot;          &quot;E#&quot;            &quot;P#&quot;            &quot;M#&quot;           
+##  [5] &quot;U#&quot;            &quot;Pos&quot;           &quot;Umpire&quot;        &quot;UE#&quot;          
+##  [9] &quot;Team&quot;          &quot;Pos__1&quot;        &quot;Ejected Name&quot;  &quot;H&quot;            
+## [13] &quot;AB&quot;            &quot;W/L at time?&quot;  &quot;W/L at final?&quot; &quot;RS&quot;           
+## [17] &quot;RA&quot;            &quot;Inn&quot;           &quot;Top/Bot&quot;       &quot;Eject Reason&quot; 
+## [21] &quot;O/D&quot;           &quot;Play Result&quot;   &quot;Correct?&quot;      &quot;1,2&quot;          
+## 
+## $`2009 Ejections`
+##  [1] &quot;Date&quot;          &quot;E#&quot;            &quot;P#&quot;            &quot;M#&quot;           
+##  [5] &quot;U#&quot;            &quot;Pos&quot;           &quot;Umpire&quot;        &quot;UE#&quot;          
+##  [9] &quot;Ej Team&quot;       &quot;Pos__1&quot;        &quot;Ejected Name&quot;  &quot;H&quot;            
+## [13] &quot;AB&quot;            &quot;W/L at time?&quot;  &quot;W/L at final?&quot; &quot;RS&quot;           
+## [17] &quot;RA&quot;            &quot;Inn&quot;           &quot;Top/Bot&quot;       &quot;Eject Reason&quot; 
+## [21] &quot;O/D&quot;           &quot;Play Result&quot;   &quot;Correct?&quot;      &quot;1,2&quot;          
+## 
+## $`2008 Ejections`
+##  [1] &quot;Date&quot;          &quot;E#&quot;            &quot;P#&quot;            &quot;M#&quot;           
+##  [5] &quot;U#&quot;            &quot;Pos&quot;           &quot;Umpire&quot;        &quot;UE#&quot;          
+##  [9] &quot;Ej Team&quot;       &quot;Pos__1&quot;        &quot;Ejected Name&quot;  &quot;H&quot;            
+## [13] &quot;AB&quot;            &quot;W/L at time?&quot;  &quot;W/L at final?&quot; &quot;RS&quot;           
+## [17] &quot;RA&quot;            &quot;Inn&quot;           &quot;Top/Bot&quot;       &quot;Eject Reason&quot; 
+## [21] &quot;O/D&quot;           &quot;Play Result&quot;   &quot;Correct?&quot;      &quot;1,2&quot;</code></pre>
+<pre class="r"><code>fix_columns &lt;- function(df){
+  new_names &lt;- c(&quot;W/L Pre-&quot; = &quot;W/L at time?&quot; , 
+                 &quot;W/L Final&quot; =&quot;W/L at final?&quot;,
+                 &quot;Ej Pos&quot; = &quot;Pos__1&quot;)
+  df %&gt;%
+    rename(!!new_names)
+}
+
+ejections[6:10] &lt;- map(ejections[6:10], fix_columns)
+ejections[5:10] &lt;- map(ejections[5:10], function(.x) .x %&gt;% rename(&quot;Name&quot; = &quot;Ejected Name&quot;) %&gt;% rename(&quot;Reason&quot; = &quot;Eject Reason&quot;))
+ejections[9:10] &lt;- map(ejections[9:10], function(.x) .x %&gt;% rename(&quot;Team&quot; = &quot;Ej Team&quot;))
+
+select_columns&lt;- function(df){
+  df %&gt;%
+  filter(`W/L Final` != &quot;NA&quot;) %&gt;%
+    select(&quot;Date&quot;, &quot;Team&quot;, &quot;Ej Pos&quot;, &quot;Name&quot;, &quot;H&quot;, &quot;AB&quot;, &quot;W/L Pre-&quot;, &quot;W/L Final&quot;, &quot;RS&quot;, &quot;RA&quot;, &quot;AB&quot;, &quot;Inn&quot;, &quot;Reason&quot;, &quot;Play Result&quot;)
+}
+
+ejections &lt;- map(ejections, select_columns)
+
+map(ejections, dim)</code></pre>
+<pre><code>## $`2017 Ejections`
+## [1] 187  13
+## 
+## $`2016 Ejections`
+## [1] 191  13
+## 
+## $`2015 Ejections`
+## [1] 216  13
+## 
+## $`2014 Ejections`
+## [1] 201  13
+## 
+## $`2013 Ejections`
+## [1] 180  13
+## 
+## $`2012 Ejections`
+## [1] 179  13
+## 
+## $`2011 Ejections`
+## [1] 199  13
+## 
+## $`2010 Ejections`
+## [1] 204  13
+## 
+## $`2009 Ejections`
+## [1] 165  13
+## 
+## $`2008 Ejections`
+## [1] 208  13</code></pre>
+<pre class="r"><code>ejections &lt;- bind_rows(ejections)
+
+ejections$Date &lt;- ymd(ejections$Date)
+ejections$Year &lt;- year(ejections$Date)
+
+ggplot(ejections, aes(x = Year)) +
+  geom_bar() +
+  scale_x_discrete(labels = c(2008:2017)) +
+  coord_flip()</code></pre>
+<p><img src="/post/mlb-ejections_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>ejections %&gt;%
+  group_by(Team) %&gt;%
+  count() %&gt;%
+  arrange(desc(n))</code></pre>
+<pre><code>## # A tibble: 34 x 2
+## # Groups:   Team [34]
+##    Team      n
+##    &lt;chr&gt; &lt;int&gt;
+##  1 BOS      95
+##  2 TOR      94
+##  3 DET      90
+##  4 LAD      89
+##  5 ATL      82
+##  6 TB       75
+##  7 CWS      74
+##  8 PIT      74
+##  9 TEX      71
+## 10 NYY      68
+## # ... with 24 more rows</code></pre>
+<pre class="r"><code>ejections$Team &lt;-
+  fct_recode(ejections$Team, FLA = &quot;MIA&quot;, AZ = &quot;ARI&quot;, FL = &quot;MIA&quot;, WAS = &quot;WSH&quot;)</code></pre>
+</div>
+
+</div>
+
+        <footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/sports/">sports</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?text=MLB%3a%20Ejections%20and%20Replay%20Review&url=%2f2018%2f09%2f27%2fmlb-ejections%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=%2f2018%2f09%2f27%2fmlb-ejections%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+        
+            <a class="icon-google-plus" href="https://plus.google.com/share?url=%2f2018%2f09%2f27%2fmlb-ejections%2f"
+              onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+              <i class="fa fa-google-plus"></i>
+                <span class="hidden">Google+</span>
+            </a>
+        
+        
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=MLB%3a%20Ejections%20and%20Replay%20Review&url=%2f2018%2f09%2f27%2fmlb-ejections%2f&summary=A%20Case%20for%20Automated%20Strikezones"
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;">
+               <i class="fa fa-linkedin"></i>
+               <span class="hidden">LinkedIn</span>
+            </a>
+        
+    </div>
+</footer>
+
+        
+    <div class="comments">
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "chad-bixby" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a title="Home" href="/">Home</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2018 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
+                </p>
+                <p class="footer-copyright">
+                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
+                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="/js/jquery-1.11.3.min.js"></script>
+        <script src="/js/jquery.fitvids.js"></script>
+        
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        
+        
+        <script src="/js/scripts.js"></script>
+    </body>
+</html>
+

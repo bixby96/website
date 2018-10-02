@@ -1,5 +1,5 @@
 baseurl = "/"
-title = "Chad Bixby"
+title = "Home"
 theme = "ghostwriter"
 languageCode = "en-us"
 copyright = "Chad Bixby"
@@ -36,7 +36,7 @@ googleAnalytics = "UA-125431650-1"
     shareFacebook = true
     shareGooglePlus = true
     shareLinkedIn = true
-    dateFormat = "Mon, Jan 2, 2006"
+    dateFormat = "Jan 2, 2006"
     highlightJsUrl = ""
     highlightJsLocalUrl = ""
     exponeaJsUrl = ""
