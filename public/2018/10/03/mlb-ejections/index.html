@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>MLB: Ejections and Replay Review &middot; Chad Bixby</title>
-        <meta name="description" content="IntroductionData Pre-ProcessingLoad PackagesLoad DataClean DataEjections By Year and ReasonManagerial EjectionsIntroductionThe 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire’s ruling. Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion. Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected.">
+        <meta name="description" content="IntroductionData Pre-ProcessingLoad PackagesImport DataClean DataEjections By Year &amp; CauseEjections By DivisionManagerial EjectionsIntroductionThe 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire’s ruling. Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion. Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected.">
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320">
         <meta name="generator" content="Hugo 0.48" />
         <meta name="robots" content="index,follow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta property="og:title" content="MLB: Ejections and Replay Review">
-<meta property="og:description" content="IntroductionData Pre-ProcessingLoad PackagesLoad DataClean DataEjections By Year and ReasonManagerial EjectionsIntroductionThe 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire’s ruling. Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion. Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected.">
+<meta property="og:description" content="IntroductionData Pre-ProcessingLoad PackagesImport DataClean DataEjections By Year &amp; CauseEjections By DivisionManagerial EjectionsIntroductionThe 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire’s ruling. Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion. Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="/2018/10/03/mlb-ejections/">
         <link rel="stylesheet" href="/dist/styles.css">
@@ -109,22 +109,28 @@ if (!doNotTrack) {
         <div class="post-content clearfix" itemprop="articleBody">
     
 
-    <div id="TOC">
+    <script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/d3/d3.min.js"></script>
+<link href="/rmarkdown-libs/d3tree2/d3tree2.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/d3tree2-binding/d3tree2.js"></script>
+
+<div id="TOC">
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#data-pre-processing">Data Pre-Processing</a><ul>
 <li><a href="#load-packages">Load Packages</a></li>
-<li><a href="#load-data">Load Data</a></li>
+<li><a href="#import-data">Import Data</a></li>
 <li><a href="#clean-data">Clean Data</a></li>
 </ul></li>
-<li><a href="#ejections-by-year-and-reason">Ejections By Year and Reason</a></li>
+<li><a href="#ejections-by-year-cause">Ejections By Year &amp; Cause</a></li>
+<li><a href="#ejections-by-division">Ejections By Division</a></li>
 <li><a href="#managerial-ejections">Managerial Ejections</a></li>
 </ul>
 </div>
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire’s ruling. Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion. Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected. But let’s consult the data first. I looked at ten years of ejection data (2008-17) coming from <a href="http://portal.closecallsports.com/">UEFL Portal</a> to see if I could reveal any interesting patterns. The steps of my analysis are outlined below.</p>
+<p>The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire’s ruling. Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion. Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected. But let’s consult the data first. I looked at ten years of ejection data (2008-2017) coming from <a href="http://portal.closecallsports.com/">UEFL Portal</a> to see if I could reveal any interesting patterns. The steps of my analysis are outlined below.</p>
 </div>
 <div id="data-pre-processing" class="section level2">
 <h2>Data Pre-Processing</h2>
@@ -133,14 +139,15 @@ if (!doNotTrack) {
 <pre class="r"><code>library(tidyverse)
 library(readxl)
 library(lubridate)
-library(kableExtra)
-library(plotly)
 library(jcolors)
 library(scales)
+library(treemap)
+library(d3treeR)
+library(kableExtra)
 library(ggtern)</code></pre>
 </div>
-<div id="load-data" class="section level3">
-<h3>Load Data</h3>
+<div id="import-data" class="section level3">
+<h3>Import Data</h3>
 <pre class="r"><code>#load ejections data
 load(file = &quot;ejections.rda&quot;) </code></pre>
 </div>
@@ -175,7 +182,7 @@ ejections &lt;- map(ejections, select_columns)
 
 #combine all years
 ejections &lt;- bind_rows(ejections)</code></pre>
-<p>From 2008-2017 there were a total of 1930 ejections (including playoffs). A quick snapshot of the data is shown below.</p>
+<p>From 2008-2017 there were a total of 1930 ejections. A quick snapshot of the data is shown below.</p>
 <pre class="r"><code>glimpse(ejections)</code></pre>
 <pre><code>## Observations: 1,930
 ## Variables: 13
@@ -211,8 +218,8 @@ ejections$`W/L Pre-` &lt;- recode(ejections$`W/L Pre-`, L = -1, Tie = 0, TIe = 0
 ejections$`W/L Final` &lt;- recode(ejections$`W/L Final`, L = -1, W = 1)</code></pre>
 </div>
 </div>
-<div id="ejections-by-year-and-reason" class="section level2">
-<h2>Ejections By Year and Reason</h2>
+<div id="ejections-by-year-cause" class="section level2">
+<h2>Ejections By Year &amp; Cause</h2>
 <p>First let’s take a look at how ejections have changed since replay was introduced in 2014.</p>
 <p><img src="/post/mlb-ejections_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>From 2008 to 2017, an MLB season averaged 193 ejections per season. In 2014, the first year of expanded replay, the number of ejections increased by 21, eclipsing 200. The following year saw yet another jump, before dropping below the 10-year average in ’16 and ’17. While the replay system doesn’t appear to be deterring ejections, I wouldn’t say its encouraging them either. What could be changing; however, is the reason for players/coaches getting ejected. Let’s take a look at how the cause of arguments could be evolving.</p>
@@ -231,11 +238,99 @@ data &lt;- ejections %&gt;%
   add_row(Year = 2008:2013, Reason = &quot;Replay Review&quot;, percent = 0) %&gt;%
   add_row(Year = 2016:2017, Reason = &quot;Safe/Out&quot;, percent = 0)</code></pre>
 <p><img src="/post/mlb-ejections_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p>Arguing safe/out sharply declined after having the ability to challenge calls before going extinct in 2016. A new type of ejection emerged as a result though. Issues with the replay ruling or why a challenge was or wasn’t granted seemed to fill the gap. The “other” category includes things like interfence and balks. Perhaps what is most noteworthy, is that from 2013 to 2017 the percentage of yearly ejections via agruing balls/strikes (which also includes check swings) is up 17%. The trust in an umpire’s ability to manage the strike zone seems to be decreasing at least. If that number doesn’t decrease anytime soon, I wouldn’t be surprised to see the automated strike zone make its debut sooner rather than later.</p>
+<p>Arguing safe/out sharply declined after having the ability to challenge calls before going extinct in 2016. A new type of ejection emerged as a result though. Issues with the replay ruling or why a challenge was or was not granted seemed to fill the gap. The “other” category references plays regarding interfence, balks, and everything else. Perhaps what is most noteworthy, is that from 2013 to 2017 the percentage of yearly ejections via agruing balls/strikes (which also includes check swings) is up 17%. The trust in an umpire’s ability to manage the strike zone seems to be at least shrinkng some. If that number doesn’t decrease anytime soon, I wouldn’t be surprised to see the automated strike zone make its debut sooner rather than later.</p>
+</div>
+<div id="ejections-by-division" class="section level2">
+<h2>Ejections By Division</h2>
+<p>The following chart outlines the total amount of ejections by division. Try clicking on each square to explore which teams contribute the most to their respective divisions total and hover over each to see their count.</p>
+<pre class="r"><code>divisions &lt;- ejections %&gt;%
+  mutate(division = case_when(Team %in% c(&quot;STL&quot;, &quot;CHC&quot;, &quot;MIL&quot;, &quot;CIN&quot;, &quot;PIT&quot;) ~ &quot;NL Central&quot;,
+                              Team %in% c(&quot;LAD&quot;, &quot;SF&quot;, &quot;SD&quot;, &quot;COL&quot;, &quot;ARI&quot;) ~ &quot;NL West&quot;,
+                              Team %in% c(&quot;MIA&quot;, &quot;PHI&quot;, &quot;WAS&quot;, &quot;NYM&quot;, &quot;ATL&quot;) ~ &quot;NL East&quot;,
+                              Team %in% c(&quot;NYY&quot;, &quot;BOS&quot;, &quot;TB&quot;, &quot;TOR&quot;, &quot;BAL&quot;) ~ &quot;AL East&quot;,
+                              Team %in% c(&quot;LAA&quot;, &quot;HOU&quot;, &quot;OAK&quot;, &quot;TEX&quot;, &quot;SEA&quot;) ~ &quot;AL West&quot;,
+                              Team %in% c(&quot;CWS&quot;, &quot;DET&quot;, &quot;KC&quot;, &quot;CLE&quot;, &quot;MIN&quot;) ~ &quot;AL Central&quot;)) %&gt;%
+  group_by(Team, division) %&gt;%
+  count()</code></pre>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="d3tree2 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"data":{"name":"Ejections by Division (2008-2017)","id":1,"size":null,"children":[{"name":"AL Central","color":"#66C2A5","h":0.464088397790055,"id":2,"size":336,"stdErr":336,"vColor":5,"vSize":336,"w":0.375129533678756,"x0":0,"y0":0,"children":[{"name":"CLE","color":"#4BAF7F","h":0.140305794680714,"id":3,"size":52,"stdErr":52,"vColor":1,"vSize":52,"w":0.192030594621268,"x0":0.183098939057488,"y0":0},{"name":"CWS","color":"#4BAF87","h":0.209405740466244,"id":4,"size":74,"stdErr":74,"vColor":1,"vSize":74,"w":0.183098939057488,"x0":0,"y0":0},{"name":"DET","color":"#4BAF8F","h":0.254682657323811,"id":5,"size":90,"stdErr":90,"vColor":1,"vSize":90,"w":0.183098939057488,"x0":0,"y0":0.209405740466244},{"name":"KC","color":"#4BAF98","h":0.172684054991648,"id":6,"size":64,"stdErr":64,"vColor":1,"vSize":64,"w":0.192030594621268,"x0":0.183098939057488,"y0":0.291404342798407},{"name":"MIN","color":"#4BAFA0","h":0.151098548117692,"id":7,"size":56,"stdErr":56,"vColor":1,"vSize":56,"w":0.192030594621268,"x0":0.183098939057488,"y0":0.140305794680714}]},{"name":"AL East","color":"#FC8D62","h":0.535911602209945,"id":8,"size":388,"stdErr":388,"vColor":5,"vSize":388,"w":0.375129533678756,"x0":0,"y0":0.464088397790055,"children":[{"name":"BAL","color":"#E34F3C","h":0.150809295094256,"id":9,"size":56,"stdErr":56,"vColor":1,"vSize":56,"w":0.19239891031462,"x0":0.182730623364137,"y0":0.464088397790055},{"name":"BOS","color":"#E35D3C","h":0.269373556666374,"id":10,"size":95,"stdErr":95,"vColor":1,"vSize":95,"w":0.182730623364137,"x0":0,"y0":0.730626443333626},{"name":"NYY","color":"#E36B3C","h":0.183125572614453,"id":11,"size":68,"stdErr":68,"vColor":1,"vSize":68,"w":0.19239891031462,"x0":0.182730623364137,"y0":0.614897692884311},{"name":"TB","color":"#E3793C","h":0.201976734501235,"id":12,"size":75,"stdErr":75,"vColor":1,"vSize":75,"w":0.19239891031462,"x0":0.182730623364137,"y0":0.798023265498765},{"name":"TOR","color":"#E3873C","h":0.26653804554357,"id":13,"size":94,"stdErr":94,"vColor":1,"vSize":94,"w":0.182730623364137,"x0":0,"y0":0.464088397790055}]},{"name":"AL West","color":"#8DA0CB","h":0.48424543946932,"id":14,"size":285,"stdErr":285,"vColor":5,"vSize":285,"w":0.304945347434169,"x0":0.695054652565831,"y0":0,"children":[{"name":"HOU","color":"#7493B7","h":0.227680311890838,"id":15,"size":63,"stdErr":63,"vColor":1,"vSize":63,"w":0.14336982752502,"x0":0.85663017247498,"y0":0.256565127578482},{"name":"LAA","color":"#748EB7","h":0.256565127578482,"id":16,"size":50,"stdErr":50,"vColor":1,"vSize":50,"w":0.100975280607341,"x0":0.8101664724582,"y0":0},{"name":"OAK","color":"#7488B7","h":0.256565127578482,"id":17,"size":57,"stdErr":57,"vColor":1,"vSize":57,"w":0.115111819892368,"x0":0.695054652565831,"y0":0},{"name":"SEA","color":"#7483B7","h":0.256565127578482,"id":18,"size":44,"stdErr":44,"vColor":1,"vSize":44,"w":0.0888582469344597,"x0":0.91114175306554,"y0":0},{"name":"TEX","color":"#747DB7","h":0.227680311890838,"id":19,"size":71,"stdErr":71,"vColor":1,"vSize":71,"w":0.161575519909149,"x0":0.695054652565831,"y0":0.256565127578482}]},{"name":"NL Central","color":"#E78AC3","h":0.51575456053068,"id":20,"size":299,"stdErr":299,"vColor":5,"vSize":299,"w":0.300379854389151,"x0":0.699620145610849,"y0":0.48424543946932,"children":[{"name":"CHC","color":"#D06BBA","h":0.239765498039346,"id":21,"size":65,"stdErr":65,"vColor":1,"vSize":65,"w":0.140465399534495,"x0":0.859534600465505,"y0":0.760234501960654},{"name":"CIN","color":"#D06BB1","h":0.275989062491334,"id":22,"size":54,"stdErr":54,"vColor":1,"vSize":54,"w":0.101378200856338,"x0":0.806630468736984,"y0":0.48424543946932},{"name":"MIL","color":"#D06BA9","h":0.275989062491334,"id":23,"size":57,"stdErr":57,"vColor":1,"vSize":57,"w":0.107010323126135,"x0":0.699620145610849,"y0":0.48424543946932},{"name":"PIT","color":"#D06BA1","h":0.239765498039346,"id":24,"size":74,"stdErr":74,"vColor":1,"vSize":74,"w":0.159914454854656,"x0":0.699620145610849,"y0":0.760234501960654},{"name":"STL","color":"#D06B98","h":0.275989062491334,"id":25,"size":49,"stdErr":49,"vColor":1,"vSize":49,"w":0.0919913304066775,"x0":0.908008669593323,"y0":0.48424543946932}]},{"name":"NL East","color":"#A6D854","h":0.51575456053068,"id":26,"size":323,"stdErr":323,"vColor":5,"vSize":323,"w":0.324490611932093,"x0":0.375129533678756,"y0":0.48424543946932,"children":[{"name":"ATL","color":"#A4C234","h":0.237917738449137,"id":27,"size":82,"stdErr":82,"vColor":1,"vSize":82,"w":0.178578726029742,"x0":0.375129533678756,"y0":0.762082261550863},{"name":"MIA","color":"#98C234","h":0.277836822081543,"id":28,"size":60,"stdErr":60,"vColor":1,"vSize":60,"w":0.111893314459342,"x0":0.490752625286744,"y0":0.48424543946932},{"name":"NYM","color":"#8CC234","h":0.277836822081543,"id":29,"size":62,"stdErr":62,"vColor":1,"vSize":62,"w":0.115623091607987,"x0":0.375129533678756,"y0":0.48424543946932},{"name":"PHI","color":"#81C234","h":0.277836822081543,"id":30,"size":52,"stdErr":52,"vColor":1,"vSize":52,"w":0.0969742058647634,"x0":0.602645939746086,"y0":0.48424543946932},{"name":"WAS","color":"#75C234","h":0.237917738449137,"id":31,"size":67,"stdErr":67,"vColor":1,"vSize":67,"w":0.14591188590235,"x0":0.553708259708499,"y0":0.762082261550863}]},{"name":"NL West","color":"#FFD92F","h":0.48424543946932,"id":32,"size":299,"stdErr":299,"vColor":5,"vSize":299,"w":0.319925118887075,"x0":0.375129533678756,"y0":0,"children":[{"name":"ARI","color":"#E69705","h":0.246171594646611,"id":33,"size":50,"stdErr":50,"vColor":1,"vSize":50,"w":0.105238525949696,"x0":0.48457760066644,"y0":0},{"name":"COL","color":"#E6AA05","h":0.246171594646611,"id":34,"size":50,"stdErr":50,"vColor":1,"vSize":50,"w":0.105238525949696,"x0":0.589816126616136,"y0":0},{"name":"LAD","color":"#E6BC05","h":0.238073844822709,"id":35,"size":89,"stdErr":89,"vColor":1,"vSize":89,"w":0.193696160414624,"x0":0.375129533678756,"y0":0.246171594646611},{"name":"SD","color":"#E6CF05","h":0.238073844822709,"id":36,"size":58,"stdErr":58,"vColor":1,"vSize":58,"w":0.126228958472451,"x0":0.56882569409338,"y0":0.246171594646611},{"name":"SF","color":"#E6E205","h":0.246171594646611,"id":37,"size":52,"stdErr":52,"vColor":1,"vSize":52,"w":0.109448066987684,"x0":0.375129533678756,"y0":0}]}]},"meta":{"type":"index","vSize":"n","vColor":null,"stdErr":"n","algorithm":"pivotSize","vpCoorX":[0.0281214848143982,0.971878515185602],"vpCoorY":[0.0196850393700787,0.910314960629921],"aspRatio":1.48351162585094,"range":null,"mapping":[null,null,null],"draw":true},"legend":null,"options":{"celltext":"name","id":"id","valueField":"size","clickAction":null}},"evals":[],"jsHooks":[]}</script>
+<p>The most penalized division is the AL East with 388 ejections over 10 years. On average a team will receive 6.43 ejections per season. The top five teams with the most ejections are listed below.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Team
+</th>
+<th style="text-align:left;">
+division
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+BOS
+</td>
+<td style="text-align:left;">
+AL East
+</td>
+<td style="text-align:right;">
+95
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TOR
+</td>
+<td style="text-align:left;">
+AL East
+</td>
+<td style="text-align:right;">
+94
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DET
+</td>
+<td style="text-align:left;">
+AL Central
+</td>
+<td style="text-align:right;">
+90
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LAD
+</td>
+<td style="text-align:left;">
+NL West
+</td>
+<td style="text-align:right;">
+89
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ATL
+</td>
+<td style="text-align:left;">
+NL East
+</td>
+<td style="text-align:right;">
+82
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="managerial-ejections" class="section level2">
 <h2>Managerial Ejections</h2>
-<p>It’s often said during a broadcast that after a manager is ejected, they’ll pay attention to how the players respond. The team will either take the lead (positive outcome), lose the lead (negative outcome), or remain ahead/behind (neutral outcome). The graph below plots all outcomes against each other for managers with 6 or more ejections the past 10 years.</p>
+<p>It’s often said during a broadcast that after a manager is ejected, they’ll pay attention to how the players respond. The team will either take the lead (positive outcome), lose the lead (negative outcome), or remain ahead/behind (neutral outcome). The graph below plots all outcomes against each other among managers with 6 or more ejections the past 10 years.</p>
 <pre class="r"><code>ejections$Name &lt;- recode(ejections$Name, &quot;A.J. Hinch&quot; = &quot;AJ Hinch&quot;, &quot;Fredi Gonzales&quot; = &quot;Fredi Gonzalez&quot;)
 
 manager_ej &lt;- ejections %&gt;%
@@ -249,7 +344,7 @@ manager_ej &lt;- ejections %&gt;%
   mutate(total = sum(Positive, Negative, Neutral)) %&gt;%
   filter(total &gt; 6) %&gt;%
   mutate(diff = abs(Positive - Negative)/total)</code></pre>
-<p><img src="/post/mlb-ejections_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="/post/mlb-ejections_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>After a team’s manager has been ejected, the current result of the game rarely changes, meaning the team in the lead tends to hang on for the victory. Some managers like Joe Girardi, Bobby Cox, or Bruce Bochy have seen their teams rally to a win in thier absence more often than seeing a lead slip away or losing a tied game while others like Jim Riggleman haven’t been so lucky.</p>
 </div>
 

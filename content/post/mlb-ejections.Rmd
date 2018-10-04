@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 ## Introduction
 
-The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire's ruling.  Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion.  Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected.  But let's consult the data first.  I looked at ten years of ejection data (2008-17) coming from [UEFL Portal](http://portal.closecallsports.com/) to see if I could reveal any interesting patterns.  The steps of my analysis are outlined below.
+The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire's ruling.  Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion.  Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected.  But let's consult the data first.  I looked at ten years of ejection data (2008-2017) coming from [UEFL Portal](http://portal.closecallsports.com/) to see if I could reveal any interesting patterns.  The steps of my analysis are outlined below.
 
 ## Data Pre-Processing
 ### Load Packages
@@ -23,14 +23,15 @@ The 2014 MLB season marked the first time a team could utilize instant replay to
 library(tidyverse)
 library(readxl)
 library(lubridate)
-library(kableExtra)
-library(plotly)
 library(jcolors)
 library(scales)
+library(treemap)
+library(d3treeR)
+library(kableExtra)
 library(ggtern)
 ```
 
-### Load Data
+### Import Data
 ```{r, data}
 #load ejections data
 load(file = "ejections.rda") 
@@ -70,7 +71,7 @@ ejections <- map(ejections, select_columns)
 ejections <- bind_rows(ejections)
 ```
 
-From 2008-2017 there were a total of `r nrow(ejections)` ejections (including playoffs).  A quick snapshot of the data is shown below.
+From 2008-2017 there were a total of `r nrow(ejections)` ejections.  A quick snapshot of the data is shown below.
 
 ```{r}
 glimpse(ejections)
@@ -98,7 +99,7 @@ ejections$`W/L Final` <- recode(ejections$`W/L Final`, L = -1, W = 1)
 ```
 
 
-##Ejections By Year and Reason
+##Ejections By Year & Cause
 
 First let's take a look at how ejections have changed since replay was introduced in 2014.
 
@@ -139,7 +140,7 @@ data <- ejections %>%
 
 ```{r, echo = F}
 ggplot(data, aes(x = Year, y = percent, fill = Reason)) +
-geom_area(pos = "fill", color = "black", alpha = .75) + 
+geom_area(pos = "fill", color = "black", alpha = .78) + 
   scale_x_discrete(limits = c(2008:2017)) +
   ggtitle("Reasons for an Ejection") +
   theme_minimal() +
@@ -153,11 +154,44 @@ geom_area(pos = "fill", color = "black", alpha = .75) +
   labs(y = "Proportion of Yearly Ejections")
 ```
 
-Arguing safe/out sharply declined after having the ability to challenge calls before going extinct in 2016.  A new type of ejection emerged as a result though.  Issues with the replay ruling or why a challenge was or wasn't granted seemed to fill the gap.  The "other" category includes things like interfence and balks.  Perhaps what is most noteworthy, is that from 2013 to 2017 the percentage of yearly ejections via agruing balls/strikes (which also includes check swings) is up 17%.  The trust in an umpire's ability to manage the strike zone seems to be decreasing at least. If that number doesn't decrease anytime soon, I wouldn't be surprised to see the automated strike zone make its debut sooner rather than later.  
+Arguing safe/out sharply declined after having the ability to challenge calls before going extinct in 2016.  A new type of ejection emerged as a result though.  Issues with the replay ruling or why a challenge was or was not granted seemed to fill the gap.  The "other" category references plays regarding interfence, balks, and everything else.  Perhaps what is most noteworthy, is that from 2013 to 2017 the percentage of yearly ejections via agruing balls/strikes (which also includes check swings) is up 17%.  The trust in an umpire's ability to manage the strike zone seems to be at least shrinkng some.  If that number doesn't decrease anytime soon, I wouldn't be surprised to see the automated strike zone make its debut sooner rather than later.  
+
+##Ejections By Division
+
+The following chart outlines the total amount of ejections by division.  Try clicking on each square to explore which teams contribute the most to their respective divisions total and hover over each to see their count. 
+
+```{r}
+divisions <- ejections %>%
+  mutate(division = case_when(Team %in% c("STL", "CHC", "MIL", "CIN", "PIT") ~ "NL Central",
+                              Team %in% c("LAD", "SF", "SD", "COL", "ARI") ~ "NL West",
+                              Team %in% c("MIA", "PHI", "WAS", "NYM", "ATL") ~ "NL East",
+                              Team %in% c("NYY", "BOS", "TB", "TOR", "BAL") ~ "AL East",
+                              Team %in% c("LAA", "HOU", "OAK", "TEX", "SEA") ~ "AL West",
+                              Team %in% c("CWS", "DET", "KC", "CLE", "MIN") ~ "AL Central")) %>%
+  group_by(Team, division) %>%
+  count()
+```
+
+```{r, echo = F, include=F}
+plot <- (treemap(divisions, index = c("division", "Team"), vSize = "n", type = "index", palette = "Set2"))
+```
+
+```{r, echo = F}
+d3tree2(plot, rootname = "Ejections by Division (2008-2017)" )
+```
+
+The most penalized division is the AL East with 388 ejections over 10 years. On average a team will receive `r round(mean(divisions$n)/10,2)` ejections per season.  The top five teams with the most ejections are listed below.
+
+```{r, echo = F}
+divisions %>%
+  arrange(desc(n)) %>%
+  head(5) %>%
+  kable()
+```
 
 ## Managerial Ejections
 
-It's often said during a broadcast that after a manager is ejected, they'll pay attention to how the players respond.  The team will either take the lead (positive outcome), lose the lead (negative outcome), or remain ahead/behind (neutral outcome).  The graph below plots all outcomes against each other for managers with 6 or more ejections the past 10 years.
+It's often said during a broadcast that after a manager is ejected, they'll pay attention to how the players respond.  The team will either take the lead (positive outcome), lose the lead (negative outcome), or remain ahead/behind (neutral outcome).  The graph below plots all outcomes against each other among managers with 6 or more ejections the past 10 years.
 
 ```{r}
 ejections$Name <- recode(ejections$Name, "A.J. Hinch" = "AJ Hinch", "Fredi Gonzales" = "Fredi Gonzalez")
