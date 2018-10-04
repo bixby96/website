@@ -1,39 +1,48 @@
 ---
 title: 'MLB: Ejections and Replay Review'
 author: ''
-date: '2018-09-27'
+date: '2018-10-03'
 slug: mlb-ejections
-categories: []
 tags: ["sports"]
-description: 'A Case for Automated Strikezones'
 output:
   blogdown::html_page:
     toc: true
-draft: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
-### Introduction
+## Introduction
 
-The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire's ruling.  Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion.  Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected.  But let's consult the data first.  I looked at ten years (2008-17) of ejection data coming from (UEFL Portal)[http://portal.closecallsports.com/] to see if I could find any noticeable patterns.  The following code and graphs are shown below:
+The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire's ruling.  Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion.  Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected.  But let's consult the data first.  I looked at ten years of ejection data (2008-17) coming from [UEFL Portal](http://portal.closecallsports.com/) to see if I could reveal any interesting patterns.  The steps of my analysis are outlined below.
 
+## Data Pre-Processing
 ### Load Packages
 ```{r}
 library(tidyverse)
 library(readxl)
 library(lubridate)
+library(kableExtra)
+library(plotly)
+library(jcolors)
+library(scales)
+library(ggtern)
 ```
 
-```{r, echo = F}  
-load(file = "ejections.rda")
+### Load Data
+```{r, data}
+#load ejections data
+load(file = "ejections.rda") 
 ```
 
-```{r}
-map(ejections, names)
+### Clean Data
+The data is stored in a list containing ten data frames, each containing one years worth of ejections.  As the years progressed, some column names evolved into simpler variable titles such as "Ejected Reason" becoming "Reason".  I'll adjust the differing variable names to match the others before combining all ten data frames into one.  
 
+```{r, results='hide'}
+map(ejections, names) #review column names for each yearly dataset
+
+#create function to replace '08-'12 column names
 fix_columns <- function(df){
   new_names <- c("W/L Pre-" = "W/L at time?" , 
                  "W/L Final" ="W/L at final?",
@@ -43,9 +52,12 @@ fix_columns <- function(df){
 }
 
 ejections[6:10] <- map(ejections[6:10], fix_columns)
+
+#create anonymous functions to fix remaining differences
 ejections[5:10] <- map(ejections[5:10], function(.x) .x %>% rename("Name" = "Ejected Name") %>% rename("Reason" = "Eject Reason"))
 ejections[9:10] <- map(ejections[9:10], function(.x) .x %>% rename("Team" = "Ej Team"))
 
+#create function to select columns for each dataset in list
 select_columns<- function(df){
   df %>%
   filter(`W/L Final` != "NA") %>%
@@ -54,23 +66,125 @@ select_columns<- function(df){
 
 ejections <- map(ejections, select_columns)
 
-map(ejections, dim)
-
+#combine all years
 ejections <- bind_rows(ejections)
+```
 
+From 2008-2017 there were a total of `r nrow(ejections)` ejections (including playoffs).  A quick snapshot of the data is shown below.
+
+```{r}
+glimpse(ejections)
+```
+
+After a few more houskeeping data manipulations, I think our data is ready to be explored!
+
+```{r}
+#convert from DateTime to Date
 ejections$Date <- ymd(ejections$Date)
+
+#Create Year variable
 ejections$Year <- year(ejections$Date)
 
-ggplot(ejections, aes(x = Year)) +
-  geom_bar() +
-  scale_x_discrete(labels = c(2008:2017)) +
-  coord_flip()
-
-ejections %>%
-  group_by(Team) %>%
-  count() %>%
-  arrange(desc(n))
-
+#adjust differing team name abbreviations
 ejections$Team <-
-  fct_recode(ejections$Team, FLA = "MIA", AZ = "ARI", FL = "MIA", WAS = "WSH")
+  fct_recode(ejections$Team, MIA = "FLA", ARI = "AZ", MIA = "FL", WAS = "WSH")
+
+#Check swing ejections were not differentiated from ball/strikes until 2014
+ejections$Reason <- fct_recode(ejections$Reason, `Balls/Strikes` = "Check Swing")
+
+#recode levels
+ejections$`W/L Pre-` <- recode(ejections$`W/L Pre-`, L = -1, Tie = 0, TIe = 0, W = 1) 
+ejections$`W/L Final` <- recode(ejections$`W/L Final`, L = -1, W = 1)
 ```
+
+
+##Ejections By Year and Reason
+
+First let's take a look at how ejections have changed since replay was introduced in 2014.
+
+```{r, echo = F}
+ggplot(ejections, aes(x = Year)) +
+  geom_bar(aes(fill = ..count..)) +
+  geom_vline(xintercept = 2013.5, lty = 2, col = "red") +
+  geom_text(stat  = "count", aes(label = ..count..), hjust = 1.25, col = "white") +
+  scale_x_discrete(limits = c(2008:2017)) +
+  labs(y = "Ejections") +
+  coord_flip() +
+  scale_fill_gradient() +
+  theme_minimal() +
+  ggtitle("Total MLB Ejections by Year") +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = .5, size = 20),
+        axis.title.x = element_text())
+```
+
+From 2008 to 2017, an MLB season averaged 193 ejections per season.  In 2014, the first year of expanded replay, the number of ejections increased by 21, eclipsing 200.  The following year saw yet another jump, before dropping below the 10-year average in '16 and '17.  While the replay system doesn't appear to be deterring ejections, I wouldn't say its encouraging them either.  What could be changing; however, is the reason for players/coaches getting ejected.  Let's take a look at how the cause of arguments could be evolving.
+
+```{r}
+ejections$Reason <- fct_other(ejections$Reason, keep = c("Balls/Strikes", "Fighting", "Replay Review", "Safe/Out", "Throwing At"))
+
+data <- ejections %>%
+  group_by(Year, Reason) %>%
+  select(Year, Reason) %>%
+  add_tally() %>%
+  distinct() %>%
+  group_by(Year) %>%
+  mutate(percent = n/sum(n)) %>%
+  group_by(Year, Reason) %>%
+  summarise(percent = sum(percent)) %>%
+  ungroup() %>%
+  add_row(Year = 2008:2013, Reason = "Replay Review", percent = 0) %>%
+  add_row(Year = 2016:2017, Reason = "Safe/Out", percent = 0)
+```
+
+```{r, echo = F}
+ggplot(data, aes(x = Year, y = percent, fill = Reason)) +
+geom_area(pos = "fill", color = "black", alpha = .75) + 
+  scale_x_discrete(limits = c(2008:2017)) +
+  ggtitle("Reasons for an Ejection") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = .5, size = 20), 
+        legend.position = c(.85,.85), 
+        legend.key.height = unit(1.5, "mm"),
+        legend.text = element_text(colour = "white"),
+        legend.title = element_blank()) +
+  scale_y_continuous(labels = percent, breaks = seq(0, 1, .1)) +
+  scale_fill_jcolors(palette = "pal9") +
+  labs(y = "Proportion of Yearly Ejections")
+```
+
+Arguing safe/out sharply declined after having the ability to challenge calls before going extinct in 2016.  A new type of ejection emerged as a result though.  Issues with the replay ruling or why a challenge was or wasn't granted seemed to fill the gap.  The "other" category includes things like interfence and balks.  Perhaps what is most noteworthy, is that from 2013 to 2017 the percentage of yearly ejections via agruing balls/strikes (which also includes check swings) is up 17%.  The trust in an umpire's ability to manage the strike zone seems to be decreasing at least. If that number doesn't decrease anytime soon, I wouldn't be surprised to see the automated strike zone make its debut sooner rather than later.  
+
+## Managerial Ejections
+
+It's often said during a broadcast that after a manager is ejected, they'll pay attention to how the players respond.  The team will either take the lead (positive outcome), lose the lead (negative outcome), or remain ahead/behind (neutral outcome).  The graph below plots all outcomes against each other for managers with 6 or more ejections the past 10 years.
+
+```{r}
+ejections$Name <- recode(ejections$Name, "A.J. Hinch" = "AJ Hinch", "Fredi Gonzales" = "Fredi Gonzalez")
+
+manager_ej <- ejections %>%
+  filter(`Ej Pos` == "Manager") %>%
+  mutate(result = case_when(.$`W/L Final` > .$`W/L Pre-` ~ "Positive",
+                            .$`W/L Final` < .$`W/L Pre-` ~ "Negative",
+                            .$`W/L Final` == .$`W/L Pre-` ~ "Neutral")) %>%
+  group_by(Name, result) %>%
+  count() %>%
+  spread(result, n, fill =0) %>%
+  mutate(total = sum(Positive, Negative, Neutral)) %>%
+  filter(total > 6) %>%
+  mutate(diff = abs(Positive - Negative)/total)
+```
+
+```{r, echo=F}
+ggtern(manager_ej, aes(x = Negative, y = Neutral, z = Positive, size = total)) +
+  geom_point(alpha = .5, col = "steelblue") +
+  geom_text(aes(label = Name), data = subset(manager_ej, diff > .15 | total > 11), size = 2, check_overlap = T) +
+  theme_rgbw() +
+  theme(tern.axis.title = element_text(size = 10),
+        plot.title = element_text(hjust = .5)) +
+  ggtitle("Do Managerial Ejections Spark a Comeback?") +
+  labs(size = "Total Ejections") +
+  theme_hidemask()
+```
+
+After a team's manager has been ejected, the current result of the game rarely changes, meaning the team in the lead tends to hang on for the victory.  Some managers like Joe Girardi, Bobby Cox, or Bruce Bochy have seen their teams rally to a win in thier absence more often than seeing a lead slip away or losing a tied game while others like Jim Riggleman haven't been so lucky.  

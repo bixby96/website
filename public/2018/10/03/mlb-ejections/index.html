@@ -13,7 +13,7 @@
         <meta property="og:title" content="MLB: Ejections and Replay Review">
 <meta property="og:description" content="IntroductionData Pre-ProcessingLoad PackagesLoad DataClean DataEjections By Year and ReasonManagerial EjectionsIntroductionThe 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire’s ruling. Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion. Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="/2018/09/27/mlb-ejections/">
+<meta property="og:url" content="/2018/10/03/mlb-ejections/">
         <link rel="stylesheet" href="/dist/styles.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -96,7 +96,7 @@ if (!doNotTrack) {
     <h1 class="post-title" itemprop="name headline">MLB: Ejections and Replay Review</h1>
     
     <p class="post-date">
-        <span>Published <time datetime="2018-09-27" itemprop="datePublished">Sep 27, 2018</time></span>
+        <span>Published <time datetime="2018-10-03" itemprop="datePublished">Oct 3, 2018</time></span>
         <span>by</span>
         <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
             <span itemprop="name">
@@ -250,7 +250,7 @@ manager_ej &lt;- ejections %&gt;%
   filter(total &gt; 6) %&gt;%
   mutate(diff = abs(Positive - Negative)/total)</code></pre>
 <p><img src="/post/mlb-ejections_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p>After a team’s manager has been ejected, the current result of the game rarely changes, meaning the team in the lead tends to hang on for the victory. Some managers like Joe Girardi, Bobby Cox, or Bruce Bochy have seen their teams rally to a win in thier absence more often than seeing a lead spip away or losing a tied game while others like Jim Riggleman haven’t been so lucky.</p>
+<p>After a team’s manager has been ejected, the current result of the game rarely changes, meaning the team in the lead tends to hang on for the victory. Some managers like Joe Girardi, Bobby Cox, or Bruce Bochy have seen their teams rally to a win in thier absence more often than seeing a lead slip away or losing a tied game while others like Jim Riggleman haven’t been so lucky.</p>
 </div>
 
 </div>
@@ -268,7 +268,7 @@ manager_ej &lt;- ejections %&gt;%
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?text=MLB%3a%20Ejections%20and%20Replay%20Review&url=%2f2018%2f09%2f27%2fmlb-ejections%2f"
+            <a class="icon-twitter" href="https://twitter.com/share?text=MLB%3a%20Ejections%20and%20Replay%20Review&url=%2f2018%2f10%2f03%2fmlb-ejections%2f"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
@@ -276,7 +276,7 @@ manager_ej &lt;- ejections %&gt;%
         
 
         
-            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=%2f2018%2f09%2f27%2fmlb-ejections%2f"
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=%2f2018%2f10%2f03%2fmlb-ejections%2f"
                 onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
                 <i class="fa fa-facebook"></i>
                 <span class="hidden">Facebook</span>
@@ -284,14 +284,14 @@ manager_ej &lt;- ejections %&gt;%
         
 
         
-            <a class="icon-google-plus" href="https://plus.google.com/share?url=%2f2018%2f09%2f27%2fmlb-ejections%2f"
+            <a class="icon-google-plus" href="https://plus.google.com/share?url=%2f2018%2f10%2f03%2fmlb-ejections%2f"
               onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
               <i class="fa fa-google-plus"></i>
                 <span class="hidden">Google+</span>
             </a>
         
         
-            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=MLB%3a%20Ejections%20and%20Replay%20Review&url=%2f2018%2f09%2f27%2fmlb-ejections%2f&summary="
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=MLB%3a%20Ejections%20and%20Replay%20Review&url=%2f2018%2f10%2f03%2fmlb-ejections%2f&summary="
                onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;">
                <i class="fa fa-linkedin"></i>
                <span class="hidden">LinkedIn</span>

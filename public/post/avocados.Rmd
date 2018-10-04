@@ -166,7 +166,7 @@ The Northeast region sells avocados at the highest average price. Now, let's det
 
 ###Avocado Volume
 ```{r echo = F}
-ggplot(avocados_region, aes(x = reorder(region, -avocado_volume), y = avocado_volume/1000000, fill = avocado_type)) +
+ggplot(avocados_region, aes(x = reorder(region, -avocado_volume), y = avocado_volume/1000000, fill = fct_relevel(avocado_type, "small_hass", "large_hass", "xl_hass", "other"))) +
   geom_col() +
   coord_flip() +
   theme_minimal() +
@@ -181,7 +181,7 @@ ggplot(avocados_region, aes(x = reorder(region, -avocado_volume), y = avocado_vo
 The South Central, California, and West regions make up the three largest avocado regions by volume.  The Northeast region sells the most large Hass avocados (both proportionally to total regional sales and overall) which probably contributes to them having the highest average price.  Let's take a look at how each market consumes avocados.
 
 ```{r echo = F}
-ggplot(avocados_market, aes(x = reorder(region, avocado_volume), y = avocado_volume/1000000,  fill = avocado_type)) +
+ggplot(avocados_market, aes(x = reorder(region, avocado_volume), y = avocado_volume/1000000,  fill = fct_relevel(avocado_type, "small_hass", "large_hass", "xl_hass", "other"))) +
   geom_col() +
   scale_fill_manual(values = wes_palette("Darjeeling1", 4)) +
   theme_minimal() +

@@ -1,118 +1,57 @@
 ---
 title: 'MLB: Ejections and Replay Review'
 author: ''
-date: '2018-09-27'
+date: '2018-10-03'
 slug: mlb-ejections
-categories: []
 tags: ["sports"]
-description: 'A Case for Automated Strikezones'
 output:
   blogdown::html_page:
     toc: true
-draft: true
 ---
 
 
 <div id="TOC">
 <ul>
 <li><a href="#introduction">Introduction</a></li>
+<li><a href="#data-pre-processing">Data Pre-Processing</a><ul>
 <li><a href="#load-packages">Load Packages</a></li>
+<li><a href="#load-data">Load Data</a></li>
+<li><a href="#clean-data">Clean Data</a></li>
+</ul></li>
+<li><a href="#ejections-by-year-and-reason">Ejections By Year and Reason</a></li>
+<li><a href="#managerial-ejections">Managerial Ejections</a></li>
 </ul>
 </div>
 
-<div id="introduction" class="section level3">
-<h3>Introduction</h3>
-<p>The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire’s ruling. Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion. Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected. But let’s consult the data first. I looked at ten years (2008-17) of ejection data coming from (UEFL Portal)[<a href="http://portal.closecallsports.com/" class="uri">http://portal.closecallsports.com/</a>] to see if I could find any noticeable patterns. The following code and graphs are shown below:</p>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire’s ruling. Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion. Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected. But let’s consult the data first. I looked at ten years of ejection data (2008-17) coming from <a href="http://portal.closecallsports.com/">UEFL Portal</a> to see if I could reveal any interesting patterns. The steps of my analysis are outlined below.</p>
 </div>
+<div id="data-pre-processing" class="section level2">
+<h2>Data Pre-Processing</h2>
 <div id="load-packages" class="section level3">
 <h3>Load Packages</h3>
 <pre class="r"><code>library(tidyverse)
 library(readxl)
-library(lubridate)</code></pre>
-<pre class="r"><code>map(ejections, names)</code></pre>
-<pre><code>## $`2017 Ejections`
-##  [1] &quot;Date&quot;        &quot;E#&quot;          &quot;P#&quot;          &quot;M#&quot;          &quot;U#&quot;         
-##  [6] &quot;Pos&quot;         &quot;Umpire&quot;      &quot;Team&quot;        &quot;Ej Pos&quot;      &quot;Name&quot;       
-## [11] &quot;H&quot;           &quot;AB&quot;          &quot;W/L Pre-&quot;    &quot;W/L Final&quot;   &quot;RS&quot;         
-## [16] &quot;RA&quot;          &quot;Inn&quot;         &quot;T/B&quot;         &quot;Reason&quot;      &quot;O/D&quot;        
-## [21] &quot;Play Result&quot; &quot;E-QOC&quot;       &quot;1 / 2&quot;       &quot;CC&quot;          &quot;Day of Week&quot;
-## [26] &quot;AAA&quot;        
-## 
-## $`2016 Ejections`
-##  [1] &quot;Date&quot;        &quot;E#&quot;          &quot;P#&quot;          &quot;M#&quot;          &quot;U#&quot;         
-##  [6] &quot;Pos&quot;         &quot;Umpire&quot;      &quot;EU#&quot;         &quot;Team&quot;        &quot;Ej Pos&quot;     
-## [11] &quot;Name&quot;        &quot;H&quot;           &quot;AB&quot;          &quot;W/L Pre-&quot;    &quot;W/L Final&quot;  
-## [16] &quot;RS&quot;          &quot;RA&quot;          &quot;Inn&quot;         &quot;T/B&quot;         &quot;Reason&quot;     
-## [21] &quot;O/D&quot;         &quot;Play Result&quot; &quot;E-QOC&quot;       &quot;1 / 2&quot;       &quot;CC&quot;         
-## [26] &quot;Day of Week&quot; &quot;AAA&quot;        
-## 
-## $`2015 Ejections`
-##  [1] &quot;Date&quot;        &quot;E#&quot;          &quot;P#&quot;          &quot;M#&quot;          &quot;U#&quot;         
-##  [6] &quot;Pos&quot;         &quot;Umpire&quot;      &quot;EU#&quot;         &quot;Team&quot;        &quot;Ej Pos&quot;     
-## [11] &quot;Name&quot;        &quot;H&quot;           &quot;AB&quot;          &quot;W/L Pre-&quot;    &quot;W/L Final&quot;  
-## [16] &quot;RS&quot;          &quot;RA&quot;          &quot;Inn&quot;         &quot;T/B&quot;         &quot;Reason&quot;     
-## [21] &quot;O/D&quot;         &quot;Play Result&quot; &quot;E-QOC&quot;       &quot;1 / 2&quot;       &quot;CC&quot;         
-## [26] &quot;Day of Week&quot; &quot;AAA&quot;        
-## 
-## $`2014 Ejections`
-##  [1] &quot;Date&quot;        &quot;E#&quot;          &quot;P#&quot;          &quot;M#&quot;          &quot;U#&quot;         
-##  [6] &quot;Pos&quot;         &quot;Umpire&quot;      &quot;EU#&quot;         &quot;Team&quot;        &quot;Ej Pos&quot;     
-## [11] &quot;Name&quot;        &quot;H&quot;           &quot;AB&quot;          &quot;W/L Pre-&quot;    &quot;W/L Final&quot;  
-## [16] &quot;RS&quot;          &quot;RA&quot;          &quot;Inn&quot;         &quot;T/B&quot;         &quot;Reason&quot;     
-## [21] &quot;O/D&quot;         &quot;Play Result&quot; &quot;E-QOC&quot;       &quot;1 / 2&quot;       &quot;CC&quot;         
-## [26] &quot;Day of Week&quot; &quot;AAA&quot;        
-## 
-## $`2013 Ejections`
-##  [1] &quot;Date&quot;         &quot;E#&quot;           &quot;P#&quot;           &quot;M#&quot;          
-##  [5] &quot;U#&quot;           &quot;Pos&quot;          &quot;Umpire&quot;       &quot;IU#&quot;         
-##  [9] &quot;Team&quot;         &quot;Ej Pos&quot;       &quot;Ejected Name&quot; &quot;H&quot;           
-## [13] &quot;AB&quot;           &quot;W/L Pre-&quot;     &quot;W/L Final&quot;    &quot;RS&quot;          
-## [17] &quot;RA&quot;           &quot;Inn&quot;          &quot;T/B&quot;          &quot;Eject Reason&quot;
-## [21] &quot;O/D&quot;          &quot;Play Result&quot;  &quot;QOC&quot;          &quot;1 / 2&quot;       
-## [25] &quot;CC&quot;           &quot;Day of Week&quot;  &quot;AAA&quot;         
-## 
-## $`2012 Ejections`
-##  [1] &quot;Date&quot;          &quot;E#&quot;            &quot;P#&quot;            &quot;M#&quot;           
-##  [5] &quot;U#&quot;            &quot;Pos&quot;           &quot;Umpire&quot;        &quot;U #&quot;          
-##  [9] &quot;Team&quot;          &quot;Pos__1&quot;        &quot;Ejected Name&quot;  &quot;H&quot;            
-## [13] &quot;AB&quot;            &quot;W/L at time?&quot;  &quot;W/L at final?&quot; &quot;RS&quot;           
-## [17] &quot;RA&quot;            &quot;Inn&quot;           &quot;Top/Bot&quot;       &quot;Eject Reason&quot; 
-## [21] &quot;O/D&quot;           &quot;Play Result&quot;   &quot;Correct?&quot;      &quot;1,2&quot;          
-## [25] &quot;CC&quot;            &quot;Day of Week&quot;   &quot;AAA&quot;          
-## 
-## $`2011 Ejections`
-##  [1] &quot;Date&quot;          &quot;E#&quot;            &quot;P#&quot;            &quot;M#&quot;           
-##  [5] &quot;U#&quot;            &quot;Pos&quot;           &quot;Umpire&quot;        &quot;UE#&quot;          
-##  [9] &quot;Team&quot;          &quot;Pos__1&quot;        &quot;Ejected Name&quot;  &quot;H&quot;            
-## [13] &quot;AB&quot;            &quot;W/L at time?&quot;  &quot;W/L at final?&quot; &quot;RS&quot;           
-## [17] &quot;RA&quot;            &quot;Inn&quot;           &quot;Top/Bot&quot;       &quot;Eject Reason&quot; 
-## [21] &quot;O/D&quot;           &quot;Play Result&quot;   &quot;Correct?&quot;      &quot;1,2&quot;          
-## [25] &quot;Primary Pts&quot;   &quot;Secondary Pts&quot; &quot;AAA&quot;           &quot;Day of Week&quot;  
-## 
-## $`2010 Ejections`
-##  [1] &quot;Date&quot;          &quot;E#&quot;            &quot;P#&quot;            &quot;M#&quot;           
-##  [5] &quot;U#&quot;            &quot;Pos&quot;           &quot;Umpire&quot;        &quot;UE#&quot;          
-##  [9] &quot;Team&quot;          &quot;Pos__1&quot;        &quot;Ejected Name&quot;  &quot;H&quot;            
-## [13] &quot;AB&quot;            &quot;W/L at time?&quot;  &quot;W/L at final?&quot; &quot;RS&quot;           
-## [17] &quot;RA&quot;            &quot;Inn&quot;           &quot;Top/Bot&quot;       &quot;Eject Reason&quot; 
-## [21] &quot;O/D&quot;           &quot;Play Result&quot;   &quot;Correct?&quot;      &quot;1,2&quot;          
-## 
-## $`2009 Ejections`
-##  [1] &quot;Date&quot;          &quot;E#&quot;            &quot;P#&quot;            &quot;M#&quot;           
-##  [5] &quot;U#&quot;            &quot;Pos&quot;           &quot;Umpire&quot;        &quot;UE#&quot;          
-##  [9] &quot;Ej Team&quot;       &quot;Pos__1&quot;        &quot;Ejected Name&quot;  &quot;H&quot;            
-## [13] &quot;AB&quot;            &quot;W/L at time?&quot;  &quot;W/L at final?&quot; &quot;RS&quot;           
-## [17] &quot;RA&quot;            &quot;Inn&quot;           &quot;Top/Bot&quot;       &quot;Eject Reason&quot; 
-## [21] &quot;O/D&quot;           &quot;Play Result&quot;   &quot;Correct?&quot;      &quot;1,2&quot;          
-## 
-## $`2008 Ejections`
-##  [1] &quot;Date&quot;          &quot;E#&quot;            &quot;P#&quot;            &quot;M#&quot;           
-##  [5] &quot;U#&quot;            &quot;Pos&quot;           &quot;Umpire&quot;        &quot;UE#&quot;          
-##  [9] &quot;Ej Team&quot;       &quot;Pos__1&quot;        &quot;Ejected Name&quot;  &quot;H&quot;            
-## [13] &quot;AB&quot;            &quot;W/L at time?&quot;  &quot;W/L at final?&quot; &quot;RS&quot;           
-## [17] &quot;RA&quot;            &quot;Inn&quot;           &quot;Top/Bot&quot;       &quot;Eject Reason&quot; 
-## [21] &quot;O/D&quot;           &quot;Play Result&quot;   &quot;Correct?&quot;      &quot;1,2&quot;</code></pre>
-<pre class="r"><code>fix_columns &lt;- function(df){
+library(lubridate)
+library(kableExtra)
+library(plotly)
+library(jcolors)
+library(scales)
+library(ggtern)</code></pre>
+</div>
+<div id="load-data" class="section level3">
+<h3>Load Data</h3>
+<pre class="r"><code>#load ejections data
+load(file = &quot;ejections.rda&quot;) </code></pre>
+</div>
+<div id="clean-data" class="section level3">
+<h3>Clean Data</h3>
+<p>The data is stored in a list containing ten data frames, each containing one years worth of ejections. As the years progressed, some column names evolved into simpler variable titles such as “Ejected Reason” becoming “Reason”. I’ll adjust the differing variable names to match the others before combining all ten data frames into one.</p>
+<pre class="r"><code>map(ejections, names) #review column names for each yearly dataset
+
+#create function to replace &#39;08-&#39;12 column names
+fix_columns &lt;- function(df){
   new_names &lt;- c(&quot;W/L Pre-&quot; = &quot;W/L at time?&quot; , 
                  &quot;W/L Final&quot; =&quot;W/L at final?&quot;,
                  &quot;Ej Pos&quot; = &quot;Pos__1&quot;)
@@ -121,9 +60,12 @@ library(lubridate)</code></pre>
 }
 
 ejections[6:10] &lt;- map(ejections[6:10], fix_columns)
+
+#create anonymous functions to fix remaining differences
 ejections[5:10] &lt;- map(ejections[5:10], function(.x) .x %&gt;% rename(&quot;Name&quot; = &quot;Ejected Name&quot;) %&gt;% rename(&quot;Reason&quot; = &quot;Eject Reason&quot;))
 ejections[9:10] &lt;- map(ejections[9:10], function(.x) .x %&gt;% rename(&quot;Team&quot; = &quot;Ej Team&quot;))
 
+#create function to select columns for each dataset in list
 select_columns&lt;- function(df){
   df %&gt;%
   filter(`W/L Final` != &quot;NA&quot;) %&gt;%
@@ -132,65 +74,82 @@ select_columns&lt;- function(df){
 
 ejections &lt;- map(ejections, select_columns)
 
-map(ejections, dim)</code></pre>
-<pre><code>## $`2017 Ejections`
-## [1] 187  13
-## 
-## $`2016 Ejections`
-## [1] 191  13
-## 
-## $`2015 Ejections`
-## [1] 216  13
-## 
-## $`2014 Ejections`
-## [1] 201  13
-## 
-## $`2013 Ejections`
-## [1] 180  13
-## 
-## $`2012 Ejections`
-## [1] 179  13
-## 
-## $`2011 Ejections`
-## [1] 199  13
-## 
-## $`2010 Ejections`
-## [1] 204  13
-## 
-## $`2009 Ejections`
-## [1] 165  13
-## 
-## $`2008 Ejections`
-## [1] 208  13</code></pre>
-<pre class="r"><code>ejections &lt;- bind_rows(ejections)
-
+#combine all years
+ejections &lt;- bind_rows(ejections)</code></pre>
+<p>From 2008-2017 there were a total of 1930 ejections (including playoffs). A quick snapshot of the data is shown below.</p>
+<pre class="r"><code>glimpse(ejections)</code></pre>
+<pre><code>## Observations: 1,930
+## Variables: 13
+## $ Date          &lt;dttm&gt; 2017-04-05, 2017-04-06, 2017-04-09, 2017-04-10,...
+## $ Team          &lt;chr&gt; &quot;MIA&quot;, &quot;LAD&quot;, &quot;TB&quot;, &quot;PHI&quot;, &quot;COL&quot;, &quot;SEA&quot;, &quot;TEX&quot;, ...
+## $ `Ej Pos`      &lt;chr&gt; &quot;Manager&quot;, &quot;CF&quot;, &quot;CF&quot;, &quot;Manager&quot;, &quot;Manager&quot;, &quot;Ma...
+## $ Name          &lt;chr&gt; &quot;Don Mattingly&quot;, &quot;Joc Pederson&quot;, &quot;Kevin Kiermaie...
+## $ H             &lt;dbl&gt; NA, 0, 3, NA, NA, NA, NA, NA, NA, NA, NA, 1, NA,...
+## $ AB            &lt;dbl&gt; NA, 3, 4, NA, NA, NA, NA, NA, NA, NA, NA, 2, NA,...
+## $ `W/L Pre-`    &lt;chr&gt; &quot;L&quot;, &quot;W&quot;, &quot;W&quot;, &quot;Tie&quot;, &quot;L&quot;, &quot;L&quot;, &quot;L&quot;, &quot;L&quot;, &quot;L&quot;, &quot;...
+## $ `W/L Final`   &lt;chr&gt; &quot;L&quot;, &quot;W&quot;, &quot;W&quot;, &quot;L&quot;, &quot;L&quot;, &quot;W&quot;, &quot;L&quot;, &quot;W&quot;, &quot;L&quot;, &quot;L&quot;...
+## $ RS            &lt;dbl&gt; 2, 0, 2, 1, 2, 3, 1, 2, 0, 0, 2, 2, 0, 2, 2, 6, ...
+## $ RA            &lt;dbl&gt; 0, 0, 0, 2, 4, 1, 5, 0, 2, 0, 2, 2, 2, 2, 2, 2, ...
+## $ Inn           &lt;dbl&gt; 7, 7, 7, 8, 5, 6, 3, 9, 8, 8, 5, 5, 8, 7, 7, 3, ...
+## $ Reason        &lt;chr&gt; &quot;Unsportsmanlike-NEC&quot;, &quot;Balls/Strikes&quot;, &quot;Balls/S...
+## $ `Play Result` &lt;chr&gt; &quot;HBP&quot;, &quot;K&quot;, &quot;K&quot;, &quot;Ball&quot;, &quot;No Balk&quot;, &quot;Fair&quot;, &quot;Fou...</code></pre>
+<p>After a few more houskeeping data manipulations, I think our data is ready to be explored!</p>
+<pre class="r"><code>#convert from DateTime to Date
 ejections$Date &lt;- ymd(ejections$Date)
+
+#Create Year variable
 ejections$Year &lt;- year(ejections$Date)
 
-ggplot(ejections, aes(x = Year)) +
-  geom_bar() +
-  scale_x_discrete(labels = c(2008:2017)) +
-  coord_flip()</code></pre>
-<p><img src="/post/mlb-ejections_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<pre class="r"><code>ejections %&gt;%
-  group_by(Team) %&gt;%
+#adjust differing team name abbreviations
+ejections$Team &lt;-
+  fct_recode(ejections$Team, MIA = &quot;FLA&quot;, ARI = &quot;AZ&quot;, MIA = &quot;FL&quot;, WAS = &quot;WSH&quot;)
+
+#Check swing ejections were not differentiated from ball/strikes until 2014
+ejections$Reason &lt;- fct_recode(ejections$Reason, `Balls/Strikes` = &quot;Check Swing&quot;)
+
+#recode levels
+ejections$`W/L Pre-` &lt;- recode(ejections$`W/L Pre-`, L = -1, Tie = 0, TIe = 0, W = 1) 
+ejections$`W/L Final` &lt;- recode(ejections$`W/L Final`, L = -1, W = 1)</code></pre>
+</div>
+</div>
+<div id="ejections-by-year-and-reason" class="section level2">
+<h2>Ejections By Year and Reason</h2>
+<p>First let’s take a look at how ejections have changed since replay was introduced in 2014.</p>
+<p><img src="/post/mlb-ejections_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>From 2008 to 2017, an MLB season averaged 193 ejections per season. In 2014, the first year of expanded replay, the number of ejections increased by 21, eclipsing 200. The following year saw yet another jump, before dropping below the 10-year average in ’16 and ’17. While the replay system doesn’t appear to be deterring ejections, I wouldn’t say its encouraging them either. What could be changing; however, is the reason for players/coaches getting ejected. Let’s take a look at how the cause of arguments could be evolving.</p>
+<pre class="r"><code>ejections$Reason &lt;- fct_other(ejections$Reason, keep = c(&quot;Balls/Strikes&quot;, &quot;Fighting&quot;, &quot;Replay Review&quot;, &quot;Safe/Out&quot;, &quot;Throwing At&quot;))
+
+data &lt;- ejections %&gt;%
+  group_by(Year, Reason) %&gt;%
+  select(Year, Reason) %&gt;%
+  add_tally() %&gt;%
+  distinct() %&gt;%
+  group_by(Year) %&gt;%
+  mutate(percent = n/sum(n)) %&gt;%
+  group_by(Year, Reason) %&gt;%
+  summarise(percent = sum(percent)) %&gt;%
+  ungroup() %&gt;%
+  add_row(Year = 2008:2013, Reason = &quot;Replay Review&quot;, percent = 0) %&gt;%
+  add_row(Year = 2016:2017, Reason = &quot;Safe/Out&quot;, percent = 0)</code></pre>
+<p><img src="/post/mlb-ejections_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Arguing safe/out sharply declined after having the ability to challenge calls before going extinct in 2016. A new type of ejection emerged as a result though. Issues with the replay ruling or why a challenge was or wasn’t granted seemed to fill the gap. The “other” category includes things like interfence and balks. Perhaps what is most noteworthy, is that from 2013 to 2017 the percentage of yearly ejections via agruing balls/strikes (which also includes check swings) is up 17%. The trust in an umpire’s ability to manage the strike zone seems to be decreasing at least. If that number doesn’t decrease anytime soon, I wouldn’t be surprised to see the automated strike zone make its debut sooner rather than later.</p>
+</div>
+<div id="managerial-ejections" class="section level2">
+<h2>Managerial Ejections</h2>
+<p>It’s often said during a broadcast that after a manager is ejected, they’ll pay attention to how the players respond. The team will either take the lead (positive outcome), lose the lead (negative outcome), or remain ahead/behind (neutral outcome). The graph below plots all outcomes against each other for managers with 6 or more ejections the past 10 years.</p>
+<pre class="r"><code>ejections$Name &lt;- recode(ejections$Name, &quot;A.J. Hinch&quot; = &quot;AJ Hinch&quot;, &quot;Fredi Gonzales&quot; = &quot;Fredi Gonzalez&quot;)
+
+manager_ej &lt;- ejections %&gt;%
+  filter(`Ej Pos` == &quot;Manager&quot;) %&gt;%
+  mutate(result = case_when(.$`W/L Final` &gt; .$`W/L Pre-` ~ &quot;Positive&quot;,
+                            .$`W/L Final` &lt; .$`W/L Pre-` ~ &quot;Negative&quot;,
+                            .$`W/L Final` == .$`W/L Pre-` ~ &quot;Neutral&quot;)) %&gt;%
+  group_by(Name, result) %&gt;%
   count() %&gt;%
-  arrange(desc(n))</code></pre>
-<pre><code>## # A tibble: 34 x 2
-## # Groups:   Team [34]
-##    Team      n
-##    &lt;chr&gt; &lt;int&gt;
-##  1 BOS      95
-##  2 TOR      94
-##  3 DET      90
-##  4 LAD      89
-##  5 ATL      82
-##  6 TB       75
-##  7 CWS      74
-##  8 PIT      74
-##  9 TEX      71
-## 10 NYY      68
-## # ... with 24 more rows</code></pre>
-<pre class="r"><code>ejections$Team &lt;-
-  fct_recode(ejections$Team, FLA = &quot;MIA&quot;, AZ = &quot;ARI&quot;, FL = &quot;MIA&quot;, WAS = &quot;WSH&quot;)</code></pre>
+  spread(result, n, fill =0) %&gt;%
+  mutate(total = sum(Positive, Negative, Neutral)) %&gt;%
+  filter(total &gt; 6) %&gt;%
+  mutate(diff = abs(Positive - Negative)/total)</code></pre>
+<p><img src="/post/mlb-ejections_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>After a team’s manager has been ejected, the current result of the game rarely changes, meaning the team in the lead tends to hang on for the victory. Some managers like Joe Girardi, Bobby Cox, or Bruce Bochy have seen their teams rally to a win in thier absence more often than seeing a lead slip away or losing a tied game while others like Jim Riggleman haven’t been so lucky.</p>
 </div>
