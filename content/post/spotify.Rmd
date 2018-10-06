@@ -181,6 +181,8 @@ kable(head(kanye_valence_songs,10)) %>%
 
 ###Other Variables
 
+<iframe src = "https://chadbixby.shinyapps.io/kanye-song-attributes/"></iframe>
+
 Interested in exploring the rest of the variables?  Select which albums to compare and choose which characterisics using the interactive plot [here](https://chadbixby.shinyapps.io/kanye-song-attributes/)!
 
 ##Clustering
