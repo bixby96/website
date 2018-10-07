@@ -14,7 +14,11 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 ##Introduction
 
-The following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US.  In addition to a thorough exploratory anaysis, I'll also try to calculate the price elasticity of demand for each individual market.  The dataset comes from the [Hass Avocado Board](http://www.hassavocadoboard.com/).  
+The following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US.  In addition to a thorough exploratory anaysis, I'll also try to calculate the price elasticity of demand for each individual market.  The dataset comes from the [Hass Avocado Board](http://www.hassavocadoboard.com/). 
+
+<center>
+<a id='JG4UGGuQRmpRoiIpLv_qhQ' class='gie-single' href='http://www.gettyimages.com/detail/880599028' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a><script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'JG4UGGuQRmpRoiIpLv_qhQ',sig:'N6lPd_OPn_K7igBz9eUfQK5NML4OwTpfOsG8GwtiA8s=',w:'511px',h:'339px',items:'880599028',caption: false ,tld:'com',is360: false })});</script><script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
+</center>
 
 ##Data Pre-Processing
 ###Load Data

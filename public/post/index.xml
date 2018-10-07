@@ -37,7 +37,7 @@
       
       <guid>/2018/09/06/2018-09-06-the-nfl-nba-mlb-s-center-of-gravity/</guid>
       <description>IntroductionDrawing inspiration from FiveThirtyEight’s article locating the Stanley Cup’s center of gravity, or the average geographic point of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies’ geographical center could lie. Using Cartesian coordinates for each champion’s city, I mapped the location for each league. The corresponding code and plots are shown below.
-Load Packageslibrary(rvest) library(tidyverse)library(ggmap) library(plotly) library(leaflet) Scrape and Clean Data#scrape NFL tablenfl &amp;lt;- read_html(&amp;quot;http://www.</description>
+Embed from Getty Imageswindow.</description>
     </item>
     
     <item>

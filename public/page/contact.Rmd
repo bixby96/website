@@ -7,6 +7,11 @@ categories: []
 tags: []
 description: Get in Touch with Me
 ---
+<script type="text/javascript" src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
+
+<center>
+<div class="LI-profile-badge"  data-version="v1" data-size="medium" data-locale="en_US" data-type="horizontal" data-theme="light" data-vanity="chadbixby"><a class="LI-simple-link" href='https://www.linkedin.com/in/chadbixby?trk=profile-badge'>Chad Bixby</a></div>
+</center>
 
 ###Email
 

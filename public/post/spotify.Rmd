@@ -15,6 +15,10 @@ knitr::opts_chunk$set(echo = T, messages = F, warning = F)
 ##Introduction
 As the [Internet of Things](https://en.wikipedia.org/wiki/Internet_of_things) (IoT) landscape continues to grow, practically everyone and everything, it seems, is compiling data or at least generating statistics for any variable imaginable.  And music is no exception.  The music streaming service, Spotify, stores an array of features for each song in its library.  They record characteristics such as acousticness, danceability, energy and more.  With these variables in mind, I conducted some exploratory analysis along with a couple clustering methods on Kanye West's *Spotify* discography.  The following report utilizes Spotify's Web API through Charlie Thompson's `spotifyr` package which you can check out [here](http://www.rdocumentation.org/packages/spotifyr).
 
+<center>
+<a id='N_ojmtFuShtIOBP5ugOPTQ' class='gie-single' href='http://www.gettyimages.com/detail/994892144' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a><script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'N_ojmtFuShtIOBP5ugOPTQ',sig:'qWFJbSTJE8IEPUvJSx1oVvC5GR_qojY9INDpB7ctkm0=',w:'594px',h:'395px',items:'994892144',caption: false ,tld:'com',is360: false })});</script><script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
+</center>
+
 ##Exploratory Data Analysis
 ###Load Packages
 
@@ -181,9 +185,10 @@ kable(head(kanye_valence_songs,10)) %>%
 
 ###Other Variables
 
-<iframe src = "https://chadbixby.shinyapps.io/kanye-song-attributes/"></iframe>
+Interested in exploring the rest of the variables?  Choose which characterisics to plot and select which albums to compare using the interactive graph
+below!
 
-Interested in exploring the rest of the variables?  Select which albums to compare and choose which characterisics using the interactive plot [here](https://chadbixby.shinyapps.io/kanye-song-attributes/)!
+<iframe width = 800 height = 700 frameborder = F src = "https://chadbixby.shinyapps.io/kanye-song-attributes/"></iframe>
 
 ##Clustering
 
@@ -259,5 +264,5 @@ ggplotly(b1) %>%
   style(hoverinfo = "none")
 ```
 
-The most popular songs don't appear to belong to any specific area or cluster on the graph, but it does look like `Energy` and `Loudness` are fairly correlated.  Try graphing them using the interactive plot linked above! (or right [here](https://chadbixby.shinyapps.io/kanye-song-attributes/))
+The most popular songs don't appear to belong to any specific area or cluster on the graph, but it does look like `Energy` and `Loudness` are fairly correlated.  Try graphing them using the interactive plot above!
 

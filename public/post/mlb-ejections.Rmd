@@ -16,6 +16,9 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ## Introduction
 
 The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire's ruling.  Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion.  Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected.  But let's consult the data first.  I looked at ten years of ejection data (2008-2017) coming from [UEFL Portal](http://portal.closecallsports.com/) to see if I could reveal any interesting patterns.  The steps of my analysis are outlined below.
+<center>
+<a id='-RfwUO89RKVDqB8lDlcNUg' class='gie-single' href='http://www.gettyimages.com/detail/812815534' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a><script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'-RfwUO89RKVDqB8lDlcNUg',sig:'UuXQGkUbkuRekzTXfmgErubmC_omFTfWIOXQb1WzpnY=',w:'594px',h:'396px',items:'812815534',caption: false ,tld:'com',is360: false })});</script><script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
+</center>
 
 ## Data Pre-Processing
 ### Load Packages
@@ -180,13 +183,14 @@ plot <- (treemap(divisions, index = c("division", "Team"), vSize = "n", type = "
 d3tree2(plot, rootname = "Ejections by Division (2008-2017)" )
 ```
 
-The most penalized division is the AL East with 388 ejections over 10 years. On average a team will receive `r round(mean(divisions$n)/10,2)` ejections per season.  The top five teams with the most ejections are listed below.
+The most penalized division is the AL East with 388 ejections over 10 years. On average a team will receive `r round(mean(divisions$n)/10,2)` ejections per season.  The top five teams with the most ejections since '08 are listed below.
 
 ```{r, echo = F}
 divisions %>%
   arrange(desc(n)) %>%
   head(5) %>%
-  kable()
+  kable() %>%
+  kable_styling(full_width = F)
 ```
 
 ## Managerial Ejections
