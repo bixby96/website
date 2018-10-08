@@ -10,11 +10,16 @@ description: Get in Touch with Me
 
 
 
-<div id="email" class="section level3">
-<h3>Email</h3>
-<p><a href="mailto:chadbixby15@gmail.com">chadbixby15@gmail.com</a></p>
-</div>
-<div id="other" class="section level3">
-<h3>Other</h3>
-<p>In addition to email, my LinkedIn and Github accounts are linked at the top of each page.</p>
-</div>
+<center>
+<strong>Have a question or suggestion? Fill out the form below!</strong>
+</center>
+<br>
+<form class="form" id="contactform" action="//formspree.io/chadbixby15@gmail.com" method="POST">
+<fieldset class="field">
+<label class="label" for="name"><span class="label-content">Enter Your Name:</span></label><br> <input class="input" type="text" size = "30" name="name" placeholder="Dwight K. Schrute" id="name" required><br><br> <label class="label" for="_replyto"><span class="label-content">Email Address: </span></label><br> <input class="input" type="email" size = "30" name="_replyto" placeholder="dwight@beetfarms.com" id="_replyto" required><br><br> <label class="label" for="message"><span class="label-content">Your message:</span></label>
+<textarea class="input" name="message" rows="4" cols="94%" placeholder="Message" id="message" required>
+</textarea>
+<br><br> <input class="hidden" type="text" name="_gotcha" style="display:none"> <input class="hidden" type="hidden" name="_subject" value="Website Message"> <input class="button submit" type="submit" value="Send"> <input type="hidden" name="_next" value="/page/thanks" />
+</fieldset>
+</form>
+<p><br> Additionally, my LinkedIn and Github accounts are linked at the top of each page.</p>

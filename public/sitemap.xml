@@ -71,4 +71,8 @@
     <priority>0</priority>
   </url>
   
+  <url>
+    <loc>/page/thanks/</loc>
+  </url>
+  
 </urlset>

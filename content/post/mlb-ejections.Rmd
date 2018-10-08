@@ -146,7 +146,7 @@ data <- ejections %>%
 ggplot(data, aes(x = Year, y = percent, fill = Reason)) +
 geom_area(pos = "fill", color = "black", alpha = .78) + 
   scale_x_discrete(limits = c(2008:2017)) +
-  ggtitle("Reasons for an Ejection") +
+  ggtitle("Ejection Reasons") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = .5, size = 20), 
         legend.position = c(.85,.85), 

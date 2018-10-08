@@ -180,7 +180,7 @@ kanye_valence_songs <- kanye2 %>%
   arrange(valence)
 
 kable(head(kanye_valence_songs,10)) %>%
-    kable_styling(bootstrap_options = c("striped"))
+    kable_styling(full_width = F)
 ```
 
 ###Other Variables
