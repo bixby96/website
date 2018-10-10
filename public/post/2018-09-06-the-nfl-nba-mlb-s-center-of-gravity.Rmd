@@ -174,7 +174,7 @@ p
 ```
 
 
-The NBA and and MLB seem to be trending westward while the NFL looks to be boomeranging back east of the Mississppi.  With the Yankees' 27 championships (not to mention the NY Giants 5 titles plus the Mets 2) it's no surprise that the MLB's center of gravity is the furthest east.  The Boston Celtic's '60s dynasty seems to have left its mark on the Larry O'Brien trophy, carrying the midpoint to upstate New York before ultimately trickling down through Illinois.  Use the map below to toggle between leagues and a see which cities have won the most hardware. 
+The NBA and MLB seem to be trending westward while the NFL looks to be boomeranging back east of the Mississippi.  With the Yankees' 27 championships (not to mention the NY Giants 5 titles plus the Mets 2) it's no surprise that the MLB's center of gravity is the furthest east.  The Boston Celtic's '60s dynasty seems to have left its mark on the Larry O'Brien trophy, carrying the midpoint to upstate New York before ultimately trickling down through Illinois.  Use the map below to toggle between leagues and a see which cities have won the most hardware. 
 
 ### Total Titles by City
 ```{r}

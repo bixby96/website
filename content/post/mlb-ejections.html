@@ -31,7 +31,7 @@ output:
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire’s ruling. Although technically introduced in 2008, previously only home run boundary calls could be reviewed at the umpires discretion. Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected. But let’s consult the data first. I looked at ten years of ejection data (2008-2017) coming from <a href="http://portal.closecallsports.com/">UEFL Portal</a> to see if I could reveal any interesting patterns. The steps of my analysis are outlined below.</p>
+<p>The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire’s ruling. Although technically introduced in 2008, previously only home run boundary calls could be reviewed at an umpire’s discretion. Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected. But let’s consult the data first. I looked at ten years of ejection data (2008-2017) coming from <a href="http://portal.closecallsports.com/">UEFL Portal</a> to see if I could reveal any interesting patterns. The steps of my analysis are outlined below.</p>
 <center>
 <a id='-RfwUO89RKVDqB8lDlcNUg' class='gie-single' href='http://www.gettyimages.com/detail/812815534' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a>
 <script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'-RfwUO89RKVDqB8lDlcNUg',sig:'UuXQGkUbkuRekzTXfmgErubmC_omFTfWIOXQb1WzpnY=',w:'594px',h:'396px',items:'812815534',caption: false ,tld:'com',is360: false })});</script>
@@ -59,7 +59,7 @@ load(file = &quot;ejections.rda&quot;) </code></pre>
 </div>
 <div id="clean-data" class="section level3">
 <h3>Clean Data</h3>
-<p>The data is stored in a list containing ten data frames, each containing one years worth of ejections. As the years progressed, some column names evolved into simpler variable titles such as “Ejected Reason” becoming “Reason”. I’ll adjust the differing variable names to match the others before combining all ten data frames into one.</p>
+<p>The data is stored in a list containing ten data frames, each containing one year’s worth of ejections. As the years progressed, some column names evolved into simpler variable titles such as “Ejected Reason” becoming “Reason”. I’ll adjust the differing variable names to match the others before combining all ten data frames into one.</p>
 <pre class="r"><code>map(ejections, names) #review column names for each yearly dataset
 
 #create function to replace &#39;08-&#39;12 column names
@@ -105,7 +105,7 @@ ejections &lt;- bind_rows(ejections)</code></pre>
 ## $ Inn           &lt;dbl&gt; 7, 7, 7, 8, 5, 6, 3, 9, 8, 8, 5, 5, 8, 7, 7, 3, ...
 ## $ Reason        &lt;chr&gt; &quot;Unsportsmanlike-NEC&quot;, &quot;Balls/Strikes&quot;, &quot;Balls/S...
 ## $ `Play Result` &lt;chr&gt; &quot;HBP&quot;, &quot;K&quot;, &quot;K&quot;, &quot;Ball&quot;, &quot;No Balk&quot;, &quot;Fair&quot;, &quot;Fou...</code></pre>
-<p>After a few more houskeeping data manipulations, I think our data is ready to be explored!</p>
+<p>After a few more housekeeping data manipulations, I think our data is ready to be explored!</p>
 <pre class="r"><code>#convert from DateTime to Date
 ejections$Date &lt;- ymd(ejections$Date)
 
@@ -128,7 +128,7 @@ ejections$`W/L Final` &lt;- recode(ejections$`W/L Final`, L = -1, W = 1)</code><
 <h2>Ejections By Year &amp; Cause</h2>
 <p>First let’s take a look at how ejections have changed since replay was introduced in 2014.</p>
 <p><img src="/post/mlb-ejections_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>From 2008 to 2017, an MLB season averaged 193 ejections per season. In 2014, the first year of expanded replay, the number of ejections increased by 21, eclipsing 200. The following year saw yet another jump, before dropping below the 10-year average in ’16 and ’17. While the replay system doesn’t appear to be deterring ejections, I wouldn’t say its encouraging them either. What could be changing; however, is the reason for players/coaches getting ejected. Let’s take a look at how the cause of arguments could be evolving.</p>
+<p>From 2008 to 2017, an MLB season averaged 193 ejections per season. In 2014, the first year of expanded replay, the number of ejections increased by 21, eclipsing 200. The following year saw yet another jump, before dropping below the 10-year average in ’16 and ’17. While the replay system doesn’t appear to be deterring ejections, I wouldn’t say it’s encouraging them either. What could be changing; however, is the reason for players/coaches getting ejected. Let’s look at how the cause of arguments could be evolving.</p>
 <pre class="r"><code>ejections$Reason &lt;- fct_other(ejections$Reason, keep = c(&quot;Balls/Strikes&quot;, &quot;Fighting&quot;, &quot;Replay Review&quot;, &quot;Safe/Out&quot;, &quot;Throwing At&quot;))
 
 data &lt;- ejections %&gt;%
@@ -144,7 +144,7 @@ data &lt;- ejections %&gt;%
   add_row(Year = 2008:2013, Reason = &quot;Replay Review&quot;, percent = 0) %&gt;%
   add_row(Year = 2016:2017, Reason = &quot;Safe/Out&quot;, percent = 0)</code></pre>
 <p><img src="/post/mlb-ejections_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p>Arguing safe/out sharply declined after having the ability to challenge calls before going extinct in 2016. A new type of ejection emerged as a result though. Issues with the replay ruling or why a challenge was or was not granted seemed to fill the gap. The “other” category references plays regarding interfence, balks, and everything else. Perhaps what is most noteworthy, is that from 2013 to 2017 the percentage of yearly ejections via agruing balls/strikes (which also includes check swings) is up 17%. The trust in an umpire’s ability to manage the strike zone seems to be at least shrinkng some. If that number doesn’t decrease anytime soon, I wouldn’t be surprised to see the automated strike zone make its debut sooner rather than later.</p>
+<p>Arguing safe/out sharply declined after having the ability to challenge calls before going extinct in 2016. A new type of ejection emerged as a result though. Issues with the replay ruling or why a challenge was or was not granted seemed to fill the gap. The “other” category references play regarding interference, balks, and everything else. Perhaps what is most noteworthy, is that from 2013 to 2017 the percentage of yearly ejections via arguing balls/strikes (which also includes check swings) is up 17%. The trust in an umpire’s ability to manage the strike zone seems to be at least shrinking some. If that number doesn’t decrease anytime soon, I wouldn’t be surprised to see the automated strike zone make its debut sooner rather than later.</p>
 </div>
 <div id="ejections-by-division" class="section level2">
 <h2>Ejections By Division</h2>
@@ -251,5 +251,5 @@ manager_ej &lt;- ejections %&gt;%
   filter(total &gt; 6) %&gt;%
   mutate(diff = abs(Positive - Negative)/total)</code></pre>
 <p><img src="/post/mlb-ejections_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<p>After a team’s manager has been ejected, the current result of the game rarely changes, meaning the team in the lead tends to hang on for the victory. Some managers like Joe Girardi, Bobby Cox, or Bruce Bochy have seen their teams rally to a win in thier absence more often than seeing a lead slip away or losing a tied game while others like Jim Riggleman haven’t been so lucky.</p>
+<p>After a team’s manager has been ejected, the current result of the game rarely changes, meaning the team in the lead tends to hang on for the victory. Some managers like Joe Girardi, Bobby Cox, or Bruce Bochy have seen their teams rally to a win in their absence more often than seeing a lead slip away or losing a tied game while others like Jim Riggleman haven’t been so lucky.</p>
 </div>

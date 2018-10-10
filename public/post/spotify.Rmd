@@ -42,13 +42,13 @@ load(file = "kanye.Rda")
 
 ###Import Data
 
-First lets import the audio features for Kanye West and take a quick look at the data.  
+First let's import the audio features for Kanye West and take a quick look at the data.  
 
 ```{r data, message = F, eval = F}
 kanye <- get_artist_audio_features(artist = "kanye west")
 ```
 
-After viewing the data, I noticted a few tracks (rows) are duplicated since some albums contain edited, clean, and/or live versions.  Those rows will be removed in addition to some unuseful columns. Also let's be sure we don't have any missing values.
+After viewing the data, I noticed a few tracks (rows) are duplicated since some albums contain edited, clean, and/or live versions.  Those rows will be removed in addition to some irrelevant columns. Also let's be sure we don't have any missing values.
 
 ```{r clean}
 kanye2 <- kanye %>%
@@ -87,7 +87,7 @@ ggplotly(p1, height = 750) %>%
   style(hoverinfo  = "x")
 ```
 
-The dashed vertical line represents the midpoint on the danceability scale.  Also the tick marks at the bottom of each plot represent one song on an album. Each album appears to be more danceable than not, but let's weight each song by its duration to get a better picture of each album as a whole.  The following graph outlines the results.
+The dashed vertical line represents the midpoint on the danceability scale.  Also, the tick marks at the bottom of each plot represent one song on an album. Each album appears to be more danceable than not, but let's weight each song by its duration to get a better picture of each album in its entirety.  The following graph outlines the results.
 
 ```{r}
 kanye_dance <- kanye2 %>%
@@ -133,7 +133,7 @@ Spotify defines Valence as
 >track. Tracks with high valence sound more positive (e.g. happy, cheerful, 
 >euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)""
 
-Again, lets's look at the overall distribution for each album, but for valence this time.
+Again, let's look at the overall distribution for each album, but for valence this time.
 
 ```{r echo = F}
 q1 <- ggplot(kanye2, aes(x = valence)) +
@@ -185,7 +185,7 @@ kable(head(kanye_valence_songs,10)) %>%
 
 ###Other Variables
 
-Interested in exploring the rest of the variables?  Choose which characterisics to plot and select which albums to compare using the interactive graph
+Interested in exploring the rest of the variables?  Choose which characteristics to plot and select which albums to compare using the interactive graph
 below!
 
 <iframe width = 800 height = 700 frameborder = F src = "https://chadbixby.shinyapps.io/kanye-song-attributes/"></iframe>
@@ -237,18 +237,18 @@ ggplot() +
   theme(plot.title =element_text(color="#666666", face="bold", size=16, hjust=.5))
 ```
 
-Kanye's first three releases belong to one cluster while his last four belong to another.  The middle releases, *808s & Heartbreak* and *Twisted Fantasy*, are not only his most danceable records but his most unique souding as well.   They each in belong to their own cluster.  
+Kanye's first three releases belong to one cluster while his last four belong to another.  The middle releases, *808s & Heartbreak* and *Twisted Fantasy*, are not only his most danceable records but his most unique sounding as well; they each populate their own cluster.  
 
 ###Principle Component Analysis
 
-Now lets use those variables and see if we can discover if his more popular songs score similiarily for each varaible.  Using a PCA to reduce dimensionality and account for correlation we can try to reveal any patterns.
+Now let's use those variables and see if we can discover if his more popular songs score similarly for each variable.  Using a PCA to reduce dimensionality and account for correlation we can try to reveal any patterns.
 
 ```{r pca}
 kanye.pca <- prcomp(kanye2[,3:11], center = T, scale = T)
 summary(kanye.pca)
 ```
 
-Using two principle components we can describe a little over 46% of the variability in the data (shown in the plot below).  In order to explain at least 90% of the variability, we need to use 7 principle components.  The following graph shows the top two principle components with the top quartile of his most popular songs mapped to one color and the rest to another.    
+Using two principle components we can describe a little over 46% of the variability in the data (shown in the plot below).  To explain at least 90% of the variability, we need to use 7 principle components.  The following graph shows the top two principle components with the top quartile of his most popular songs mapped to one color and the rest to another.    
 
 ```{r biplot, echo = F}
 kanye2 <- kanye2  %>%
@@ -264,5 +264,5 @@ ggplotly(b1) %>%
   style(hoverinfo = "none")
 ```
 
-The most popular songs don't appear to belong to any specific area or cluster on the graph, but it does look like `Energy` and `Loudness` are fairly correlated.  Try graphing them using the interactive plot above!
+The most popular songs don't appear to belong to any specific area or cluster on the graph, but it does look like `Energy` and `Loudness` are correlated.  Try graphing them using the interactive plot above!
 

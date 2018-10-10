@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 ##Introduction
 
-The following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US.  In addition to a thorough exploratory anaysis, I'll also try to calculate the price elasticity of demand for each individual market.  The dataset comes from the [Hass Avocado Board](http://www.hassavocadoboard.com/). 
+The following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US.  In addition to a thorough exploratory analysis, I'll also try to calculate the price elasticity of demand for each individual market.  The dataset comes from the [Hass Avocado Board](http://www.hassavocadoboard.com/). 
 
 <center>
 <a id='JG4UGGuQRmpRoiIpLv_qhQ' class='gie-single' href='http://www.gettyimages.com/detail/880599028' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a><script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'JG4UGGuQRmpRoiIpLv_qhQ',sig:'N6lPd_OPn_K7igBz9eUfQK5NML4OwTpfOsG8GwtiA8s=',w:'511px',h:'339px',items:'880599028',caption: false ,tld:'com',is360: false })});</script><script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
@@ -37,7 +37,7 @@ library(wesanderson)
 
 ###Clean Data
 
-The dataset contains weekly average prices and total amount sold for both organic and conventional avocados for 45 different markets (New York, Boise, St. Louis, etc. ) that make up 8 larger regions (California, Great Lakes, Midsouth, Northeast, Plains, South Central, Southeast, and West).  I'll create three different datasets: one containing the 45 markets, one for the 8 larger regions, and one for entire US.  Also three price lookup codes (PLU's) are listed, but for Hass avocados only, so I'll create another variable to hold the rest of avocados (e.g. greenskins) sold per week. 
+The dataset contains weekly average prices and total amount sold for both organic and conventional avocados for 45 different markets (New York, Boise, St. Louis, etc.) that make up 8 larger regions (California, Great Lakes, Midsouth, Northeast, Plains, South Central, Southeast, and West).  I'll create three different datasets: one containing the 45 markets, one for the 8 larger regions, and one for entire US.  Also, three price lookup codes (PLU's) are listed, but for Hass avocados only, so I'll create another variable to hold the rest of avocados (e.g. green skinned) sold per week. 
 
 ```{r clean}
 #replace spaces with underscores in column names
@@ -75,7 +75,7 @@ sum(is.na(avocados_region)),
 sum(is.na(avocados_total)))
 ```
 
-Bravocado! Also let's see if there are any hidden markets that make up a region.
+Bravocado! Also, let's see if there are any hidden markets that make up a region.
 
 ```{r}
 cat(paste("Market Volume:",
@@ -151,7 +151,7 @@ ggplot(aes(x = Date, y = AveragePrice, col = type)) +
   ggtitle("Average US Avocado Prices Across Region", subtitle = "Mid-Summer 2015")
 ```
 
-Nothing out of the ordinary here.  Organic prices never drop below conventional prices in each region.  I will just leave the US dataset as is and focus the rest of my analysis on the regions dataset.  Now, let's see how avocado prices vary across regions.
+Nothing out of the ordinary here.  Organic prices never drop below conventional prices in each region.  I will just leave the US dataset as is and focus the rest of my analysis on the region dataset.  Now, let's see how avocado prices vary across regions.
 
 ```{r echo = F}
 ggplot(avocados_region, aes(x = region, y = AveragePrice, fill = type)) +
@@ -182,7 +182,7 @@ ggplot(avocados_region, aes(x = reorder(region, -avocado_volume), y = avocado_vo
   ggtitle("Avocado Sales Makeup by Region")
 ```
 
-The South Central, California, and West regions make up the three largest avocado regions by volume.  The Northeast region sells the most large Hass avocados (both proportionally to total regional sales and overall) which probably contributes to them having the highest average price.  Let's take a look at how each market consumes avocados.
+The South Central, California, and West regions make up the three largest avocado regions by volume.  The Northeast region sells the most Large Hass avocados (both proportionally to total regional sales and overall) which probably contributes to them having the highest average price.  With that said, let's look at how each market consumes avocados.
 
 ```{r echo = F}
 ggplot(avocados_market, aes(x = reorder(region, avocado_volume), y = avocado_volume/1000000,  fill = fct_relevel(avocado_type, "small_hass", "large_hass", "xl_hass", "other"))) +
@@ -198,10 +198,10 @@ ggplot(avocados_market, aes(x = reorder(region, avocado_volume), y = avocado_vol
   coord_flip()
 ```
 
-The LA market appears to be ripe for avocados; it doubles the second largest market (New York) in terms of volume.  Avocados seem to be most popular in western or warm weathered markets.  Even smaller markets like Denver and Portland rank near among the largest US cities suggesting avocado consumption has a geophraphical element to it.
+The LA market appears to be ripe for avocados; it doubles the second largest market (New York) in terms of volume.  Avocados seem to be most popular in western or warm weathered markets.  Even smaller markets like Denver and Portland rank near among the largest US cities suggesting avocado consumption has a geographical element to it.
 
 ## Elasticity
-Finally let's take a look at the price elasticity of avocados. We can try to determine which markets avocados are the most price elastic. First, let's plot total volume against average price for all avocados.  
+Finally let's look at the price elasticity of avocados. We can try to determine which markets avocados are the most price elastic. First, let's plot total volume against average price for all avocados.  
 
 ```{r echo = F}
 ggplot(avocados_region, aes(x = AveragePrice, y = Total_Volume, col = type)) +
@@ -216,7 +216,7 @@ ggplot(avocados_region, aes(x = AveragePrice, y = Total_Volume, col = type)) +
   labs(col = "Avocado Type")
 ```
 
-Conventional avocados appear to show a fairly linear relationship.  It's hard to make up the shape for the organic avocados so let's try plotting each type in its own graph.  Also it's worth noting that organic avocados are sold in much lower volumes than conventional avocados.
+Conventional avocados appear to show a linear relationship.  It's hard to make up the shape for the organic avocados so let's try plotting each type in its own graph.  It's also worth noting that organic avocados are sold in much lower volumes than conventional avocados.
 
 ```{r echo = F}
 plot1 <- avocados_region %>%
