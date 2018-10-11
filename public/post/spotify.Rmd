@@ -5,7 +5,7 @@ date: '2018-08-30'
 output:
   blogdown::html_page:
     toc: true
-tags: ["music"]
+tags: ["music", "R"]
 ---
 
 ```{r setup, include=FALSE}

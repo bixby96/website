@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R on Home</title>
+    <link>/tags/r/</link>
+    <description>Recent content in R on Home</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Chad Bixby</copyright>
+    <lastBuildDate>Wed, 03 Oct 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MLB: Ejections and Replay Review</title>
+      <link>/2018/10/03/mlb-ejections/</link>
+      <pubDate>Wed, 03 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/03/mlb-ejections/</guid>
+      <description>IntroductionData Pre-ProcessingLoad PackagesImport DataClean DataEjections By Year &amp;amp; CauseEjections By DivisionManagerial EjectionsIntroductionThe 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire’s ruling. Although technically introduced in 2008, previously only home run boundary calls could be reviewed at an umpire’s discretion. Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected.</description>
+    </item>
+    
+    <item>
+      <title>Avocado Market Research</title>
+      <link>/2018/09/13/avocados/</link>
+      <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/09/13/avocados/</guid>
+      <description>IntroductionData Pre-ProcessingLoad DataLoad PackagesClean DataExploratory Data AnalysisDistributionAvocado PricesAvocado VolumeElasticityIntroductionThe following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US. In addition to a thorough exploratory analysis, I’ll also try to calculate the price elasticity of demand for each individual market. The dataset comes from the Hass Avocado Board.</description>
+    </item>
+    
+    <item>
+      <title>The NFL, NBA, &amp; MLB&#39;s Center of Gravity</title>
+      <link>/2018/09/06/2018-09-06-the-nfl-nba-mlb-s-center-of-gravity/</link>
+      <pubDate>Thu, 06 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/09/06/2018-09-06-the-nfl-nba-mlb-s-center-of-gravity/</guid>
+      <description>IntroductionDrawing inspiration from FiveThirtyEight’s article locating the Stanley Cup’s center of gravity, or the average geographic point of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies’ geographical center could lie. Using Cartesian coordinates for each champion’s city, I mapped the location for each league. The corresponding code and plots are shown below.
+Embed from Getty Imageswindow.</description>
+    </item>
+    
+    <item>
+      <title>Spotify Anal-*YE*-sis</title>
+      <link>/2018/08/30/spotify/</link>
+      <pubDate>Thu, 30 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/08/30/spotify/</guid>
+      <description>IntroductionExploratory Data AnalysisLoad PackagesImport DataDanceabilityValenceOther VariablesClusteringHierarchical ClusteringPrinciple Component AnalysisIntroductionAs the Internet of Things (IoT) landscape continues to grow, practically everyone and everything, it seems, is compiling data or at least generating statistics for any variable imaginable. And music is no exception. The music streaming service, Spotify, stores an array of features for each song in its library.</description>
+    </item>
+    
+  </channel>
+</rss>
