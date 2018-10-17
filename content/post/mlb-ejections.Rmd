@@ -42,7 +42,7 @@ load(file = "ejections.rda")
 ```
 
 ### Clean Data
-The data is stored in a list containing ten data frames, each containing one year's worth of ejections.  As the years progressed, some column names evolved into simpler variable titles such as "Ejected Reason" becoming "Reason".  I'll adjust the differing variable names to match the others before combining all ten data frames into one.  
+The data is stored in a list containing ten data frames, each containing one year's worth of ejections.  As the years progressed, some column names evolved into simpler variable titles such as "Ejected Reason" becoming just "Reason".  I'll adjust the differing variable names to match the others before combining all ten data frames into one.  
 
 ```{r, results='hide'}
 map(ejections, names) #review column names for each yearly dataset
@@ -158,7 +158,7 @@ geom_area(pos = "fill", color = "black", alpha = .78) +
   labs(y = "Proportion of Yearly Ejections")
 ```
 
-Arguing safe/out sharply declined after having the ability to challenge calls before going extinct in 2016.  A new type of ejection emerged as a result though.  Issues with the replay ruling or why a challenge was or was not granted seemed to fill the gap.  The "other" category references play regarding interference, balks, and everything else.  Perhaps what is most noteworthy, is that from 2013 to 2017 the percentage of yearly ejections via arguing balls/strikes (which also includes check swings) is up 17%.  The trust in an umpire's ability to manage the strike zone seems to be at least shrinking some.  If that number doesn't decrease anytime soon, I wouldn't be surprised to see the automated strike zone make its debut sooner rather than later.  
+Arguing safe/out sharply declined after having the ability to challenge calls before going extinct in 2016.  A new type of ejection emerged as a result though.  Issues with the replay ruling or why a challenge was or was not granted seemed to fill the gap.  The "other" category refers to play regarding interference, balks, or any other less common ruling.  Perhaps what is most noteworthy, is that from 2013 to 2017 the percentage of yearly ejections via arguing balls/strikes (which also includes check swings) is up 17%.  The trust in an umpire's ability to manage the strike zone seems to be at least shrinking some.  If that number doesn't decrease anytime soon, I wouldn't be surprised to see the automated strike zone make its debut sooner rather than later.  
 
 ##Ejections By Division
 
@@ -196,7 +196,7 @@ divisions %>%
 
 ## Managerial Ejections
 
-It's often said during a broadcast that after a manager is ejected, they'll pay attention to how the players respond.  The team will either take the lead (positive outcome), lose the lead (negative outcome), or remain ahead/behind (neutral outcome).  The graph below plots all outcomes against each other among managers with 6 or more ejections the past 10 years.
+It's often said during a broadcast that after a manager is ejected, they'll pay attention to how the players respond.  The team will either take the lead (positive outcome), lose the lead (negative outcome), or remain ahead/behind (neutral outcome).  The graph below plots all outcomes against each other among managers with 6 or more ejections over the past 10 years.
 
 ```{r}
 ejections$Name <- recode(ejections$Name, "A.J. Hinch" = "AJ Hinch", "Fredi Gonzales" = "Fredi Gonzalez")

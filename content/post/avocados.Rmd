@@ -37,7 +37,7 @@ library(wesanderson)
 
 ###Clean Data
 
-The dataset contains weekly average prices and total amount sold for both organic and conventional avocados for 45 different markets (New York, Boise, St. Louis, etc.) that make up 8 larger regions (California, Great Lakes, Midsouth, Northeast, Plains, South Central, Southeast, and West).  I'll create three different datasets: one containing the 45 markets, one for the 8 larger regions, and one for entire US.  Also, three price lookup codes (PLU's) are listed, but for Hass avocados only, so I'll create another variable to hold the rest of avocados (e.g. green skinned) sold per week. 
+The dataset contains weekly average prices and total amount sold for both organic and conventional avocados for 45 different markets (New York, Boise, St. Louis, etc.) that make up 8 larger regions (California, Great Lakes, Midsouth, Northeast, Plains, South Central, Southeast, and West).  I'll create three different datasets: one containing the 45 markets, one for the 8 larger regions, and one for entire US.  Also, three price lookup codes (PLU's) are listed, but for Hass avocados only, so I'll create another variable to hold the rest of avocados (e.g. green-skinned) sold per week. 
 
 ```{r clean}
 #replace spaces with underscores in column names
@@ -151,7 +151,7 @@ ggplot(aes(x = Date, y = AveragePrice, col = type)) +
   ggtitle("Average US Avocado Prices Across Region", subtitle = "Mid-Summer 2015")
 ```
 
-Nothing out of the ordinary here.  Organic prices never drop below conventional prices in each region.  I will just leave the US dataset as is and focus the rest of my analysis on the region dataset.  Now, let's see how avocado prices vary across regions.
+Nothing out of the ordinary here.  Organic prices never dropped below conventional prices in each region.  I will just leave the US dataset as is and focus the rest of my analysis on the region dataset.  Now, let's see how avocado prices vary across regions.
 
 ```{r echo = F}
 ggplot(avocados_region, aes(x = region, y = AveragePrice, fill = type)) +
@@ -198,7 +198,7 @@ ggplot(avocados_market, aes(x = reorder(region, avocado_volume), y = avocado_vol
   coord_flip()
 ```
 
-The LA market appears to be ripe for avocados; it doubles the second largest market (New York) in terms of volume.  Avocados seem to be most popular in western or warm weathered markets.  Even smaller markets like Denver and Portland rank near among the largest US cities suggesting avocado consumption has a geographical element to it.
+The LA market appears to be ripe for avocados; it doubles the second largest market (New York) in terms of volume.  Avocados seem to be most popular in western or warm weathered markets.  Even smaller markets like Denver and Portland rank near the top among the larger US cities suggesting avocado consumption has a geographical element to it.
 
 ## Elasticity
 Finally let's look at the price elasticity of avocados. We can try to determine which markets avocados are the most price elastic. First, let's plot total volume against average price for all avocados.  
