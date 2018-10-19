@@ -22,7 +22,7 @@ Drawing inspiration from FiveThirtyEight's [article](https://fivethirtyeight.com
 library(rvest) 
 library(tidyverse)
 library(ggmap) 
-library(plotly) 
+library(DT)
 library(leaflet) 
 ```
 
@@ -94,7 +94,7 @@ mlb <- mlb[-c(1:2),] %>%
   arrange(-row_number())
 
 #replace ambiguous city names
-mlb$Winner <- recode(mlb$Winner, "St." = "St. Louis", "New" = "New York, NY", "Los" = "Los Angeles", "Kansas" = "Kansas City", "Florida" = "Miami", "Washington" = "Washington, D.C.", "Arizona" = "Phoenix", "San" = "San Francisco")
+mlb$Winner <- recode(mlb$Winner, "St." = "St. Louis", "New" = "New York, NY", "Brooklyn" = "New York, NY", "Los" = "Los Angeles", "Kansas" = "Kansas City", "Florida" = "Miami", "Washington" = "Washington, D.C.", "Arizona" = "Phoenix", "San" = "San Francisco")
 
 #optain latitude and longitude
 mlb_locations <- geocode(mlb$Winner)
@@ -174,7 +174,7 @@ p
 ```
 
 
-The NBA and MLB seem to be trending westward while the NFL looks to be boomeranging back east of the Mississippi.  With the Yankees' 27 championships (not to mention the NY Giants 5 titles plus the Mets 2) it's no surprise that the MLB's center of gravity is the furthest east.  The Boston Celtic's '60s dynasty seems to have left its mark on the Larry O'Brien trophy, carrying the midpoint to upstate New York before ultimately trickling down through Illinois.  Use the map below to toggle between leagues and a see which cities have won the most hardware. 
+The NBA and MLB seem to be trending westward while the NFL looks to be boomeranging back east of the Mississippi.  With the Yankees' 27 championships (not to mention the NY Giants 5 titles plus the Mets 2 in addition to the Brooklyn Dodgers' lone Series win) it's no surprise that the MLB's center of gravity is the furthest east.  The Boston Celtic's '60s dynasty seems to have left its mark on the Larry O'Brien trophy, carrying the midpoint to upstate New York before ultimately trickling down through Illinois.  Use the map below to toggle between leagues and a see which cities have won the most hardware. 
 
 ### Total Titles by City
 ```{r}
@@ -194,27 +194,7 @@ nba_total <- nba %>%
   add_tally()
 ```
 
-```{r echo = F}
-leaflet() %>%
-  addTiles() %>%
-  addProviderTiles("CartoDB.Positron") %>%
-  addCircleMarkers(data = nfl_total, radius = ~n+3,  fillColor = "red",  stroke = FALSE, fillOpacity  = 0.2,
-                   label = ~paste0(Winner,": ", n), group = "NFL") %>%
-  addMarkers(data = nfl_center, label =
-                     ~paste0("Lombardi Trophy Center of Gravity"), group = "NFL") %>%
-  addCircleMarkers(data = nba_total, radius = ~n+3, fillColor = "blue", label =
-                     ~paste0(Winner,": ", n), group = "NBA",  stroke = FALSE, fillOpacity = 0.2) %>%
-  addMarkers(data = nba_center, label = 
-                     ~paste0("Larry O'Brien Trophy Center of Gravity"), group = "NBA") %>%
-  addCircleMarkers(data = mlb_total, radius = ~n+3, fillColor = "forestgreen", label =
-                     ~paste0(Winner,": ", n), group = "MLB",  stroke = FALSE, fillOpacity = 0.2) %>%
-  addMarkers(data = mlb_center, label =
-                     ~paste0("Commissioner's Trophy Center of Gravity"), group = "MLB") %>%
-  addLayersControl(baseGroups = c("NFL", "NBA", "MLB"),
-                   options = layersControlOptions(collapsed = FALSE)) %>%
-  hideGroup(c("NBA", "MLB"))
-
-```
+<iframe width = 100% height = 800 frameborder = F src = "https://chadbixby.shinyapps.io/Center-of-Gravity-App/"></iframe>
 
 #### References
 D. Kahle and H. Wickham. ggmap: Spatial Visualization with ggplot2. The R
