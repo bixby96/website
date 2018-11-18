@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
 #Introduction
-With the recent start of the college basketball season, I thought it would be interesting to explore how style of play varies between conferences and reveal how the game has changed over time.  Using yearly [kenpom.com](https://kenpom.com/) data, a site for advanced college basketball stats, I examined the state of college hoops.  
+With the recent start of the college basketball season, I thought it would be fun to explore how style of play varies between conferences and reveal how the game has changed over time.  Using yearly data for each school found on [kenpom.com](https://kenpom.com/), a site for advanced college basketball stats, I examined the state of college hoops.  
 
 <center>
 <a id='eAxKbirnRk1Rr6XttVhhBw' class='gie-single' href='http://www.gettyimages.com/detail/507812780' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a><script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'eAxKbirnRk1Rr6XttVhhBw',sig:'P0mKKrK_W5O5dp1MB3sota2haa1S6-rSbuy9mn54cy8=',w:'594px',h:'396px',items:'507812780',caption: false ,tld:'com',is360: false })});</script><script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
@@ -210,4 +210,4 @@ ncaa %>%
   kable_styling(full_width = F)
 ```
 
-These schools will most likely be given a hard look from Power Six conferences looking to expand.  Gonzaga, Wichita St., and VCU have all made the final four this decade as well.
+These schools will most likely be given a hard look from Power Six conferences looking to expand.  Gonzaga, Wichita St., and VCU have all made the Final Four this decade as well.
