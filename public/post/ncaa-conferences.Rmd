@@ -195,16 +195,6 @@ ncaa <- ncaa %>%
 
 ##The Best of the Rest
 Kenpom ranks each team by its efficiency margin which is a team's offensive minus defensive efficiency.  Since 2014, the average efficiency margin for Power Six schools' is 13.80. During that same time, High-Majors with an overall efficiency margin of that or better are listed below.
-```{r gonz, eval = FALSE}
-ncaa %>%
-  filter(year > 2013) %>%
-  group_by(type) %>%
-  select(AdjEM) %>% 
-  summarise_all(mean) %>%
-  arrange(desc(AdjEM)) %>%
-  kable %>%
-  kable_styling(full_width = F)
-```
 
 ```{r, echo = FALSE}
 ncaa %>%
@@ -219,4 +209,5 @@ ncaa %>%
   kable() %>%
   kable_styling(full_width = F)
 ```
+
 These schools will most likely be given a hard look from Power Six conferences looking to expand.  Gonzaga, Wichita St., and VCU have all made the final four this decade as well.
