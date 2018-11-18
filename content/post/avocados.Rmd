@@ -6,6 +6,7 @@ output:
   blogdown::html_page:
     toc: true
 tags: ["food", "R"]
+description: 'Analyzing avocado supply and demand'
 ---
 
 ```{r setup, include=FALSE}

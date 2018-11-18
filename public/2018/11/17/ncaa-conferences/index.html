@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>NCAA Basketball: Clustering Conferences &middot; Chad Bixby</title>
+        <meta name="description" content="An inside look at college hoops">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.48" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="NCAA Basketball: Clustering Conferences">
+<meta property="og:description" content="An inside look at college hoops">
+<meta property="og:type" content="article">
+<meta property="og:url" content="/2018/11/17/ncaa-conferences/">
+        <link rel="stylesheet" href="/dist/styles.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
+        
+        
+    </head>
+    <body>
+        
+<script type="application/javascript">
+var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+var doNotTrack = (dnt == "1" || dnt == "yes");
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-125431650-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a title="Home" href="/">Home</a>
+                            </h1>
+                        
+                        <a class="button-square" href="/index.xml"><i class="fa fa-rss"></i></a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" title="Github" href="https://github.com/bixby96">
+                                <i class="fa fa-github-alt"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" title="LinkedIn" href="https://linkedin.com/in/chadbixby">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" title="Email" href="mailto:chadbixby15@gmail.com">
+                                <i class="fa fa-envelope"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a title="Posts" href="/post/">Posts</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Contact" href="/page/contact/">Contact</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="About" href="/page/about/">About</a>
+    </li>
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">NCAA Basketball: Clustering Conferences</h1>
+    
+        <p class="post-description" itemprop="description">An inside look at college hoops</p>
+    
+    <p class="post-date">
+        <span>Published <time datetime="2018-11-17" itemprop="datePublished">Nov 17, 2018</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="https://google.com/&#43;XXX" itemprop="url" rel="author">Chad Bixby</a>
+            </span>
+        </span>
+    </p>
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    <script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/plotly-binding/plotly.js"></script>
+<script src="/rmarkdown-libs/typedarray/typedarray.min.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/plotly-main/plotly-latest.min.js"></script>
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#data-pre-processing">Data Pre-Processing</a><ul>
+<li><a href="#load-packages">Load Packages</a></li>
+<li><a href="#scrape-and-clean-data">Scrape and Clean Data</a></li>
+</ul></li>
+<li><a href="#pace-of-play">Pace of Play</a><ul>
+<li><a href="#overall-tempo">Overall Tempo</a></li>
+<li><a href="#conference-tempo">Conference Tempo</a></li>
+</ul></li>
+<li><a href="#conference-clustering">Conference Clustering</a><ul>
+<li><a href="#high-major-vs.mid-major">High-Major vs. Mid-Major</a></li>
+<li><a href="#k-means">K-means</a></li>
+<li><a href="#the-best-of-the-rest">The Best of the Rest</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>With the recent start of the college basketball season, I thought it would be interesting to explore how style of play varies between conferences and reveal how the game has changed over time. Using yearly <a href="https://kenpom.com/">kenpom.com</a> data, a site for advanced college basketball stats, I examined the state of college hoops.</p>
+</div>
+<div id="data-pre-processing" class="section level1">
+<h1>Data Pre-Processing</h1>
+<div id="load-packages" class="section level2">
+<h2>Load Packages</h2>
+<pre class="r"><code>library(tidyverse)
+library(rvest)
+library(stringi)
+library(kableExtra)
+library(ggthemr)
+library(factoextra)
+library(cluster)
+library(NbClust)
+library(plotly)</code></pre>
+</div>
+<div id="scrape-and-clean-data" class="section level2">
+<h2>Scrape and Clean Data</h2>
+<pre class="r"><code>#define column names
+variables &lt;- c(&quot;Team&quot;, &quot;Conference&quot;, &quot;Record&quot;, &quot;AdjEM&quot;, &quot;AdjO&quot;, &quot;AdjD&quot;, &quot;AdjT&quot;, &quot;Luck&quot;, &quot;SOS.AdjEM&quot;, &quot;OppO&quot;, &quot;OppD&quot;, &quot;NC.SOS.AdjEM&quot;)
+
+#scrape kenpom data
+seasons &lt;- lapply(paste0(&#39;https://kenpom.com/index.php?y=&#39;, 2002:2018),
+                function(url){
+                    url %&gt;% 
+                    read_html() %&gt;% 
+                    html_nodes(&quot;table&quot;) %&gt;%
+                    html_table() %&gt;%
+                    as.data.frame() %&gt;%
+                    select(-c(Var.1, Var.7, Var.9, Var.11, Var.13,
+                                  Strength.of.Schedule.1, 
+                                  Strength.of.Schedule.3, 
+                                  Strength.of.Schedule.5, NCSOS.1)) %&gt;%
+                    `colnames&lt;-`(variables) %&gt;%
+                    filter(!is.na(as.numeric(OppO))) %&gt;%
+                    mutate(year = stri_sub(url, from = -4, length = 4))
+                })
+
+#combine yearly data
+ncaa &lt;- do.call(rbind, seasons) %&gt;% 
+  separate(Record, into = c(&quot;Wins&quot;, &quot;Losses&quot;)) #extract wins/losses 
+
+ncaa[,3:13] &lt;- lapply(ncaa[,3:13], as.numeric) #convert to numeric values
+ncaa$Team &lt;- gsub(&#39;[0-9]+&#39;, &quot;&quot;, ncaa$Team) %&gt;% #remove ncaa/nit tourney rank
+  trimws(&quot;r&quot;) #remove trailing spaces
+ncaa$Conference &lt;- recode(ncaa$Conference, P10 = &quot;P12&quot;) #combine pac10 with pac12</code></pre>
+<p>In total, we’ll examine 17 years of data including 5,804 individual team seasons. Each season will be classified according to the year it ends, not the year it starts. For example, the 2017-18 college basketball season will be labeled simply as “2018”. A quick look at how the data is organized is shown below.</p>
+<pre class="r"><code>glimpse(ncaa)</code></pre>
+<pre><code>## Observations: 5,804
+## Variables: 14
+## $ Team         &lt;chr&gt; &quot;Duke&quot;, &quot;Cincinnati&quot;, &quot;Maryland&quot;, &quot;Kansas&quot;, &quot;Okla...
+## $ Conference   &lt;chr&gt; &quot;ACC&quot;, &quot;CUSA&quot;, &quot;ACC&quot;, &quot;B12&quot;, &quot;B12&quot;, &quot;B10&quot;, &quot;SEC&quot;,...
+## $ Wins         &lt;dbl&gt; 31, 31, 32, 33, 31, 25, 22, 26, 26, 22, 26, 22, 2...
+## $ Losses       &lt;dbl&gt; 4, 4, 4, 4, 5, 12, 9, 9, 9, 10, 7, 10, 10, 6, 10,...
+## $ AdjEM        &lt;dbl&gt; 34.19, 30.19, 29.25, 28.99, 26.04, 24.80, 24.72, ...
+## $ AdjO         &lt;dbl&gt; 121.0, 118.1, 119.2, 118.7, 114.9, 114.0, 115.1, ...
+## $ AdjD         &lt;dbl&gt; 86.8, 87.9, 89.9, 89.7, 88.9, 89.2, 90.4, 92.5, 9...
+## $ AdjT         &lt;dbl&gt; 74.5, 67.4, 73.7, 77.3, 66.5, 65.6, 69.6, 68.5, 7...
+## $ Luck         &lt;dbl&gt; -0.027, 0.002, 0.025, 0.022, 0.043, -0.049, -0.07...
+## $ SOS.AdjEM    &lt;dbl&gt; 9.87, 6.58, 9.88, 10.67, 8.77, 14.12, 9.11, 10.60...
+## $ OppO         &lt;dbl&gt; 109.3, 106.5, 109.4, 110.5, 109.2, 111.1, 108.3, ...
+## $ OppD         &lt;dbl&gt; 99.5, 100.0, 99.5, 99.9, 100.4, 96.9, 99.2, 99.4,...
+## $ NC.SOS.AdjEM &lt;dbl&gt; 6.66, 3.48, 1.62, 8.32, -0.44, 13.54, -0.56, 6.79...
+## $ year         &lt;chr&gt; &quot;2002&quot;, &quot;2002&quot;, &quot;2002&quot;, &quot;2002&quot;, &quot;2002&quot;, &quot;2002&quot;, &quot;...</code></pre>
+</div>
+</div>
+<div id="pace-of-play" class="section level1">
+<h1>Pace of Play</h1>
+<div id="overall-tempo" class="section level2">
+<h2>Overall Tempo</h2>
+<p>To begin, let’s look at how tempo has varied over time. Kenpom defines tempo as a team’s total possessions per 40 minutes (the length of a game minus overtime) adjusted for opponent. So, in general, the greater the tempo, the faster pace a team plays at. The plot below maps how tempo has evolved over time with the red dot representing each year’s mean.</p>
+<p><img src="/post/ncaa-conferences_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>It looks like most teams slowly but surely began slowing down overall pace; tempo was trending downwards right until the 2016 season. So, what happened in 2016? The NCAA reduced the shot clock from 35 seconds to 30 and looks to have made an immediate impact on the way teams play. The average team possessions jumped from 64.4 in 2015 to 68.2 in 2016, the highest since 2002. That’s an increase of about 8 more total possessions per game! Next, let’s break it down on the conference level.</p>
+</div>
+<div id="conference-tempo" class="section level2">
+<h2>Conference Tempo</h2>
+<p>The plot below shows how each of the major conferences transitioned in terms of pace during the five years prior to using a 30 second shot clock and the three years since.</p>
+<pre class="r"><code>before &lt;- ncaa %&gt;%
+  filter(Conference %in% c(&quot;B10&quot;, &quot;B12&quot;, &quot;P12&quot;, &quot;SEC&quot;, &quot;ACC&quot;, &quot;BE&quot;)) %&gt;%
+  filter(year &lt; 2016 &amp; year &gt; 2010) %&gt;%
+  group_by(Conference) %&gt;%
+  summarise(&quot;30 Seconds&quot; = mean(AdjT))
+
+after &lt;- ncaa %&gt;%
+  filter(Conference %in% c(&quot;B10&quot;, &quot;B12&quot;, &quot;P12&quot;, &quot;SEC&quot;, &quot;ACC&quot;, &quot;BE&quot;)) %&gt;%
+  filter(year &gt; 2015) %&gt;%
+  group_by(Conference) %&gt;%
+  summarise(&quot;35 Seconds&quot; = mean(AdjT))
+
+tempo &lt;- full_join(before, after, by = &quot;Conference&quot;) %&gt;% 
+  gather(&quot;Shot Clock&quot;, Tempo, 2:3)
+
+tempo$Conference &lt;- recode(tempo$Conference, B10 = &quot;Big 10&quot;, B12 = &quot;Big 12&quot;, P12 = &quot;Pac-12&quot;, BE = &quot;Big East&quot;)</code></pre>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999,0.449999999999999],"base":[0,0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775,5.775],"y":[64.4136363636364,63.5704918032787,65.2461538461538,64.3910447761194,65.2568965517241,64.5545454545454],"text":["Shot Clock: 30 Seconds<br />Conference: ACC<br />Tempo: 64.41364","Shot Clock: 30 Seconds<br />Conference: Big 10<br />Tempo: 63.57049","Shot Clock: 30 Seconds<br />Conference: Big 12<br />Tempo: 65.24615","Shot Clock: 30 Seconds<br />Conference: Big East<br />Tempo: 64.39104","Shot Clock: 30 Seconds<br />Conference: Pac-12<br />Tempo: 65.25690","Shot Clock: 30 Seconds<br />Conference: SEC<br />Tempo: 64.55455"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(98,187,165,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"30 Seconds","legendgroup":"30 Seconds","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999,0.449999999999999],"base":[0,0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225,6.225],"y":[67.4022222222222,67.1261904761905,67.9666666666667,68.8766666666667,68.4638888888889,68.5785714285714],"text":["Shot Clock: 35 Seconds<br />Conference: ACC<br />Tempo: 67.40222","Shot Clock: 35 Seconds<br />Conference: Big 10<br />Tempo: 67.12619","Shot Clock: 35 Seconds<br />Conference: Big 12<br />Tempo: 67.96667","Shot Clock: 35 Seconds<br />Conference: Big East<br />Tempo: 68.87667","Shot Clock: 35 Seconds<br />Conference: Pac-12<br />Tempo: 68.46389","Shot Clock: 35 Seconds<br />Conference: SEC<br />Tempo: 68.57857"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(255,184,77,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"35 Seconds","legendgroup":"35 Seconds","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":46.2864259028643,"r":7.97011207970112,"b":43.8356164383562,"l":53.3997509339975},"plot_bgcolor":"rgba(246,241,235,1)","paper_bgcolor":"rgba(246,241,235,1)","font":{"color":"rgba(112,111,111,1)","family":"","size":15.9402241594022},"title":"<b> Average Possessions By Conference <\/b>","titlefont":{"color":"rgba(112,111,111,1)","family":"","size":19.1282689912827},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,6.6],"tickmode":"array","ticktext":["ACC","Big 10","Big 12","Big East","Pac-12","SEC"],"tickvals":[1,2,3,4,5,6],"categoryorder":"array","categoryarray":["ACC","Big 10","Big 12","Big East","Pac-12","SEC"],"nticks":null,"ticks":"outside","tickcolor":"rgba(120,93,55,1)","ticklen":3.98505603985056,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(112,111,111,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":true,"linecolor":"rgba(120,93,55,1)","linewidth":0.66417600664176,"showgrid":true,"gridcolor":"rgba(218,218,218,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"Conference","titlefont":{"color":"rgba(112,111,111,1)","family":"","size":15.9402241594022},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[59.5,70.5],"tickmode":"array","ticktext":["60.0","62.5","65.0","67.5","70.0"],"tickvals":[60,62.5,65,67.5,70],"categoryorder":"array","categoryarray":["60.0","62.5","65.0","67.5","70.0"],"nticks":null,"ticks":"outside","tickcolor":"rgba(120,93,55,1)","ticklen":3.98505603985056,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(112,111,111,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":true,"linecolor":"rgba(120,93,55,1)","linewidth":0.66417600664176,"showgrid":true,"gridcolor":"rgba(218,218,218,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":"Tempo","titlefont":{"color":"rgba(112,111,111,1)","family":"","size":15.9402241594022},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(246,241,235,1)","bordercolor":"rgba(246,241,235,1)","borderwidth":1.88976377952756,"font":{"color":"rgba(112,111,111,1)","family":"","size":12.7521793275218},"y":0.964566929133858},"annotations":[{"text":"Shot Clock","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(112,111,111,1)","family":"","size":15.9402241594022},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":[{"name":"Collaborate","icon":{"width":1000,"ascent":500,"descent":-50,"path":"M487 375c7-10 9-23 5-36l-79-259c-3-12-11-23-22-31-11-8-22-12-35-12l-263 0c-15 0-29 5-43 15-13 10-23 23-28 37-5 13-5 25-1 37 0 0 0 3 1 7 1 5 1 8 1 11 0 2 0 4-1 6 0 3-1 5-1 6 1 2 2 4 3 6 1 2 2 4 4 6 2 3 4 5 5 7 5 7 9 16 13 26 4 10 7 19 9 26 0 2 0 5 0 9-1 4-1 6 0 8 0 2 2 5 4 8 3 3 5 5 5 7 4 6 8 15 12 26 4 11 7 19 7 26 1 1 0 4 0 9-1 4-1 7 0 8 1 2 3 5 6 8 4 4 6 6 6 7 4 5 8 13 13 24 4 11 7 20 7 28 1 1 0 4 0 7-1 3-1 6-1 7 0 2 1 4 3 6 1 1 3 4 5 6 2 3 3 5 5 6 1 2 3 5 4 9 2 3 3 7 5 10 1 3 2 6 4 10 2 4 4 7 6 9 2 3 4 5 7 7 3 2 7 3 11 3 3 0 8 0 13-1l0-1c7 2 12 2 14 2l218 0c14 0 25-5 32-16 8-10 10-23 6-37l-79-259c-7-22-13-37-20-43-7-7-19-10-37-10l-248 0c-5 0-9-2-11-5-2-3-2-7 0-12 4-13 18-20 41-20l264 0c5 0 10 2 16 5 5 3 8 6 10 11l85 282c2 5 2 10 2 17 7-3 13-7 17-13z m-304 0c-1-3-1-5 0-7 1-1 3-2 6-2l174 0c2 0 4 1 7 2 2 2 4 4 5 7l6 18c0 3 0 5-1 7-1 1-3 2-6 2l-173 0c-3 0-5-1-8-2-2-2-4-4-4-7z m-24-73c-1-3-1-5 0-7 2-2 3-2 6-2l174 0c2 0 5 0 7 2 3 2 4 4 5 7l6 18c1 2 0 5-1 6-1 2-3 3-5 3l-174 0c-3 0-5-1-7-3-3-1-4-4-5-6z"},"click":"function(gd) { \n        // is this being viewed in RStudio?\n        if (location.search == '?viewer_pane=1') {\n          alert('To learn about plotly for collaboration, visit:\\n https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html');\n        } else {\n          window.open('https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html', '_blank');\n        }\n      }"}],"cloud":false},"source":"A","attrs":{"42a822a77794":{"fill":{},"x":{},"y":{},"type":"bar"}},"cur_data":"42a822a77794","visdat":{"42a822a77794":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"base_url":"https://plot.ly"},"evals":["config.modeBarButtonsToAdd.0.click"],"jsHooks":[]}</script>
+<p>The Big East is no longer a slower paced, defensive-minded conference like the Big 10; they lead all conferences in terms of average tempo using a 30 second shot clock.</p>
+</div>
+</div>
+<div id="conference-clustering" class="section level1">
+<h1>Conference Clustering</h1>
+<div id="high-major-vs.mid-major" class="section level2">
+<h2>High-Major vs. Mid-Major</h2>
+<p>Each school competes in one of 32 different conferences which are determined primarily by geography and school size. Not all conferences are created equally, however. At the top of the food chain, “Power Six” conferences (ACC, Big 10, Big 12, Big East, Pac-12, SEC) recruit the top talent year in, year out and are the most competitive each year. The rest of the conferences could be considered “mid-major”, but some like to make the distinction to separate into one more category: “high-major.” They are typically a step above the rest of the mid-majors but aren’t as strong top-to-bottom as the Power Six. Let’s use k-means clustering to determine which conferences deserve the high-major distinction.</p>
+</div>
+<div id="k-means" class="section level2">
+<h2>K-means</h2>
+<p>First things first, let’s determine what data to use. <a href="https://en.wikipedia.org/wiki/2010%E2%80%932014_NCAA_conference_realignment">Conference realignment</a> kind of throws a wrench into things, so to get a better idea of the current landscape we’ll focus our efforts only on the past five seasons. We’ll use each conference’s median team offensive and defensive efficiency metric defined as the points scored or allowed per 100 possessions (adjusted for opponent) and tempo (described above) to paint a picture of each conference’s overall skill and style of play. Combining those features let’s determine the optimal number of clusters using silhouette coefficients.</p>
+<pre class="r"><code>set.seed(8675309)
+
+kmeans.data &lt;- ncaa %&gt;%
+  filter(year &gt; 2013) %&gt;%
+  group_by(Conference) %&gt;%
+  select(AdjO, AdjD, AdjT) %&gt;%
+  summarise_all(median) %&gt;%
+  column_to_rownames(&quot;Conference&quot;) %&gt;%
+  scale() </code></pre>
+<p><img src="/post/ncaa-conferences_files/figure-html/optimal%20clusters-1.png" width="672" /></p>
+<p>The optimal number of centers to use for k-means model is 2. The silhouette score measures the separation of each point between clusters. In short, the higher score, the better the clustering result. The silhouette plot with 2 clusters is shown below.</p>
+<pre class="r"><code>ncaa.km &lt;- kmeans(kmeans.data, 2, nstart = 33)</code></pre>
+<p><img src="/post/ncaa-conferences_files/figure-html/silhouette%20plots-1.png" width="672" /></p>
+<p>The results of our k-means cluster can be visualized on a PCA biplot showing <code>96.7%</code> (65.6 + 31.1) of the variability in the data.</p>
+<p><img src="/post/ncaa-conferences_files/figure-html/cluster-1.png" width="672" /></p>
+<p>Congratulations to members of the American, Atlantic 10, Mountain West, Missouri Valley, and West Coast Conferences. You have officially been promoted to High-Major status! Now of those High-Majors, let’s see which schools could make the jump to a Power Six conference based on recent performance.</p>
+<pre class="r"><code>#define conference type
+ncaa &lt;- ncaa %&gt;%
+  mutate(type = case_when(Conference %in% c(&quot;ACC&quot;, &quot;B10&quot;, &quot;B12&quot;, &quot;P12&quot;, &quot;SEC&quot;, &quot;BE&quot;) ~ &quot;Power 6&quot;,
+                          Conference %in% c(&quot;A10&quot;, &quot;Amer&quot;, &quot;MWC&quot;, &quot;MVC&quot;, &quot;WCC&quot;) ~ &quot;High-Major&quot;,
+                          TRUE ~ &quot;Mid-Major&quot;)) </code></pre>
+</div>
+<div id="the-best-of-the-rest" class="section level2">
+<h2>The Best of the Rest</h2>
+<p>Kenpom ranks each team by its efficiency margin which is a team’s offensive minus defensive efficiency. Since 2014, the average efficiency margin for Power Six schools’ is 13.80. During that same time, High-Majors with an overall efficiency margin of that or better are listed below.</p>
+<pre class="r"><code>ncaa %&gt;%
+  filter(year &gt; 2013) %&gt;%
+  group_by(type) %&gt;%
+  select(AdjEM) %&gt;% 
+  summarise_all(mean) %&gt;%
+  arrange(desc(AdjEM)) %&gt;%
+  kable %&gt;%
+  kable_styling(full_width = F)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Team
+</th>
+<th style="text-align:right;">
+AdjEM
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Gonzaga
+</td>
+<td style="text-align:right;">
+24.764
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Wichita St.
+</td>
+<td style="text-align:right;">
+23.054
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cincinnati
+</td>
+<td style="text-align:right;">
+19.846
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SMU
+</td>
+<td style="text-align:right;">
+18.098
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Saint Mary’s
+</td>
+<td style="text-align:right;">
+15.658
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+San Diego St.
+</td>
+<td style="text-align:right;">
+14.752
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VCU
+</td>
+<td style="text-align:right;">
+13.898
+</td>
+</tr>
+</tbody>
+</table>
+<p>These schools will most likely be given a hard look from Power Six conferences looking to expand. Gonzaga, Wichita St., and VCU have all made the final four this decade as well.</p>
+</div>
+</div>
+
+</div>
+
+        <footer class="post-footer clearfix">
+    
+        <p class="post-tags">
+            <span>Tagged:</span>
+            
+            
+                <a href="/tags/sports/">sports</a>, 
+            
+                <a href="/tags/r/">R</a>
+            
+        </p>
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?text=NCAA%20Basketball%3a%20Clustering%20Conferences&url=%2f2018%2f11%2f17%2fncaa-conferences%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=%2f2018%2f11%2f17%2fncaa-conferences%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+        
+        
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=NCAA%20Basketball%3a%20Clustering%20Conferences&url=%2f2018%2f11%2f17%2fncaa-conferences%2f&summary=An%20inside%20look%20at%20college%20hoops"
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;">
+               <i class="fa fa-linkedin"></i>
+               <span class="hidden">LinkedIn</span>
+            </a>
+        
+    </div>
+</footer>
+
+        
+    <div class="comments">
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "chad-bixby" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a title="Home" href="/">Home</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2018 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
+                </p>
+                <p class="footer-copyright">
+                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
+                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="/js/jquery-1.11.3.min.js"></script>
+        <script src="/js/jquery.fitvids.js"></script>
+        
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        
+        
+        <script src="/js/scripts.js"></script>
+    </body>
+</html>
+

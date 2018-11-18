@@ -6,6 +6,7 @@ output:
   blogdown::html_page:
     toc: true
 tags: ["music", "R"]
+description: 'Exploring the sound of each Kanye album'
 ---
 
 ```{r setup, include=FALSE}

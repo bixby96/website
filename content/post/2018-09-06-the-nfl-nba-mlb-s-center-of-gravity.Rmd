@@ -4,6 +4,7 @@ author: "Chad Bixby"
 date: '2018-09-06'
 slug: center-of-gravity
 tags: ["sports", "R"]
+description: 'Mapping each trophy''s average position'
 ---
 
 ```{r setup, include=FALSE}
