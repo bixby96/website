@@ -93,7 +93,7 @@ sum(is.na(kanye2))&lt;/code&gt;&lt;/pre&gt;
   mutate(total_dance = danceability*duration_ms) %&amp;gt;%
   group_by(album_name) %&amp;gt;%
   summarise(avg_danceability = sum(total_dance)/length(album_name)/10000)&lt;/code&gt;&lt;/pre&gt;
-&lt;iframe width=&#34;700&#34; height=&#34;500&#34; frameborder=&#34;0&#34; scrolling=&#34;no&#34; src=&#34;//plot.ly/~bixby96/5.embed?link=false&amp;amp;logo=false&#34;&gt;
+&lt;iframe width=&#34;800&#34; height=&#34;500&#34; frameborder=&#34;0&#34; scrolling=&#34;no&#34; src=&#34;//plot.ly/~bixby96/5.embed?link=false&amp;amp;logo=false&#34;&gt;
 &lt;/iframe&gt;
 &lt;p&gt;Overall, &lt;em&gt;My Beautiful Dark Twisted Fantasy&lt;/em&gt; and &lt;em&gt;808s &amp;amp; Heartbreak&lt;/em&gt; represent Kanye’s most danceable albums. The following table lists his top 10 most danceable songs.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kanye_dance_songs &amp;lt;- kanye2 %&amp;gt;%

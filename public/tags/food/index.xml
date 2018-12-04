@@ -114,7 +114,7 @@ sum(avocados_total$avocado_volume)))&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;avocado-prices&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Avocado Prices&lt;/h3&gt;
-&lt;iframe width=&#34;799&#34; height=&#34;550&#34; frameborder=&#34;0&#34; scrolling=&#34;no&#34; src=&#34;//plot.ly/~bixby96/9.embed?link=false&amp;amp;logo=false&#34;&gt;
+&lt;iframe width=&#34;800&#34; height=&#34;550&#34; frameborder=&#34;0&#34; scrolling=&#34;no&#34; src=&#34;//plot.ly/~bixby96/9.embed?link=false&amp;amp;logo=false&#34;&gt;
 &lt;/iframe&gt;
 &lt;p&gt;A couple of things stick out to me. Avocados reached a 3-year high in late summer 2017. Also the apocalyptic organic price drop around July 2015. My guess is that there was some missing data for US total organic avocado prices in July 2015 that got imputed as $1.00. Let’s check the price movement for each region to see if any sharp declines in July 2015 exist.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/post/avocados_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;

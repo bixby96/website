@@ -122,7 +122,7 @@ p2 <- ggplotly(p2, dynamicTicks = T) %>%
 api_create(p2, "kanye-danceability")
 ```
 
-<iframe width="700" height="500" frameborder="0" scrolling="no" src="//plot.ly/~bixby96/5.embed?link=false&logo=false"></iframe>
+<iframe width="800" height="500" frameborder="0" scrolling="no" src="//plot.ly/~bixby96/5.embed?link=false&logo=false"></iframe>
 
 Overall, *My Beautiful Dark Twisted Fantasy* and *808s & Heartbreak* represent Kanye's most danceable albums.  The following table lists his top 10 most danceable songs.
 
