@@ -117,15 +117,18 @@ tempo <- full_join(before, after, by = "Conference") %>%
 tempo$Conference <- recode(tempo$Conference, B10 = "Big 10", B12 = "Big 12", P12 = "Pac-12", BE = "Big East")
 ```
 
-```{r echo = F}
+```{r echo = F, eval = F}
 z <- ggplot(tempo, aes(x =Conference, y = Tempo)) +
   geom_col(aes(fill = `Shot Clock`), position = "dodge") +
   coord_cartesian(ylim = c(60, 70)) +
   ggtitle("Average Possessions By Conference") +
   theme(plot.title = element_text(hjust = .5))
 
-ggplotly(z)
+z <- ggplotly(z, dynamicTicks = T)
+api_create(z, "conf-possessions")
 ```
+
+<iframe width="800" height="550" frameborder="0" scrolling="no" src="//plot.ly/~bixby96/7.embed?link=false&logo=false"></iframe>
 
 The Big East is no longer a slower paced, defensive-minded conference like the Big 10; they lead all conferences in terms of average tempo using a 30 second shot clock. 
 

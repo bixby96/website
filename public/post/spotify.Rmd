@@ -30,6 +30,7 @@ library(spotifyr)
 library(tidyverse)
 library(knitr)
 library(kableExtra)
+library(ggridges)
 library(plotly)
 library(scales)
 library(ggfortify)
@@ -75,20 +76,23 @@ Spotify defines danceability as
 
 Before determining which album Spotify deems the most danceable, let's take a look at how danceability is distributed on each album.
 
-```{r echo = F}
-p1 <- ggplot(kanye2, aes(x = danceability)) +
-  geom_density(aes(fill = album_name), alpha = .85) +
-  geom_rug() +
-  geom_vline(aes(xintercept = .5), lty = 2, alpha = .5) +
-  facet_wrap(album_name ~ ., ncol = 2) +
-  theme(legend.position = "none", axis.title.y = element_blank(), axis.text.y = element_blank(), axis.ticks.y = element_blank()) +
+```{r echo = F, message = F}
+ggplot(kanye2, aes(x = danceability, y = album_name, fill = album_name)) +
+  geom_density_ridges(jittered_points = TRUE,
+    position = position_points_jitter(width = 0, height = 0),
+    point_shape = '|', point_size = 2, point_alpha = 1, alpha = 0.7) +
+  geom_vline(aes(xintercept = .5), lty = 2, size = 1, alpha = .5) +
+  labs(y = "", x = "Value") + 
+  scale_x_continuous(breaks = seq(0,1, .2),
+                     limits = c(0,1)) +
+  theme_minimal() +
+  ggtitle("Danceability Distribution") +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = .5)) +
   scale_fill_brewer(palette = "Spectral")
-
-ggplotly(p1, height = 750) %>%
-  style(hoverinfo  = "x")
 ```
 
-The dashed vertical line represents the midpoint on the danceability scale.  Also, the tick marks at the bottom of each plot represent one song on an album. Each album appears to be more danceable than not, but let's weight each song by its duration to get a better picture of each album in its entirety.  The following graph outlines the results.
+The dashed vertical line in the middle represents the midpoint on the danceability scale.  Also, the smaller tick marks at the bottom of each shape represent one song on an album. Each album appears to be more danceable than not, but let's weight each song by its duration to get a better picture of each album in its entirety.  The following graph outlines the results.
 
 ```{r}
 kanye_dance <- kanye2 %>%
@@ -97,7 +101,7 @@ kanye_dance <- kanye2 %>%
   summarise(avg_danceability = sum(total_dance)/length(album_name)/10000)
 ```
 
-```{r echo = F}
+```{r echo = F, eval = F}
 p2 <- ggplot(kanye_dance,aes(x = reorder(album_name, -avg_danceability), 
                              y = avg_danceability)) +
     geom_col(aes(fill = avg_danceability), alpha = .85) +
@@ -112,9 +116,13 @@ p2 <- ggplot(kanye_dance,aes(x = reorder(album_name, -avg_danceability),
   scale_fill_gradient() +
   ggtitle("Which Kanye Album should you party to?")
 
-ggplotly(p2) %>%
+p2 <- ggplotly(p2, dynamicTicks = T) %>%
  style(hoverinfo = "y")
+
+api_create(p2, "kanye-danceability")
 ```
+
+<iframe width="700" height="500" frameborder="0" scrolling="no" src="//plot.ly/~bixby96/5.embed?link=false&logo=false"></iframe>
 
 Overall, *My Beautiful Dark Twisted Fantasy* and *808s & Heartbreak* represent Kanye's most danceable albums.  The following table lists his top 10 most danceable songs.
 
@@ -136,7 +144,7 @@ Spotify defines Valence as
 
 Again, let's look at the overall distribution for each album, but for valence this time.
 
-```{r echo = F}
+```{r echo = F, message=F}
 q1 <- ggplot(kanye2, aes(x = valence)) +
   geom_density(aes(fill = album_name), alpha = .85) +
   geom_rug() +
@@ -145,8 +153,22 @@ q1 <- ggplot(kanye2, aes(x = valence)) +
   theme(legend.position = "none", axis.title.y = element_blank(), axis.text.y = element_blank(), axis.ticks.y = element_blank()) +
   scale_fill_brewer(palette = "Spectral")
 
-ggplotly(q1, height = 750) %>%
+q1 <- ggplotly(q1, height = 750) %>%
   style(hoverinfo  = "x")
+
+ggplot(kanye2, aes(x = valence, y = album_name, fill = album_name)) +
+  geom_density_ridges(jittered_points = TRUE,
+    position = position_points_jitter(width = 0, height = 0),
+    point_shape = '|', point_size = 2, point_alpha = 1, alpha = 0.7) +
+  geom_vline(aes(xintercept = .5), lty = 2, size = 1, alpha = .5) +
+  labs(y = "", x = "Value") + 
+  scale_x_continuous(breaks = seq(0,1, .2),
+                     limits = c(0,1)) +
+  theme_minimal() +
+  ggtitle("Valence Distribution") +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = .5)) +
+  scale_fill_brewer(palette = "Spectral")
 ```
 
 Perhaps a bit more polarizing than the danceability metric, most albums seem to have their fair share of both positive and negative sounding songs.  Now weighting valence by song duration, let's discover Kanye's happiest (and saddest) album.
@@ -158,7 +180,7 @@ kanye_val <- kanye2 %>%
   summarise(avg_valence = sum(total_valence/length(album_name)/10000))
 ```
 
-```{r echo = F}
+```{r echo = F, eval = F}
 q2 <- ggplot(kanye_val,aes(x = reorder(album_name, avg_valence), y = avg_valence)) +
     geom_col(aes(fill = avg_valence), alpha = .85) +
   geom_hline(aes(yintercept = mean(kanye_val$avg_valence)), linetype = 2, col = "red") +
@@ -169,9 +191,13 @@ q2 <- ggplot(kanye_val,aes(x = reorder(album_name, avg_valence), y = avg_valence
   scale_fill_gradient2() +
   ggtitle("What is Kanye's happiest album?")
 
-ggplotly(q2) %>%
+q2 <- ggplotly(q2, dynamicTicks = T) %>%
  style(hoverinfo = "y") 
+
+api_create(q2, "kanye-album-valence")
 ```
+
+<iframe width="800" height="500" frameborder="0" scrolling="no" src="//plot.ly/~bixby96/3.embed?link=false&logo=false"></iframe>
 
 With a valence score of 14.68, the happiest Kanye release came way back in 2004 with his debut hit *The College Dropout*.  Interestingly, the four albums with the lowest valence score also make up his most recent work.  The tracks with the lowest valence scores are shown below.
 
@@ -255,15 +281,21 @@ Using two principle components we can describe a little over 46% of the variabil
 kanye2 <- kanye2  %>%
   mutate(is_popular = ifelse(track_popularity > quantile(track_popularity, .75),                        "Yes", "No"))
 kanye2$is_popular <- factor(kanye2$is_popular)
+```
 
+```{r biplot2, echo = FALSE, eval=FALSE}
 b1 <- autoplot(kanye.pca, loadings = T, loadings.label = T, data = kanye2, colour =
            'is_popular', alpha = .75, loadings.colour = "gray", loadings.label.size = 3,
            loadings.label.colour = "black") +
   ggtitle("Biplot")
 
-ggplotly(b1) %>%
+b1 <- ggplotly(b1) %>%
   style(hoverinfo = "none")
+
+api_create(b1, "kanye-biplot")
 ```
+
+<iframe width="800" height="600" frameborder="0" scrolling="no" src="//plot.ly/~bixby96/1.embed?link=false&logo=false"></iframe>
 
 The most popular songs don't appear to belong to any specific area or cluster on the graph, but it does look like `Energy` and `Loudness` are correlated.  Try graphing them using the interactive plot above!
 

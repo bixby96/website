@@ -115,7 +115,7 @@ ggplot(avocados_region, aes(x = AveragePrice, fill = type)) +
 Not surprisingly, organic avocados are generally priced higher than conventional ones. The dashed vertical line in the middle represents the average weekly price for all avocados, `r dollar(mean(avocados_region$AveragePrice))`.  Next, let's look at how prices have varied over time.
 
 ### Avocado Prices
-```{r, echo = F}
+```{r, echo = F, eval = F}
 p2 <- ggplot(avocados_total, aes(x = Date, y = AveragePrice, col = type)) +
   geom_line() +
   scale_color_manual(values=wes_palette(n=2, name="Darjeeling1")) +
@@ -129,8 +129,11 @@ p2 <- ggplot(avocados_total, aes(x = Date, y = AveragePrice, col = type)) +
   scale_y_continuous(breaks = seq(0, 2.50, .25), labels = dollar_format()) +
   ggtitle("Average US Avocado Prices Over Time")
 
-ggplotly(p2)
+p2 <- ggplotly(p2, dynamicTicks = T)
+api_create(p2, "avocado-price")
 ```
+
+<iframe width="799" height="550" frameborder="0" scrolling="no" src="//plot.ly/~bixby96/9.embed?link=false&logo=false"></iframe>
 
 A couple of things stick out to me.  Avocados reached a 3-year high in late summer 2017.  Also the apocalyptic organic price drop around July 2015.  My guess is that there was some missing data for US total organic avocado prices in July 2015 that got imputed as $1.00.  Let's check the price movement for each region to see if any sharp declines in July 2015 exist.
 
@@ -268,7 +271,7 @@ elas <- do.call(rbind, elas) %>%
 
 ```
 
-```{r echo = F}
+```{r echo = F, eval = F}
 p9 <- ggplot(elas, aes(x=market, y=abs(elasticity))) +
   geom_segment( aes(x=reorder(market, elasticity), xend=reorder(market, elasticity), y=0, yend=abs(elasticity)), color="grey") +
   geom_point( color="#00A08A", size=2, alpha = .5) +
@@ -281,9 +284,24 @@ p9 <- ggplot(elas, aes(x=market, y=abs(elasticity))) +
   ylab( "| Price Elasticity |") +
   ggtitle("Avocado Price Elasticity by Market") +
   coord_flip()
-
 ggplotly(p9)
+
+elas <- elas %>%
+  mutate(elasticity = abs(elasticity))
+elas <- elas[order(-elas$elasticity),] 
+
+p9 <- plot_ly(elas, color = I("gray80")) %>%
+  add_segments(x = 0, xend = ~elasticity, y = ~market, yend = ~market, showlegend = FALSE) %>%
+  add_markers(x = ~elasticity, y = ~market, color = I("#00A08A"), name = "") %>%
+  layout(
+    title = "Avocado Price Elasticity by Market",
+    xaxis = list(title = "Elasticity of Demand")
+  )
+
+api_create(p9, filename="elasticity-market")
 ```
+
+<iframe width="700" height="700" frameborder="0" scrolling="no" src="//plot.ly/~bixby96/15.embed?link=false&logo=false"></iframe>
 
 
 The overall demand for avocados is elastic in all markets.  Western markets (especially the Pacific Northwest) are typically less responsive to changes in price than eastern markets. A 10% price increase would cause an 18% drop in demand in Seattle but a 37% drop in New York.  The *Pit*tsburgh market could very well be immune to the avocado craze as a 10% price increase would decrease demand by **58%**, 20% more than the next closest market, fellow Pennsylvanian city, Philadelphia.
