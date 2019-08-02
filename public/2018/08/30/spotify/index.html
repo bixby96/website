@@ -3,14 +3,14 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Spotify Anal-*YE*-sis &middot; Chad Bixby</title>
+        <title>Spotify AnalYEsis &middot; Chad Bixby</title>
         <meta name="description" content="Exploring the sound on each Kanye album">
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320">
-        <meta name="generator" content="Hugo 0.48" />
+        <meta name="generator" content="Hugo 0.56.3" />
         <meta name="robots" content="index,follow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta property="og:title" content="Spotify Anal-*YE*-sis">
+        <meta property="og:title" content="Spotify AnalYEsis">
 <meta property="og:description" content="Exploring the sound on each Kanye album">
 <meta property="og:type" content="article">
 <meta property="og:url" content="/2018/08/30/spotify/">
@@ -93,7 +93,7 @@ if (!doNotTrack) {
 <div class="container">
     <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
         <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Spotify Anal-*YE*-sis</h1>
+    <h1 class="post-title" itemprop="name headline">Spotify AnalYEsis</h1>
     
         <p class="post-description" itemprop="description">Exploring the sound on each Kanye album</p>
     
@@ -111,38 +111,19 @@ if (!doNotTrack) {
         <div class="post-content clearfix" itemprop="articleBody">
     
 
-    <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+    
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
 
-<div id="TOC">
-<ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#exploratory-data-analysis">Exploratory Data Analysis</a><ul>
-<li><a href="#load-packages">Load Packages</a></li>
-<li><a href="#import-data">Import Data</a></li>
-<li><a href="#danceability">Danceability</a></li>
-<li><a href="#valence">Valence</a></li>
-<li><a href="#other-variables">Other Variables</a></li>
-</ul></li>
-<li><a href="#clustering">Clustering</a><ul>
-<li><a href="#hierarchical-clustering">Hierarchical Clustering</a></li>
-<li><a href="#principle-component-analysis">Principle Component Analysis</a></li>
-</ul></li>
-</ul>
-</div>
 
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
-<p>As the <a href="https://en.wikipedia.org/wiki/Internet_of_things">Internet of Things</a> (IoT) landscape continues to grow, practically everyone and everything, it seems, is compiling data or at least generating statistics for any variable imaginable. And music is no exception. The music streaming service, Spotify, stores an array of features for each song in its library. They record characteristics such as acousticness, danceability, energy and more. With these variables in mind, I conducted some exploratory analysis along with a couple clustering methods on Kanye West’s <em>Spotify</em> discography. The following report utilizes Spotify’s Web API through Charlie Thompson’s <code>spotifyr</code> package which you can check out <a href="http://www.rdocumentation.org/packages/spotifyr">here</a>.</p>
+<p>##Introduction
+As the <a href="https://en.wikipedia.org/wiki/Internet_of_things">Internet of Things</a> (IoT) landscape continues to grow, practically everyone and everything, it seems, is compiling data or at least generating statistics for any variable imaginable. And music is no exception. The music streaming service, Spotify, stores an array of features for each song in its library. They record characteristics such as acousticness, danceability, energy and more. With these variables in mind, I conducted some exploratory analysis along with a couple clustering methods on Kanye West’s <em>Spotify</em> discography. The following report utilizes Spotify’s Web API through Charlie Thompson’s <code>spotifyr</code> package which you can check out <a href="http://www.rdocumentation.org/packages/spotifyr">here</a>.</p>
 <center>
 <a id='N_ojmtFuShtIOBP5ugOPTQ' class='gie-single' href='http://www.gettyimages.com/detail/994892144' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a>
 <script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'N_ojmtFuShtIOBP5ugOPTQ',sig:'qWFJbSTJE8IEPUvJSx1oVvC5GR_qojY9INDpB7ctkm0=',w:'594px',h:'395px',items:'994892144',caption: false ,tld:'com',is360: false })});</script>
 <script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
 </center>
-</div>
-<div id="exploratory-data-analysis" class="section level2">
-<h2>Exploratory Data Analysis</h2>
-<div id="load-packages" class="section level3">
-<h3>Load Packages</h3>
+<p>##Exploratory Data Analysis
+###Load Packages</p>
 <p>The following code and plots make use of these packages:</p>
 <pre class="r"><code>library(spotifyr)
 library(tidyverse)
@@ -154,9 +135,7 @@ library(scales)
 library(ggfortify)
 library(ggdendro)
 library(dendextend)</code></pre>
-</div>
-<div id="import-data" class="section level3">
-<h3>Import Data</h3>
+<p>###Import Data</p>
 <p>First let’s import the audio features for Kanye West and take a quick look at the data.</p>
 <pre class="r"><code>kanye &lt;- get_artist_audio_features(artist = &quot;kanye west&quot;)</code></pre>
 <p>After viewing the data, I noticed a few tracks (rows) are duplicated since some albums contain edited, clean, and/or live versions. Those rows will be removed in addition to some irrelevant columns. Also let’s be sure we don’t have any missing values.</p>
@@ -172,12 +151,12 @@ library(dendextend)</code></pre>
 sum(is.na(kanye2))</code></pre>
 <pre><code>## [1] 0</code></pre>
 <p>The dataset we will be working with now has 125 rows and 13 columns with no missing observations!</p>
-</div>
-<div id="danceability" class="section level3">
-<h3>Danceability</h3>
-<p>Spotify defines danceability as</p>
+<p>###Danceability
+Spotify defines danceability as</p>
 <blockquote>
-<p>“How suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.”</p>
+<p>“How suitable a track is for dancing based on a combination of musical elements including tempo,
+rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and
+1.0 is most danceable.”</p>
 </blockquote>
 <p>Before determining which album Spotify deems the most danceable, let’s take a look at how danceability is distributed on each album.</p>
 <p><img src="/post/spotify_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
@@ -322,12 +301,12 @@ KIDS SEE GHOSTS
 </tr>
 </tbody>
 </table>
-</div>
-<div id="valence" class="section level3">
-<h3>Valence</h3>
-<p>Spotify defines Valence as</p>
+<p>###Valence
+Spotify defines Valence as</p>
 <blockquote>
-<p>“A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)”&quot;</p>
+<p>“A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a
+track. Tracks with high valence sound more positive (e.g. happy, cheerful,
+euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)”&quot;</p>
 </blockquote>
 <p>Again, let’s look at the overall distribution for each album, but for valence this time.</p>
 <p><img src="/post/spotify_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
@@ -472,18 +451,13 @@ Wolves
 </tr>
 </tbody>
 </table>
-</div>
-<div id="other-variables" class="section level3">
-<h3>Other Variables</h3>
-<p>Interested in exploring the rest of the variables? Choose which characteristics to plot and select which albums to compare using the interactive graph below!</p>
-<iframe width="800" height="700" frameborder="F" src="https://chadbixby.shinyapps.io/kanye-song-attributes/">
+<p>###Other Variables</p>
+<p>Interested in exploring the rest of the variables? Choose which characteristics to plot and select which albums to compare using the interactive graph
+below!</p>
+<iframe width="800" height="700" frameborder="F" src="https://chadbixby.shinyapps.io/kanye-app/">
 </iframe>
-</div>
-</div>
-<div id="clustering" class="section level2">
-<h2>Clustering</h2>
-<div id="hierarchical-clustering" class="section level3">
-<h3>Hierarchical Clustering</h3>
+<p>##Clustering</p>
+<p>###Hierarchical Clustering</p>
 <p>Now on to some clustering methods. Let’s determine which albums sound the most alike using hierarchical clustering. A tree with a height of 4 and complete linkage is shown below.</p>
 <pre class="r"><code>kanye3 &lt;- kanye2 %&gt;%
   select(-c(track_name, track_popularity)) %&gt;%
@@ -505,9 +479,7 @@ kanye.tree &lt;- dendro_data(kanye.hc, type = &quot;rectangle&quot;)
 kanye.hc.4 &lt;- cutree(kanye.hc, k = 4)</code></pre>
 <p><img src="/post/spotify_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>Kanye’s first three releases belong to one cluster while his last four belong to another. The middle releases, <em>808s &amp; Heartbreak</em> and <em>Twisted Fantasy</em>, are not only his most danceable records but his most unique sounding as well; they each populate their own cluster.</p>
-</div>
-<div id="principle-component-analysis" class="section level3">
-<h3>Principle Component Analysis</h3>
+<p>###Principle Component Analysis</p>
 <p>Now let’s use those variables and see if we can discover if his more popular songs score similarly for each variable. Using a PCA to reduce dimensionality and account for correlation we can try to reveal any patterns.</p>
 <pre class="r"><code>kanye.pca &lt;- prcomp(kanye2[,3:11], center = T, scale = T)
 summary(kanye.pca)</code></pre>
@@ -524,8 +496,6 @@ summary(kanye.pca)</code></pre>
 <iframe width="800" height="600" frameborder="0" scrolling="no" src="//plot.ly/~bixby96/1.embed?link=false&amp;logo=false">
 </iframe>
 <p>The most popular songs don’t appear to belong to any specific area or cluster on the graph, but it does look like <code>Energy</code> and <code>Loudness</code> are correlated. Try graphing them using the interactive plot above!</p>
-</div>
-</div>
 
 </div>
 
@@ -544,7 +514,7 @@ summary(kanye.pca)</code></pre>
 
     <div class="share">
         
-            <a class="icon-twitter" href="https://twitter.com/share?text=Spotify%20Anal-%2aYE%2a-sis&url=%2f2018%2f08%2f30%2fspotify%2f"
+            <a class="icon-twitter" href="https://twitter.com/share?text=Spotify%20AnalYEsis&url=%2f2018%2f08%2f30%2fspotify%2f"
                 onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                 <i class="fa fa-twitter"></i>
                 <span class="hidden">Twitter</span>
@@ -561,7 +531,7 @@ summary(kanye.pca)</code></pre>
 
         
         
-            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=Spotify%20Anal-%2aYE%2a-sis&url=%2f2018%2f08%2f30%2fspotify%2f&summary=Exploring%20the%20sound%20on%20each%20Kanye%20album"
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=Spotify%20AnalYEsis&url=%2f2018%2f08%2f30%2fspotify%2f&summary=Exploring%20the%20sound%20on%20each%20Kanye%20album"
                onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;">
                <i class="fa fa-linkedin"></i>
                <span class="hidden">LinkedIn</span>

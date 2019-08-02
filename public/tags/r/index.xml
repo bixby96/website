@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R on Home</title>
@@ -18,7 +17,8 @@
       <pubDate>Sun, 18 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/11/18/ncaa-conferences/</guid>
-      <description>&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+      <description>
+&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
 
 &lt;div id=&#34;TOC&#34;&gt;
 &lt;ul&gt;
@@ -260,7 +260,8 @@ VCU
       <pubDate>Wed, 03 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/10/03/mlb-ejections/</guid>
-      <description>&lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
+      <description>
+&lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
 &lt;script src=&#34;/rmarkdown-libs/d3/d3.min.js&#34;&gt;&lt;/script&gt;
 &lt;link href=&#34;/rmarkdown-libs/d3tree2/d3tree2.css&#34; rel=&#34;stylesheet&#34; /&gt;
 &lt;script src=&#34;/rmarkdown-libs/d3tree2-binding/d3tree2.js&#34;&gt;&lt;/script&gt;
@@ -513,7 +514,9 @@ manager_ej &amp;lt;- ejections %&amp;gt;%
       <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/09/13/avocados/</guid>
-      <description>&lt;div id=&#34;TOC&#34;&gt;
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#data-pre-processing&#34;&gt;Data Pre-Processing&lt;/a&gt;&lt;ul&gt;
@@ -660,7 +663,10 @@ elas &amp;lt;- do.call(rbind, elas) %&amp;gt;%
       <pubDate>Thu, 06 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/09/06/2018-09-06-the-nfl-nba-mlb-s-center-of-gravity/</guid>
-      <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
+      <description>
+
+
+&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Drawing inspiration from FiveThirtyEight’s &lt;a href=&#34;https://fivethirtyeight.com/features/the-stanley-cup-center-of-gravity-is-somewhere-in-lake-huron/&#34;&gt;article&lt;/a&gt; locating the Stanley Cup’s center of gravity, or the average geographic point of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies’ geographical center could lie. Using Cartesian coordinates for each champion’s city, I mapped the location for each league. The corresponding code and plots are shown below.&lt;/p&gt;
 &lt;center&gt;
@@ -806,43 +812,24 @@ nba_total &amp;lt;- nba %&amp;gt;%
     </item>
     
     <item>
-      <title>Spotify Anal-*YE*-sis</title>
+      <title>Spotify AnalYEsis</title>
       <link>/2018/08/30/spotify/</link>
       <pubDate>Thu, 30 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/08/30/spotify/</guid>
-      <description>&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+      <description>
+&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
 
-&lt;div id=&#34;TOC&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#exploratory-data-analysis&#34;&gt;Exploratory Data Analysis&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#load-packages&#34;&gt;Load Packages&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#import-data&#34;&gt;Import Data&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#danceability&#34;&gt;Danceability&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#valence&#34;&gt;Valence&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#other-variables&#34;&gt;Other Variables&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#clustering&#34;&gt;Clustering&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#hierarchical-clustering&#34;&gt;Hierarchical Clustering&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#principle-component-analysis&#34;&gt;Principle Component Analysis&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
 
-&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;As the &lt;a href=&#34;https://en.wikipedia.org/wiki/Internet_of_things&#34;&gt;Internet of Things&lt;/a&gt; (IoT) landscape continues to grow, practically everyone and everything, it seems, is compiling data or at least generating statistics for any variable imaginable. And music is no exception. The music streaming service, Spotify, stores an array of features for each song in its library. They record characteristics such as acousticness, danceability, energy and more. With these variables in mind, I conducted some exploratory analysis along with a couple clustering methods on Kanye West’s &lt;em&gt;Spotify&lt;/em&gt; discography. The following report utilizes Spotify’s Web API through Charlie Thompson’s &lt;code&gt;spotifyr&lt;/code&gt; package which you can check out &lt;a href=&#34;http://www.rdocumentation.org/packages/spotifyr&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;##Introduction
+As the &lt;a href=&#34;https://en.wikipedia.org/wiki/Internet_of_things&#34;&gt;Internet of Things&lt;/a&gt; (IoT) landscape continues to grow, practically everyone and everything, it seems, is compiling data or at least generating statistics for any variable imaginable. And music is no exception. The music streaming service, Spotify, stores an array of features for each song in its library. They record characteristics such as acousticness, danceability, energy and more. With these variables in mind, I conducted some exploratory analysis along with a couple clustering methods on Kanye West’s &lt;em&gt;Spotify&lt;/em&gt; discography. The following report utilizes Spotify’s Web API through Charlie Thompson’s &lt;code&gt;spotifyr&lt;/code&gt; package which you can check out &lt;a href=&#34;http://www.rdocumentation.org/packages/spotifyr&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;center&gt;
 &lt;a id=&#39;N_ojmtFuShtIOBP5ugOPTQ&#39; class=&#39;gie-single&#39; href=&#39;http://www.gettyimages.com/detail/994892144&#39; target=&#39;_blank&#39; style=&#39;color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;&#39;&gt;Embed from Getty Images&lt;/a&gt;
 &lt;script&gt;window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:&#39;N_ojmtFuShtIOBP5ugOPTQ&#39;,sig:&#39;qWFJbSTJE8IEPUvJSx1oVvC5GR_qojY9INDpB7ctkm0=&#39;,w:&#39;594px&#39;,h:&#39;395px&#39;,items:&#39;994892144&#39;,caption: false ,tld:&#39;com&#39;,is360: false })});&lt;/script&gt;
 &lt;script src=&#39;//embed-cdn.gettyimages.com/widgets.js&#39; charset=&#39;utf-8&#39; async&gt;&lt;/script&gt;
 &lt;/center&gt;
-&lt;/div&gt;
-&lt;div id=&#34;exploratory-data-analysis&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Exploratory Data Analysis&lt;/h2&gt;
-&lt;div id=&#34;load-packages&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Load Packages&lt;/h3&gt;
+&lt;p&gt;##Exploratory Data Analysis
+###Load Packages&lt;/p&gt;
 &lt;p&gt;The following code and plots make use of these packages:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(spotifyr)
 library(tidyverse)
@@ -854,9 +841,7 @@ library(scales)
 library(ggfortify)
 library(ggdendro)
 library(dendextend)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;import-data&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Import Data&lt;/h3&gt;
+&lt;p&gt;###Import Data&lt;/p&gt;
 &lt;p&gt;First let’s import the audio features for Kanye West and take a quick look at the data.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kanye &amp;lt;- get_artist_audio_features(artist = &amp;quot;kanye west&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;After viewing the data, I noticed a few tracks (rows) are duplicated since some albums contain edited, clean, and/or live versions. Those rows will be removed in addition to some irrelevant columns. Also let’s be sure we don’t have any missing values.&lt;/p&gt;
@@ -872,12 +857,12 @@ library(dendextend)&lt;/code&gt;&lt;/pre&gt;
 sum(is.na(kanye2))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [1] 0&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The dataset we will be working with now has 125 rows and 13 columns with no missing observations!&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;danceability&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Danceability&lt;/h3&gt;
-&lt;p&gt;Spotify defines danceability as&lt;/p&gt;
+&lt;p&gt;###Danceability
+Spotify defines danceability as&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;“How suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.”&lt;/p&gt;
+&lt;p&gt;“How suitable a track is for dancing based on a combination of musical elements including tempo,
+rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and
+1.0 is most danceable.”&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Before determining which album Spotify deems the most danceable, let’s take a look at how danceability is distributed on each album.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/post/spotify_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
@@ -1022,12 +1007,12 @@ KIDS SEE GHOSTS
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;/div&gt;
-&lt;div id=&#34;valence&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Valence&lt;/h3&gt;
-&lt;p&gt;Spotify defines Valence as&lt;/p&gt;
+&lt;p&gt;###Valence
+Spotify defines Valence as&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;“A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)”&amp;quot;&lt;/p&gt;
+&lt;p&gt;“A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a
+track. Tracks with high valence sound more positive (e.g. happy, cheerful,
+euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)”&amp;quot;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Again, let’s look at the overall distribution for each album, but for valence this time.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/post/spotify_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
@@ -1172,18 +1157,13 @@ Wolves
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;/div&gt;
-&lt;div id=&#34;other-variables&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Other Variables&lt;/h3&gt;
-&lt;p&gt;Interested in exploring the rest of the variables? Choose which characteristics to plot and select which albums to compare using the interactive graph below!&lt;/p&gt;
-&lt;iframe width=&#34;800&#34; height=&#34;700&#34; frameborder=&#34;F&#34; src=&#34;https://chadbixby.shinyapps.io/kanye-song-attributes/&#34;&gt;
+&lt;p&gt;###Other Variables&lt;/p&gt;
+&lt;p&gt;Interested in exploring the rest of the variables? Choose which characteristics to plot and select which albums to compare using the interactive graph
+below!&lt;/p&gt;
+&lt;iframe width=&#34;800&#34; height=&#34;700&#34; frameborder=&#34;F&#34; src=&#34;https://chadbixby.shinyapps.io/kanye-app/&#34;&gt;
 &lt;/iframe&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;clustering&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Clustering&lt;/h2&gt;
-&lt;div id=&#34;hierarchical-clustering&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Hierarchical Clustering&lt;/h3&gt;
+&lt;p&gt;##Clustering&lt;/p&gt;
+&lt;p&gt;###Hierarchical Clustering&lt;/p&gt;
 &lt;p&gt;Now on to some clustering methods. Let’s determine which albums sound the most alike using hierarchical clustering. A tree with a height of 4 and complete linkage is shown below.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kanye3 &amp;lt;- kanye2 %&amp;gt;%
   select(-c(track_name, track_popularity)) %&amp;gt;%
@@ -1205,9 +1185,7 @@ kanye.tree &amp;lt;- dendro_data(kanye.hc, type = &amp;quot;rectangle&amp;quot;)
 kanye.hc.4 &amp;lt;- cutree(kanye.hc, k = 4)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/spotify_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Kanye’s first three releases belong to one cluster while his last four belong to another. The middle releases, &lt;em&gt;808s &amp;amp; Heartbreak&lt;/em&gt; and &lt;em&gt;Twisted Fantasy&lt;/em&gt;, are not only his most danceable records but his most unique sounding as well; they each populate their own cluster.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;principle-component-analysis&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Principle Component Analysis&lt;/h3&gt;
+&lt;p&gt;###Principle Component Analysis&lt;/p&gt;
 &lt;p&gt;Now let’s use those variables and see if we can discover if his more popular songs score similarly for each variable. Using a PCA to reduce dimensionality and account for correlation we can try to reveal any patterns.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kanye.pca &amp;lt;- prcomp(kanye2[,3:11], center = T, scale = T)
 summary(kanye.pca)&lt;/code&gt;&lt;/pre&gt;
@@ -1224,8 +1202,6 @@ summary(kanye.pca)&lt;/code&gt;&lt;/pre&gt;
 &lt;iframe width=&#34;800&#34; height=&#34;600&#34; frameborder=&#34;0&#34; scrolling=&#34;no&#34; src=&#34;//plot.ly/~bixby96/1.embed?link=false&amp;amp;logo=false&#34;&gt;
 &lt;/iframe&gt;
 &lt;p&gt;The most popular songs don’t appear to belong to any specific area or cluster on the graph, but it does look like &lt;code&gt;Energy&lt;/code&gt; and &lt;code&gt;Loudness&lt;/code&gt; are correlated. Try graphing them using the interactive plot above!&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
 </description>
     </item>
     

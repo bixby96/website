@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pages on Home</title>
@@ -17,7 +16,10 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/page/about/</guid>
-      <description>&lt;div id=&#34;purpose&#34; class=&#34;section level3&#34;&gt;
+      <description>
+
+
+&lt;div id=&#34;purpose&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Purpose&lt;/h3&gt;
 &lt;p&gt;The purpose of creating this website was to generate a space to not only share my independent analytical work but to also serve as a portfolio of sorts. Each post will center around dissecting a dataset and revealing any underlying information. I’ll try to keep it fresh and analyze a variety of topics, but ultimately, I’ll explore whatever I find most interesting (so expect a few sports-related posts). My goal is to publish at least a couple of times a month so feel free to contact me about anything! (suggestions, what you liked, didn’t like, etc.)&lt;/p&gt;
 &lt;center&gt;
@@ -33,7 +35,10 @@ A Proud Contributer to &lt;a href=&#34;http://www.R-bloggers.com&#34;&gt;R-Blogg
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/page/contact/</guid>
-      <description>&lt;center&gt;
+      <description>
+
+
+&lt;center&gt;
 &lt;strong&gt;Have a question or suggestion? Fill out the form below!&lt;/strong&gt;
 &lt;/center&gt;
 &lt;br&gt;
@@ -55,7 +60,10 @@ A Proud Contributer to &lt;a href=&#34;http://www.R-bloggers.com&#34;&gt;R-Blogg
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/page/thanks/</guid>
-      <description>&lt;div class=&#34;figure&#34;&gt;
+      <description>
+
+
+&lt;div class=&#34;figure&#34;&gt;
 &lt;img src=&#34;/page/thanks_files/light-sign-typography-lighting.jpg&#34; /&gt;
 
 &lt;/div&gt;

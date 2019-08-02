@@ -1,12 +1,14 @@
 ---
-title: "Spotify Anal-*YE*-sis"
-author: "Chad Bixby"
+title: Spotify AnalYEsis
+author: Chad Bixby
 date: '2018-08-30'
+tags:
+  - music
+  - R
 output:
   blogdown::html_page:
-    toc: true
-tags: ["music", "R"]
-description: 'Exploring the sound on each Kanye album'
+    toc: yes
+description: Exploring the sound on each Kanye album
 ---
 
 ```{r setup, include=FALSE}
@@ -215,7 +217,7 @@ kable(head(kanye_valence_songs,10)) %>%
 Interested in exploring the rest of the variables?  Choose which characteristics to plot and select which albums to compare using the interactive graph
 below!
 
-<iframe width = 800 height = 700 frameborder = F src = "https://chadbixby.shinyapps.io/kanye-song-attributes/"></iframe>
+<iframe width = 800 height = 700 frameborder = F src = "https://chadbixby.shinyapps.io/kanye-app/"></iframe>
 
 ##Clustering
 

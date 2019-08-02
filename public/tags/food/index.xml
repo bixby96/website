@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Food on Home</title>
+    <title>food on Home</title>
     <link>/tags/food/</link>
-    <description>Recent content in Food on Home</description>
+    <description>Recent content in food on Home</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Chad Bixby</copyright>
@@ -18,7 +17,9 @@
       <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/09/13/avocados/</guid>
-      <description>&lt;div id=&#34;TOC&#34;&gt;
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#data-pre-processing&#34;&gt;Data Pre-Processing&lt;/a&gt;&lt;ul&gt;

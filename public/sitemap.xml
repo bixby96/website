@@ -3,59 +3,14 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/2018/11/18/ncaa-conferences/</loc>
-    <lastmod>2018-11-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2018/10/03/mlb-ejections/</loc>
-    <lastmod>2018-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2018/09/13/avocados/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2018/09/06/2018-09-06-the-nfl-nba-mlb-s-center-of-gravity/</loc>
-    <lastmod>2018-09-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2018/08/30/spotify/</loc>
-    <lastmod>2018-08-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/page/about/</loc>
-  </url>
-  
-  <url>
-    <loc>/page/contact/</loc>
-  </url>
-  
-  <url>
-    <loc>/tags/food/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/</loc>
     <lastmod>2018-11-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/music/</loc>
-    <lastmod>2018-08-30T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/page/</loc>
-    <priority>0</priority>
+    <loc>/2018/11/18/ncaa-conferences/</loc>
+    <lastmod>2018-11-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -71,14 +26,59 @@
   </url>
   
   <url>
+    <loc>/tags/</loc>
+    <lastmod>2018-11-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/sports/</loc>
     <lastmod>2018-11-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/</loc>
+    <loc>/2018/10/03/mlb-ejections/</loc>
+    <lastmod>2018-10-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/09/13/avocados/</loc>
     <lastmod>2018-09-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/food/</loc>
+    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/2018/09/06/2018-09-06-the-nfl-nba-mlb-s-center-of-gravity/</loc>
+    <lastmod>2018-09-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/08/30/spotify/</loc>
+    <lastmod>2018-08-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/music/</loc>
+    <lastmod>2018-08-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/page/about/</loc>
+  </url>
+  
+  <url>
+    <loc>/page/contact/</loc>
+  </url>
+  
+  <url>
+    <loc>/page/</loc>
     <priority>0</priority>
   </url>
   
