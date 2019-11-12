@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.56.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Chad Bixby">
+<meta name="keywords" content="">
+<meta name="description" content="Which US city loves avocados the most?">
+
+
+<meta property="og:description" content="Which US city loves avocados the most?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Avocado Market Research">
+<meta name="twitter:title" content="Avocado Market Research">
+<meta property="og:url" content="/avocado-market-research/">
+<meta property="twitter:url" content="/avocado-market-research/">
+<meta property="og:site_name" content="Rubix³: A Data Blog">
+<meta property="og:description" content="Which US city loves avocados the most?">
+<meta name="twitter:description" content="Which US city loves avocados the most?">
+<meta property="og:locale" content="en">
+
+  
+    <meta property="article:published_time" content="2018-09-13T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2018-09-13T00:00:00">
+  
+  
+  
+  
+    
+      <meta property="article:tag" content="R">
+    
+      <meta property="article:tag" content="food">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://images.unsplash.com/photo-1560155016-bd4879ae8f21?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80">
+  <meta property="twitter:image" content="https://images.unsplash.com/photo-1560155016-bd4879ae8f21?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80">
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=640">
+
+
+    <title>Avocado Market Research</title>
+
+    <link rel="icon" href="/content/page/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="/avocado-market-research/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-125431650-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="/">Rubix³: A Data Blog</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">Chad Bixby</h4>
+        
+          <h5 class="sidebar-profile-bio">In Data We Trust</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/contact/contact">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-paper-plane"></i>
+      
+      <span class="sidebar-button-desc">Contact</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/bixby96">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-left
+              "
+       style="background-image:url('https://images.unsplash.com/photo-1560155016-bd4879ae8f21?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=400&amp;q=80')"
+       data-behavior="5">
+    
+      <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Avocado Market Research
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-09-13T00:00:00Z">
+        
+  
+  
+  
+  
+    9/13/2018
+  
+
+      </time>
+    
+    
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="5"
+        class="hasCover
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+
+<p>The following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US. In addition to a thorough exploratory analysis, I’ll also try to calculate the price elasticity of demand for each individual market. The dataset comes from the <a href="http://www.hassavocadoboard.com/">Hass Avocado Board</a>.</p>
+<hr />
+<div id="data-pre-processing" class="section level2">
+<h2>Data Pre-Processing</h2>
+<div id="load-data" class="section level3">
+<h3>Load Data</h3>
+<pre class="r"><code>#load avocado data
+load(&quot;data/avocados.Rda&quot;)</code></pre>
+</div>
+<div id="load-packages" class="section level3">
+<h3>Load Packages</h3>
+<pre class="r"><code>library(tidyverse)
+library(scales)
+library(plotly)
+library(wesanderson)</code></pre>
+</div>
+<div id="clean-data" class="section level3">
+<h3>Clean Data</h3>
+<p>The dataset contains weekly average prices and total amount sold for both organic and conventional avocados for 45 different markets (New York, Boise, St. Louis, etc.) that make up 8 larger regions (California, Great Lakes, Midsouth, Northeast, Plains, South Central, Southeast, and West). I’ll create three different datasets: one containing the 45 markets, one for the 8 larger regions, and one for entire US. Also, three price lookup codes (PLU’s) are listed, but for Hass avocados only, so I’ll create another variable to hold the rest of avocados (e.g. green-skinned) sold per week.</p>
+<pre class="r"><code>#replace spaces with underscores in column names
+names(avocados) &lt;- gsub(&quot; &quot;, &quot;_&quot;, names(avocados))
+
+#rename PLU codes and tidy up data
+avocados &lt;- avocados %&gt;%
+  rename(small_hass = &quot;4046&quot;, large_hass = &quot;4225&quot;, xl_hass = &quot;4770&quot;) %&gt;%
+  mutate(other = Total_Volume - small_hass - large_hass - xl_hass) %&gt;%
+  gather(bag_size, bag_total, c(Small_Bags, Large_Bags, XLarge_Bags)) %&gt;%
+  gather(avocado_type, avocado_volume, c(small_hass, large_hass, xl_hass,
+                                         other)) 
+
+#subset data by region
+avocados_region &lt;- avocados %&gt;%
+  filter(region %in% c(&quot;California&quot;, &quot;West&quot;, &quot;SouthCentral&quot;, &quot;GreatLakes&quot;,
+                       &quot;Midsouth&quot;, &quot;Southeast&quot;, &quot;Northeast&quot;, &quot;Plains&quot;)) 
+
+#subset data by market (city)
+avocados_market &lt;- avocados %&gt;%
+  filter(!(region %in% c(&quot;California&quot;, &quot;West&quot;, &quot;SouthCentral&quot;, &quot;GreatLakes&quot;,
+                       &quot;Midsouth&quot;, &quot;Southeast&quot;, &quot;Northeast&quot;, &quot;Plains&quot;,
+                       &quot;TotalUS&quot;)))
+
+#dataset for entire US
+avocados_total &lt;- avocados %&gt;%
+  filter(region == &quot;TotalUS&quot;)</code></pre>
+<p>Let’s make sure we don’t have any missing values</p>
+<pre class="r"><code>paste(sum(is.na(avocados_market)),
+sum(is.na(avocados_region)),
+sum(is.na(avocados_total)))</code></pre>
+<pre><code>## [1] &quot;0 0 0&quot;</code></pre>
+<p>Bravocado! Also, let’s see if there are any hidden markets that make up a region.</p>
+<pre class="r"><code>cat(paste(&quot;Market Volume:&quot;,
+sum(avocados_market$avocado_volume),&quot;\n&quot;),
+paste(&quot;Region Volume:&quot;,
+sum(avocados_region$avocado_volume), &quot;\n&quot;),
+paste(&quot;Total Volume:&quot;,
+sum(avocados_total$avocado_volume)))</code></pre>
+<pre><code>## Market Volume: 11381766688.74 
+##  Region Volume: 17594220546.06 
+##  Total Volume: 17594220545.4</code></pre>
+<p>So it looks like some avocados (6,212,453,857 to be exact) were sold over the past few years in markets not found in the dataset. But the eight regions do in fact contain the entirety of US avocado sales (minus rounding error).</p>
+</div>
+</div>
+<div id="exploratory-data-analysis" class="section level2">
+<h2>Exploratory Data Analysis</h2>
+<div id="distribution" class="section level3">
+<h3>Distribution</h3>
+<p>Alright now that we understand the data, I think it’s time for some exploratory data analysis! First, let’s look at how the prices of organic and conventional avocados are distributed.</p>
+<p><img src="/post/avocados_files/figure-html/plots-1.png" width="672" /></p>
+<p>Not surprisingly, organic avocados are generally priced higher than conventional ones. The dashed vertical line in the middle represents the average weekly price for all avocados, $1.37. Next, let’s look at how prices have varied over time.</p>
+</div>
+<div id="avocado-prices" class="section level3">
+<h3>Avocado Prices</h3>
+<iframe width="800" height="550" frameborder="0" scrolling="no" src="//plot.ly/~bixby96/9.embed?link=false&amp;logo=false">
+</iframe>
+<p>A couple of things stick out to me. Avocados reached a 3-year high in late summer 2017. Also the apocalyptic organic price drop around July 2015. My guess is that there was some missing data for US total organic avocado prices in July 2015 that got imputed as $1.00. Let’s check the price movement for each region to see if any sharp declines in July 2015 exist.</p>
+<p><img src="/post/avocados_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Nothing out of the ordinary here. Organic prices never dropped below conventional prices in each region. I will just leave the US dataset as is and focus the rest of my analysis on the region dataset. Now, let’s see how avocado prices vary across regions.</p>
+<p><img src="/post/avocados_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>The Northeast region sells avocados at the highest average price. Now, let’s determine which size of avocados each region buys.</p>
+</div>
+<div id="avocado-volume" class="section level3">
+<h3>Avocado Volume</h3>
+<p><img src="/post/avocados_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>The South Central, California, and West regions make up the three largest avocado regions by volume. The Northeast region sells the most Large Hass avocados (both proportionally to total regional sales and overall) which probably contributes to them having the highest average price. With that said, let’s look at how each market consumes avocados.</p>
+<p><img src="/post/avocados_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>The LA market appears to be ripe for avocados; it doubles the second largest market (New York) in terms of volume. Avocados seem to be most popular in western or warm weathered markets. Even smaller markets like Denver and Portland rank near the top among the larger US cities suggesting avocado consumption has a geographical element to it.</p>
+</div>
+</div>
+<div id="elasticity" class="section level2">
+<h2>Elasticity</h2>
+<p>Finally let’s look at the price elasticity of avocados. We can try to determine which markets avocados are the most price elastic. First, let’s plot total volume against average price for all avocados.</p>
+<p><img src="/post/avocados_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Conventional avocados appear to show a linear relationship. It’s hard to make up the shape for the organic avocados so let’s try plotting each type in its own graph. It’s also worth noting that organic avocados are sold in much lower volumes than conventional avocados.</p>
+<p><img src="/post/avocados_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>It looks like the organic avocado price vs. sales relationship is more uniform, hinting that it has a less elastic demand than conventional avocados. The linear model seems to do an adequate job of describing the data so, for simplicity, let’s just fit a linear price-response function for all markets and compare their overall elasticities.</p>
+<pre class="r"><code>elas &lt;- lapply(unique(avocados_market$region), function(b){
+            df &lt;- avocados_market %&gt;%
+              filter(region == b)
+            m &lt;- lm(Total_Volume ~ AveragePrice, data = df)
+            x &lt;- m$coefficients[[&quot;AveragePrice&quot;]]
+            y &lt;- mean(df$AveragePrice)
+            z &lt;- mean(df$Total_Volume)
+            x*y/z
+        })
+
+elas &lt;- do.call(rbind, elas) %&gt;%
+  data.frame() %&gt;%
+  mutate(market = unique(avocados_market$region)) %&gt;%
+  mutate(elasticity = round(., 2)) %&gt;%
+  select(-c(.))</code></pre>
+<iframe width="700" height="700" frameborder="0" scrolling="no" src="//plot.ly/~bixby96/15.embed?link=false&amp;logo=false">
+</iframe>
+<p>The overall demand for avocados is elastic in all markets. Western markets (especially the Pacific Northwest) are typically less responsive to changes in price than eastern markets. A 10% price increase would cause an 18% drop in demand in Seattle but a 37% drop in New York. The <em>Pit</em>tsburgh market could very well be immune to the avocado craze as a 10% price increase would decrease demand by <strong>58%</strong>, 20% more than the next closest market, fellow Pennsylvanian city, Philadelphia.</p>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="/tags/r/">R</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/food/">food</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/mlb-ejections/" data-tooltip="Baseball Ejections and Replay Review">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/center-of-gravity/" data-tooltip="The NFL, NBA, &amp; MLB&#39;s Center of Gravity">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/avocado-market-research/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/avocado-market-research/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Chad Bixby. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/mlb-ejections/" data-tooltip="Baseball Ejections and Replay Review">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/center-of-gravity/" data-tooltip="The NFL, NBA, &amp; MLB&#39;s Center of Gravity">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/avocado-market-research/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/avocado-market-research/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2Favocado-market-research%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2Favocado-market-research%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=110" alt="" />
+    
+    <h4 id="about-card-name">Chad Bixby</h4>
+    
+      <div id="about-card-bio">In Data We Trust</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Data Scientist
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Somewhere in America
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('/images/cover2.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = '\/avocado-market-research\/';
+          
+            this.page.identifier = '\/avocado-market-research\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'chad-bixby';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

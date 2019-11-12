@@ -5,43 +5,22 @@ date: '2018-09-13'
 output:
   blogdown::html_page:
     toc: true
-tags: ["food", "R"]
-description: 'Analyzing avocado supply and demand'
+    toc_depth: 1
+tags: ["R", "food"]
+summary: 'Which US city loves avocados the most?'
+coverImage: https://images.unsplash.com/photo-1560155016-bd4879ae8f21?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80
 ---
 
 
-<div id="TOC">
-<ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#data-pre-processing">Data Pre-Processing</a><ul>
-<li><a href="#load-data">Load Data</a></li>
-<li><a href="#load-packages">Load Packages</a></li>
-<li><a href="#clean-data">Clean Data</a></li>
-</ul></li>
-<li><a href="#exploratory-data-analysis">Exploratory Data Analysis</a><ul>
-<li><a href="#distribution">Distribution</a></li>
-<li><a href="#avocado-prices">Avocado Prices</a></li>
-<li><a href="#avocado-volume">Avocado Volume</a></li>
-</ul></li>
-<li><a href="#elasticity">Elasticity</a></li>
-</ul>
-</div>
 
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
 <p>The following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US. In addition to a thorough exploratory analysis, I’ll also try to calculate the price elasticity of demand for each individual market. The dataset comes from the <a href="http://www.hassavocadoboard.com/">Hass Avocado Board</a>.</p>
-<center>
-<a id='JG4UGGuQRmpRoiIpLv_qhQ' class='gie-single' href='http://www.gettyimages.com/detail/880599028' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a>
-<script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'JG4UGGuQRmpRoiIpLv_qhQ',sig:'N6lPd_OPn_K7igBz9eUfQK5NML4OwTpfOsG8GwtiA8s=',w:'511px',h:'339px',items:'880599028',caption: false ,tld:'com',is360: false })});</script>
-<script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
-</center>
-</div>
+<hr />
 <div id="data-pre-processing" class="section level2">
 <h2>Data Pre-Processing</h2>
 <div id="load-data" class="section level3">
 <h3>Load Data</h3>
 <pre class="r"><code>#load avocado data
-load(file = &quot;avocados.Rda&quot;)</code></pre>
+load(&quot;data/avocados.Rda&quot;)</code></pre>
 </div>
 <div id="load-packages" class="section level3">
 <h3>Load Packages</h3>

@@ -5,30 +5,28 @@ date: '2018-09-13'
 output:
   blogdown::html_page:
     toc: true
-tags: ["food", "R"]
-description: 'Analyzing avocado supply and demand'
+    toc_depth: 1
+tags: ["R", "food"]
+summary: 'Which US city loves avocados the most?'
+coverImage: https://images.unsplash.com/photo-1560155016-bd4879ae8f21?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
-##Introduction
-
 The following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US.  In addition to a thorough exploratory analysis, I'll also try to calculate the price elasticity of demand for each individual market.  The dataset comes from the [Hass Avocado Board](http://www.hassavocadoboard.com/). 
 
-<center>
-<a id='JG4UGGuQRmpRoiIpLv_qhQ' class='gie-single' href='http://www.gettyimages.com/detail/880599028' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a><script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'JG4UGGuQRmpRoiIpLv_qhQ',sig:'N6lPd_OPn_K7igBz9eUfQK5NML4OwTpfOsG8GwtiA8s=',w:'511px',h:'339px',items:'880599028',caption: false ,tld:'com',is360: false })});</script><script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
-</center>
+*********
 
-##Data Pre-Processing
-###Load Data
+## Data Pre-Processing
+### Load Data
 ```{r data}
 #load avocado data
-load(file = "avocados.Rda")
+load("data/avocados.Rda")
 ```
 
-###Load Packages
+### Load Packages
 ```{r packages, results='hide', message=FALSE, warning=FALSE}
 library(tidyverse)
 library(scales)
@@ -36,7 +34,7 @@ library(plotly)
 library(wesanderson)
 ```
 
-###Clean Data
+### Clean Data
 
 The dataset contains weekly average prices and total amount sold for both organic and conventional avocados for 45 different markets (New York, Boise, St. Louis, etc.) that make up 8 larger regions (California, Great Lakes, Midsouth, Northeast, Plains, South Central, Southeast, and West).  I'll create three different datasets: one containing the 45 markets, one for the 8 larger regions, and one for entire US.  Also, three price lookup codes (PLU's) are listed, but for Hass avocados only, so I'll create another variable to hold the rest of avocados (e.g. green-skinned) sold per week. 
 
@@ -89,9 +87,9 @@ sum(avocados_total$avocado_volume)))
 
 So it looks like some avocados (`r comma(sum(avocados_region$avocado_volume) - sum(avocados_market$avocado_volume))` to be exact) were sold over the past few years in markets not found in the dataset.  But the eight regions do in fact contain the entirety of US avocado sales (minus rounding error).  
 
-##Exploratory Data Analysis
+## Exploratory Data Analysis
 
-###Distribution
+### Distribution
 Alright now that we understand the data, I think it's time for some exploratory data analysis!  First, let's look at how the prices of organic and conventional avocados are distributed.
 
 ```{r plots, echo = F}
@@ -172,7 +170,7 @@ ggplot(avocados_region, aes(x = region, y = AveragePrice, fill = type)) +
 
 The Northeast region sells avocados at the highest average price. Now, let's determine which size of avocados each region buys.
 
-###Avocado Volume
+### Avocado Volume
 ```{r echo = F}
 ggplot(avocados_region, aes(x = reorder(region, -avocado_volume), y = avocado_volume/1000000, fill = fct_relevel(avocado_type, "small_hass", "large_hass", "xl_hass", "other"))) +
   geom_col() +

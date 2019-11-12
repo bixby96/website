@@ -5,24 +5,19 @@ date: '2018-08-30'
 tags:
   - music
   - R
-output:
-  blogdown::html_page:
-    toc: yes
-description: Exploring the sound on each Kanye album
+summary: What is Kanye's happiest album?
+coverImage: https://images.unsplash.com/photo-1551817958-795f9440ce4d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80
 ---
 
 <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
 
 
-<p>##Introduction
-As the <a href="https://en.wikipedia.org/wiki/Internet_of_things">Internet of Things</a> (IoT) landscape continues to grow, practically everyone and everything, it seems, is compiling data or at least generating statistics for any variable imaginable. And music is no exception. The music streaming service, Spotify, stores an array of features for each song in its library. They record characteristics such as acousticness, danceability, energy and more. With these variables in mind, I conducted some exploratory analysis along with a couple clustering methods on Kanye West’s <em>Spotify</em> discography. The following report utilizes Spotify’s Web API through Charlie Thompson’s <code>spotifyr</code> package which you can check out <a href="http://www.rdocumentation.org/packages/spotifyr">here</a>.</p>
-<center>
-<a id='N_ojmtFuShtIOBP5ugOPTQ' class='gie-single' href='http://www.gettyimages.com/detail/994892144' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a>
-<script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'N_ojmtFuShtIOBP5ugOPTQ',sig:'qWFJbSTJE8IEPUvJSx1oVvC5GR_qojY9INDpB7ctkm0=',w:'594px',h:'395px',items:'994892144',caption: false ,tld:'com',is360: false })});</script>
-<script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
-</center>
-<p>##Exploratory Data Analysis
-###Load Packages</p>
+<p>As the <a href="https://en.wikipedia.org/wiki/Internet_of_things">Internet of Things</a> (IoT) landscape continues to grow, practically everyone and everything, it seems, is compiling data or at least generating statistics for any variable imaginable. And music is no exception. The music streaming service, Spotify, stores an array of features for each song in its library. They record characteristics such as acousticness, danceability, energy and more. With these variables in mind, I conducted some exploratory analysis along with a couple clustering methods on Kanye West’s <em>Spotify</em> discography. The following report utilizes Spotify’s Web API through Charlie Thompson’s <code>spotifyr</code> package which you can check out <a href="http://www.rdocumentation.org/packages/spotifyr">here</a>.</p>
+<hr />
+<div id="exploratory-data-analysis" class="section level2">
+<h2>Exploratory Data Analysis</h2>
+<div id="load-packages" class="section level3">
+<h3>Load Packages</h3>
 <p>The following code and plots make use of these packages:</p>
 <pre class="r"><code>library(spotifyr)
 library(tidyverse)
@@ -34,7 +29,9 @@ library(scales)
 library(ggfortify)
 library(ggdendro)
 library(dendextend)</code></pre>
-<p>###Import Data</p>
+</div>
+<div id="import-data" class="section level3">
+<h3>Import Data</h3>
 <p>First let’s import the audio features for Kanye West and take a quick look at the data.</p>
 <pre class="r"><code>kanye &lt;- get_artist_audio_features(artist = &quot;kanye west&quot;)</code></pre>
 <p>After viewing the data, I noticed a few tracks (rows) are duplicated since some albums contain edited, clean, and/or live versions. Those rows will be removed in addition to some irrelevant columns. Also let’s be sure we don’t have any missing values.</p>
@@ -58,7 +55,7 @@ rhythm stability, beat strength, and overall regularity. A value of 0.0 is least
 1.0 is most danceable.”</p>
 </blockquote>
 <p>Before determining which album Spotify deems the most danceable, let’s take a look at how danceability is distributed on each album.</p>
-<p><img src="/post/spotify_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="/post/spotify_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>The dashed vertical line in the middle represents the midpoint on the danceability scale. Also, the smaller tick marks at the bottom of each shape represent one song on an album. Each album appears to be more danceable than not, but let’s weight each song by its duration to get a better picture of each album in its entirety. The following graph outlines the results.</p>
 <pre class="r"><code>kanye_dance &lt;- kanye2 %&gt;%
   mutate(total_dance = danceability*duration_ms) %&gt;%
@@ -200,15 +197,17 @@ KIDS SEE GHOSTS
 </tr>
 </tbody>
 </table>
-<p>###Valence
-Spotify defines Valence as</p>
+</div>
+<div id="valence" class="section level3">
+<h3>Valence</h3>
+<p>Spotify defines Valence as</p>
 <blockquote>
 <p>“A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a
 track. Tracks with high valence sound more positive (e.g. happy, cheerful,
 euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)”&quot;</p>
 </blockquote>
 <p>Again, let’s look at the overall distribution for each album, but for valence this time.</p>
-<p><img src="/post/spotify_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/post/spotify_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>Perhaps a bit more polarizing than the danceability metric, most albums seem to have their fair share of both positive and negative sounding songs. Now weighting valence by song duration, let’s discover Kanye’s happiest (and saddest) album.</p>
 <pre class="r"><code>kanye_val &lt;- kanye2 %&gt;%
   mutate(total_valence = valence*duration_ms) %&gt;%
@@ -350,13 +349,19 @@ Wolves
 </tr>
 </tbody>
 </table>
-<p>###Other Variables</p>
+</div>
+<div id="other-variables" class="section level3">
+<h3>Other Variables</h3>
 <p>Interested in exploring the rest of the variables? Choose which characteristics to plot and select which albums to compare using the interactive graph
 below!</p>
 <iframe width="800" height="700" frameborder="F" src="https://chadbixby.shinyapps.io/kanye-app/">
 </iframe>
-<p>##Clustering</p>
-<p>###Hierarchical Clustering</p>
+</div>
+</div>
+<div id="clustering" class="section level2">
+<h2>Clustering</h2>
+<div id="hierarchical-clustering" class="section level3">
+<h3>Hierarchical Clustering</h3>
 <p>Now on to some clustering methods. Let’s determine which albums sound the most alike using hierarchical clustering. A tree with a height of 4 and complete linkage is shown below.</p>
 <pre class="r"><code>kanye3 &lt;- kanye2 %&gt;%
   select(-c(track_name, track_popularity)) %&gt;%
@@ -376,12 +381,14 @@ below!</p>
 kanye.hc &lt;- hclust(dist(scale(kanye3)), method = &quot;complete&quot;)
 kanye.tree &lt;- dendro_data(kanye.hc, type = &quot;rectangle&quot;)
 kanye.hc.4 &lt;- cutree(kanye.hc, k = 4)</code></pre>
-<p><img src="/post/spotify_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="/post/spotify_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>Kanye’s first three releases belong to one cluster while his last four belong to another. The middle releases, <em>808s &amp; Heartbreak</em> and <em>Twisted Fantasy</em>, are not only his most danceable records but his most unique sounding as well; they each populate their own cluster.</p>
-<p>###Principle Component Analysis</p>
+</div>
+<div id="principle-component-analysis" class="section level3">
+<h3>Principle Component Analysis</h3>
 <p>Now let’s use those variables and see if we can discover if his more popular songs score similarly for each variable. Using a PCA to reduce dimensionality and account for correlation we can try to reveal any patterns.</p>
-<pre class="r"><code>kanye.pca &lt;- prcomp(kanye2[,3:11], center = T, scale = T)
-summary(kanye.pca)</code></pre>
+<pre class="r"><code>kanye_pca &lt;- prcomp(kanye2[,3:11], center = T, scale = T)
+summary(kanye_pca)</code></pre>
 <pre><code>## Importance of components:
 ##                           PC1    PC2    PC3    PC4    PC5     PC6     PC7
 ## Standard deviation     1.5958 1.2793 1.0779 0.9988 0.9512 0.84785 0.69853
@@ -395,3 +402,5 @@ summary(kanye.pca)</code></pre>
 <iframe width="800" height="600" frameborder="0" scrolling="no" src="//plot.ly/~bixby96/1.embed?link=false&amp;logo=false">
 </iframe>
 <p>The most popular songs don’t appear to belong to any specific area or cluster on the graph, but it does look like <code>Energy</code> and <code>Loudness</code> are correlated. Try graphing them using the interactive plot above!</p>
+</div>
+</div>

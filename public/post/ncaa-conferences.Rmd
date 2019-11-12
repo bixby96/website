@@ -5,26 +5,24 @@ date: '2018-11-18'
 slug: ncaa-conferences
 output:
   blogdown::html_page:
-    toc: true
+    toc: false
 tags:
   - sports
   - R
-description: 'An inside look at college hoops'
+summary: 'Which league plays the fastest?'
+coverImage: https://images.unsplash.com/photo-1523142096306-cca37b5aa001?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
-#Introduction
-With the recent start of the college basketball season, I thought it would be fun to explore how style of play varies between conferences and reveal how the game has changed over time.  Using yearly data for each school found on [kenpom.com](https://kenpom.com/), a site for advanced college basketball stats, I examined the state of college hoops.  
+With the recent start of the college basketball season, I thought it would be fun to explore how style of play varies between conferences and reveal how the game has changed over time.  Using yearly data for each school found on [kenpom.com](https://kenpom.com/), a site for advanced college basketball stats, I examined the state of college hoops.
 
-<center>
-<a id='eAxKbirnRk1Rr6XttVhhBw' class='gie-single' href='http://www.gettyimages.com/detail/507812780' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a><script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'eAxKbirnRk1Rr6XttVhhBw',sig:'P0mKKrK_W5O5dp1MB3sota2haa1S6-rSbuy9mn54cy8=',w:'594px',h:'396px',items:'507812780',caption: false ,tld:'com',is360: false })});</script><script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
-</center>
+*************
 
-#Data Pre-Processing
-##Load Packages
+# Data Pre-Processing
+## Load Packages
 ```{r packages}
 library(tidyverse)
 library(rvest)
@@ -37,7 +35,7 @@ library(NbClust)
 library(plotly)
 ```
 
-##Scrape and Clean Data
+## Scrape and Clean Data
 ```{r scrape data}
 #define column names
 variables <- c("Team", "Conference", "Record", "AdjEM", "AdjO", "AdjD", "AdjT", "Luck", "SOS.AdjEM", "OppO", "OppD", "NC.SOS.AdjEM")
@@ -75,8 +73,8 @@ In total, we'll examine 17 years of data including 5,804 individual team seasons
 glimpse(ncaa)
 ```
 
-#Pace of Play
-##Overall Tempo
+# Pace of Play
+## Overall Tempo
 To begin, let's look at how tempo has varied over time. Kenpom defines tempo as a team's total possessions per 40 minutes (the length of a game minus overtime) adjusted for opponent.  So, in general, the greater the tempo, the faster pace a team plays at.  The plot below maps how tempo has evolved over time with the red dot representing each year's mean.
 
 ```{r, echo = F}
@@ -96,7 +94,7 @@ ggplot(aes(x = year, y = AdjT)) +
 
 It looks like most teams slowly but surely began slowing down overall pace; tempo was trending downwards right until the 2016 season.  So, what happened in 2016? The NCAA reduced the shot clock from 35 seconds to 30 and looks to have made an immediate impact on the way teams play.  The average team possessions jumped from 64.4 in 2015 to 68.2 in 2016, the highest since 2002. That's an increase of about 8 more total possessions per game!  Next, let's break it down on the conference level.
 
-##Conference Tempo
+## Conference Tempo
 The plot below shows how each of the major conferences transitioned in terms of pace during the five years prior to using a 30 second shot clock and the three years since.
 ```{r}
 before <- ncaa %>%
@@ -132,11 +130,11 @@ api_create(z, "conf-possessions")
 
 The Big East is no longer a slower paced, defensive-minded conference like the Big 10; they lead all conferences in terms of average tempo using a 30 second shot clock. 
 
-#Conference Clustering
-##High-Major vs. Mid-Major
+# Conference Clustering
+## High-Major vs. Mid-Major
 Each school competes in one of 32 different conferences which are determined primarily by geography and school size.  Not all conferences are created equally, however.  At the top of the food chain, "Power Six" conferences (ACC, Big 10, Big 12, Big East, Pac-12, SEC) recruit the top talent year in, year out and are the most competitive  each year.  The rest of the conferences could be considered "mid-major", but some like to make the distinction to separate into one more category: "high-major." They are typically a step above the rest of the mid-majors but aren't as strong top-to-bottom as the Power Six.  Let's use k-means clustering to determine which conferences deserve the high-major distinction.
 
-##K-means
+## K-means
 First things first, let's determine what data to use.  [Conference realignment](https://en.wikipedia.org/wiki/2010%E2%80%932014_NCAA_conference_realignment) kind of throws a wrench into things, so to get a better idea of the current landscape we'll focus our efforts only on the past five seasons. We'll use each conference's median team offensive and defensive efficiency  metric defined as the points scored or allowed per 100 possessions (adjusted for opponent) and tempo (described above) to paint a picture of each conference's overall skill and style of play.  Combining those features let's determine the optimal number of clusters using silhouette coefficients.
 
 ```{r kmeans data}
@@ -196,7 +194,7 @@ ncaa <- ncaa %>%
                           TRUE ~ "Mid-Major")) 
 ```
 
-##The Best of the Rest
+## The Best of the Rest
 Kenpom ranks each team by its efficiency margin which is a team's offensive minus defensive efficiency.  Since 2014, the average efficiency margin for Power Six schools' is 13.80. During that same time, High-Majors with an overall efficiency margin of that or better are listed below.
 
 ```{r, echo = FALSE}

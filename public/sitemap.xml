@@ -3,13 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/</loc>
-    <lastmod>2018-11-18T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/2018/11/18/ncaa-conferences/</loc>
+    <loc>/ncaa-conferences/</loc>
     <lastmod>2018-11-18T00:00:00+00:00</lastmod>
   </url>
   
@@ -21,6 +15,12 @@
   
   <url>
     <loc>/tags/r/</loc>
+    <lastmod>2018-11-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/</loc>
     <lastmod>2018-11-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -38,12 +38,12 @@
   </url>
   
   <url>
-    <loc>/2018/10/03/mlb-ejections/</loc>
+    <loc>/mlb-ejections/</loc>
     <lastmod>2018-10-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2018/09/13/avocados/</loc>
+    <loc>/avocado-market-research/</loc>
     <lastmod>2018-09-13T00:00:00+00:00</lastmod>
   </url>
   
@@ -54,12 +54,12 @@
   </url>
   
   <url>
-    <loc>/2018/09/06/2018-09-06-the-nfl-nba-mlb-s-center-of-gravity/</loc>
+    <loc>/center-of-gravity/</loc>
     <lastmod>2018-09-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2018/08/30/spotify/</loc>
+    <loc>/spotify-analyesis/</loc>
     <lastmod>2018-08-30T00:00:00+00:00</lastmod>
   </url>
   
@@ -74,7 +74,22 @@
   </url>
   
   <url>
-    <loc>/page/contact/</loc>
+    <loc>/archives/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/contact/contact/</loc>
+  </url>
+  
+  <url>
+    <loc>/contact/</loc>
+    <priority>0</priority>
   </url>
   
   <url>

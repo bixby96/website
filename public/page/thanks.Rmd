@@ -3,7 +3,6 @@ title: "Thank You"
 description: "for the message"
 author: "Chad Bixby"
 date: "October 8, 2018"
-output: html_document
 ---
 
 ![](/page/thanks_files/light-sign-typography-lighting.jpg)

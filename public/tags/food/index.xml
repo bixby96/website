@@ -1,163 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>food on Home</title>
+    <title>food on Rubix³: A Data Blog</title>
     <link>/tags/food/</link>
-    <description>Recent content in food on Home</description>
+    <description>Recent content in food on Rubix³: A Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>Chad Bixby</copyright>
     <lastBuildDate>Thu, 13 Sep 2018 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="/tags/food/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/food/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Avocado Market Research</title>
-      <link>/2018/09/13/avocados/</link>
+      <link>/avocado-market-research/</link>
       <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/13/avocados/</guid>
-      <description>
-
-&lt;div id=&#34;TOC&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#data-pre-processing&#34;&gt;Data Pre-Processing&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#load-data&#34;&gt;Load Data&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#load-packages&#34;&gt;Load Packages&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#clean-data&#34;&gt;Clean Data&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#exploratory-data-analysis&#34;&gt;Exploratory Data Analysis&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#distribution&#34;&gt;Distribution&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#avocado-prices&#34;&gt;Avocado Prices&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#avocado-volume&#34;&gt;Avocado Volume&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#elasticity&#34;&gt;Elasticity&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-
-&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;The following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US. In addition to a thorough exploratory analysis, I’ll also try to calculate the price elasticity of demand for each individual market. The dataset comes from the &lt;a href=&#34;http://www.hassavocadoboard.com/&#34;&gt;Hass Avocado Board&lt;/a&gt;.&lt;/p&gt;
-&lt;center&gt;
-&lt;a id=&#39;JG4UGGuQRmpRoiIpLv_qhQ&#39; class=&#39;gie-single&#39; href=&#39;http://www.gettyimages.com/detail/880599028&#39; target=&#39;_blank&#39; style=&#39;color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;&#39;&gt;Embed from Getty Images&lt;/a&gt;
-&lt;script&gt;window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:&#39;JG4UGGuQRmpRoiIpLv_qhQ&#39;,sig:&#39;N6lPd_OPn_K7igBz9eUfQK5NML4OwTpfOsG8GwtiA8s=&#39;,w:&#39;511px&#39;,h:&#39;339px&#39;,items:&#39;880599028&#39;,caption: false ,tld:&#39;com&#39;,is360: false })});&lt;/script&gt;
-&lt;script src=&#39;//embed-cdn.gettyimages.com/widgets.js&#39; charset=&#39;utf-8&#39; async&gt;&lt;/script&gt;
-&lt;/center&gt;
-&lt;/div&gt;
-&lt;div id=&#34;data-pre-processing&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Data Pre-Processing&lt;/h2&gt;
-&lt;div id=&#34;load-data&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Load Data&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#load avocado data
-load(file = &amp;quot;avocados.Rda&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;load-packages&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Load Packages&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
-library(scales)
-library(plotly)
-library(wesanderson)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;clean-data&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Clean Data&lt;/h3&gt;
-&lt;p&gt;The dataset contains weekly average prices and total amount sold for both organic and conventional avocados for 45 different markets (New York, Boise, St. Louis, etc.) that make up 8 larger regions (California, Great Lakes, Midsouth, Northeast, Plains, South Central, Southeast, and West). I’ll create three different datasets: one containing the 45 markets, one for the 8 larger regions, and one for entire US. Also, three price lookup codes (PLU’s) are listed, but for Hass avocados only, so I’ll create another variable to hold the rest of avocados (e.g. green-skinned) sold per week.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#replace spaces with underscores in column names
-names(avocados) &amp;lt;- gsub(&amp;quot; &amp;quot;, &amp;quot;_&amp;quot;, names(avocados))
-
-#rename PLU codes and tidy up data
-avocados &amp;lt;- avocados %&amp;gt;%
-  rename(small_hass = &amp;quot;4046&amp;quot;, large_hass = &amp;quot;4225&amp;quot;, xl_hass = &amp;quot;4770&amp;quot;) %&amp;gt;%
-  mutate(other = Total_Volume - small_hass - large_hass - xl_hass) %&amp;gt;%
-  gather(bag_size, bag_total, c(Small_Bags, Large_Bags, XLarge_Bags)) %&amp;gt;%
-  gather(avocado_type, avocado_volume, c(small_hass, large_hass, xl_hass,
-                                         other)) 
-
-#subset data by region
-avocados_region &amp;lt;- avocados %&amp;gt;%
-  filter(region %in% c(&amp;quot;California&amp;quot;, &amp;quot;West&amp;quot;, &amp;quot;SouthCentral&amp;quot;, &amp;quot;GreatLakes&amp;quot;,
-                       &amp;quot;Midsouth&amp;quot;, &amp;quot;Southeast&amp;quot;, &amp;quot;Northeast&amp;quot;, &amp;quot;Plains&amp;quot;)) 
-
-#subset data by market (city)
-avocados_market &amp;lt;- avocados %&amp;gt;%
-  filter(!(region %in% c(&amp;quot;California&amp;quot;, &amp;quot;West&amp;quot;, &amp;quot;SouthCentral&amp;quot;, &amp;quot;GreatLakes&amp;quot;,
-                       &amp;quot;Midsouth&amp;quot;, &amp;quot;Southeast&amp;quot;, &amp;quot;Northeast&amp;quot;, &amp;quot;Plains&amp;quot;,
-                       &amp;quot;TotalUS&amp;quot;)))
-
-#dataset for entire US
-avocados_total &amp;lt;- avocados %&amp;gt;%
-  filter(region == &amp;quot;TotalUS&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Let’s make sure we don’t have any missing values&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;paste(sum(is.na(avocados_market)),
-sum(is.na(avocados_region)),
-sum(is.na(avocados_total)))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;0 0 0&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Bravocado! Also, let’s see if there are any hidden markets that make up a region.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cat(paste(&amp;quot;Market Volume:&amp;quot;,
-sum(avocados_market$avocado_volume),&amp;quot;\n&amp;quot;),
-paste(&amp;quot;Region Volume:&amp;quot;,
-sum(avocados_region$avocado_volume), &amp;quot;\n&amp;quot;),
-paste(&amp;quot;Total Volume:&amp;quot;,
-sum(avocados_total$avocado_volume)))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Market Volume: 11381766688.74 
-##  Region Volume: 17594220546.06 
-##  Total Volume: 17594220545.4&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;So it looks like some avocados (6,212,453,857 to be exact) were sold over the past few years in markets not found in the dataset. But the eight regions do in fact contain the entirety of US avocado sales (minus rounding error).&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;exploratory-data-analysis&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Exploratory Data Analysis&lt;/h2&gt;
-&lt;div id=&#34;distribution&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Distribution&lt;/h3&gt;
-&lt;p&gt;Alright now that we understand the data, I think it’s time for some exploratory data analysis! First, let’s look at how the prices of organic and conventional avocados are distributed.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/post/avocados_files/figure-html/plots-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Not surprisingly, organic avocados are generally priced higher than conventional ones. The dashed vertical line in the middle represents the average weekly price for all avocados, $1.37. Next, let’s look at how prices have varied over time.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;avocado-prices&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Avocado Prices&lt;/h3&gt;
-&lt;iframe width=&#34;800&#34; height=&#34;550&#34; frameborder=&#34;0&#34; scrolling=&#34;no&#34; src=&#34;//plot.ly/~bixby96/9.embed?link=false&amp;amp;logo=false&#34;&gt;
-&lt;/iframe&gt;
-&lt;p&gt;A couple of things stick out to me. Avocados reached a 3-year high in late summer 2017. Also the apocalyptic organic price drop around July 2015. My guess is that there was some missing data for US total organic avocado prices in July 2015 that got imputed as $1.00. Let’s check the price movement for each region to see if any sharp declines in July 2015 exist.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/post/avocados_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Nothing out of the ordinary here. Organic prices never dropped below conventional prices in each region. I will just leave the US dataset as is and focus the rest of my analysis on the region dataset. Now, let’s see how avocado prices vary across regions.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/post/avocados_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The Northeast region sells avocados at the highest average price. Now, let’s determine which size of avocados each region buys.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;avocado-volume&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Avocado Volume&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;/post/avocados_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The South Central, California, and West regions make up the three largest avocado regions by volume. The Northeast region sells the most Large Hass avocados (both proportionally to total regional sales and overall) which probably contributes to them having the highest average price. With that said, let’s look at how each market consumes avocados.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/post/avocados_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The LA market appears to be ripe for avocados; it doubles the second largest market (New York) in terms of volume. Avocados seem to be most popular in western or warm weathered markets. Even smaller markets like Denver and Portland rank near the top among the larger US cities suggesting avocado consumption has a geographical element to it.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;elasticity&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Elasticity&lt;/h2&gt;
-&lt;p&gt;Finally let’s look at the price elasticity of avocados. We can try to determine which markets avocados are the most price elastic. First, let’s plot total volume against average price for all avocados.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/post/avocados_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Conventional avocados appear to show a linear relationship. It’s hard to make up the shape for the organic avocados so let’s try plotting each type in its own graph. It’s also worth noting that organic avocados are sold in much lower volumes than conventional avocados.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/post/avocados_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;It looks like the organic avocado price vs. sales relationship is more uniform, hinting that it has a less elastic demand than conventional avocados. The linear model seems to do an adequate job of describing the data so, for simplicity, let’s just fit a linear price-response function for all markets and compare their overall elasticities.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;elas &amp;lt;- lapply(unique(avocados_market$region), function(b){
-            df &amp;lt;- avocados_market %&amp;gt;%
-              filter(region == b)
-            m &amp;lt;- lm(Total_Volume ~ AveragePrice, data = df)
-            x &amp;lt;- m$coefficients[[&amp;quot;AveragePrice&amp;quot;]]
-            y &amp;lt;- mean(df$AveragePrice)
-            z &amp;lt;- mean(df$Total_Volume)
-            x*y/z
-        })
-
-elas &amp;lt;- do.call(rbind, elas) %&amp;gt;%
-  data.frame() %&amp;gt;%
-  mutate(market = unique(avocados_market$region)) %&amp;gt;%
-  mutate(elasticity = round(., 2)) %&amp;gt;%
-  select(-c(.))&lt;/code&gt;&lt;/pre&gt;
-&lt;iframe width=&#34;700&#34; height=&#34;700&#34; frameborder=&#34;0&#34; scrolling=&#34;no&#34; src=&#34;//plot.ly/~bixby96/15.embed?link=false&amp;amp;logo=false&#34;&gt;
-&lt;/iframe&gt;
-&lt;p&gt;The overall demand for avocados is elastic in all markets. Western markets (especially the Pacific Northwest) are typically less responsive to changes in price than eastern markets. A 10% price increase would cause an 18% drop in demand in Seattle but a 37% drop in New York. The &lt;em&gt;Pit&lt;/em&gt;tsburgh market could very well be immune to the avocado craze as a 10% price increase would decrease demand by &lt;strong&gt;58%&lt;/strong&gt;, 20% more than the next closest market, fellow Pennsylvanian city, Philadelphia.&lt;/p&gt;
-&lt;/div&gt;
-</description>
+      <guid>/avocado-market-research/</guid>
+      <description>Which US city loves avocados the most?</description>
     </item>
     
   </channel>

@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.56.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Chad Bixby">
+<meta name="keywords" content="">
+<meta name="description" content="Which league plays the fastest?">
+
+
+<meta property="og:description" content="Which league plays the fastest?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NCAA Basketball: Clustering Conferences">
+<meta name="twitter:title" content="NCAA Basketball: Clustering Conferences">
+<meta property="og:url" content="/ncaa-conferences/">
+<meta property="twitter:url" content="/ncaa-conferences/">
+<meta property="og:site_name" content="Rubix³: A Data Blog">
+<meta property="og:description" content="Which league plays the fastest?">
+<meta name="twitter:description" content="Which league plays the fastest?">
+<meta property="og:locale" content="en">
+
+  
+    <meta property="article:published_time" content="2018-11-18T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2018-11-18T00:00:00">
+  
+  
+  
+  
+    
+      <meta property="article:tag" content="sports">
+    
+      <meta property="article:tag" content="R">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://images.unsplash.com/photo-1523142096306-cca37b5aa001?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80">
+  <meta property="twitter:image" content="https://images.unsplash.com/photo-1523142096306-cca37b5aa001?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80">
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=640">
+
+
+    <title>NCAA Basketball: Clustering Conferences</title>
+
+    <link rel="icon" href="/content/page/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="/ncaa-conferences/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-125431650-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="/">Rubix³: A Data Blog</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">Chad Bixby</h4>
+        
+          <h5 class="sidebar-profile-bio">In Data We Trust</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/contact/contact">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-paper-plane"></i>
+      
+      <span class="sidebar-button-desc">Contact</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/bixby96">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-left
+              "
+       style="background-image:url('https://images.unsplash.com/photo-1523142096306-cca37b5aa001?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80')"
+       data-behavior="5">
+    
+      <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      NCAA Basketball: Clustering Conferences
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-11-18T00:00:00Z">
+        
+  
+  
+  
+  
+    11/18/2018
+  
+
+      </time>
+    
+    
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="5"
+        class="hasCover
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<p>With the recent start of the college basketball season, I thought it would be fun to explore how style of play varies between conferences and reveal how the game has changed over time. Using yearly data for each school found on <a href="https://kenpom.com/">kenpom.com</a>, a site for advanced college basketball stats, I examined the state of college hoops.</p>
+<hr />
+<div id="data-pre-processing" class="section level1">
+<h1>Data Pre-Processing</h1>
+<div id="load-packages" class="section level2">
+<h2>Load Packages</h2>
+<pre class="r"><code>library(tidyverse)
+library(rvest)
+library(stringi)
+library(kableExtra)
+library(ggthemr)
+library(factoextra)
+library(cluster)
+library(NbClust)
+library(plotly)</code></pre>
+</div>
+<div id="scrape-and-clean-data" class="section level2">
+<h2>Scrape and Clean Data</h2>
+<pre class="r"><code>#define column names
+variables &lt;- c(&quot;Team&quot;, &quot;Conference&quot;, &quot;Record&quot;, &quot;AdjEM&quot;, &quot;AdjO&quot;, &quot;AdjD&quot;, &quot;AdjT&quot;, &quot;Luck&quot;, &quot;SOS.AdjEM&quot;, &quot;OppO&quot;, &quot;OppD&quot;, &quot;NC.SOS.AdjEM&quot;)
+
+#scrape kenpom data
+seasons &lt;- lapply(paste0(&#39;https://kenpom.com/index.php?y=&#39;, 2002:2018),
+                function(url){
+                    url %&gt;% 
+                    read_html() %&gt;% 
+                    html_nodes(&quot;table&quot;) %&gt;%
+                    html_table() %&gt;%
+                    as.data.frame() %&gt;%
+                    select(-c(Var.1, Var.7, Var.9, Var.11, Var.13,
+                                  Strength.of.Schedule.1, 
+                                  Strength.of.Schedule.3, 
+                                  Strength.of.Schedule.5, NCSOS.1)) %&gt;%
+                    `colnames&lt;-`(variables) %&gt;%
+                    filter(!is.na(as.numeric(OppO))) %&gt;%
+                    mutate(year = stri_sub(url, from = -4, length = 4))
+                })
+
+#combine yearly data
+ncaa &lt;- do.call(rbind, seasons) %&gt;% 
+  separate(Record, into = c(&quot;Wins&quot;, &quot;Losses&quot;)) #extract wins/losses 
+
+ncaa[,3:13] &lt;- lapply(ncaa[,3:13], as.numeric) #convert to numeric values
+ncaa$Team &lt;- gsub(&#39;[0-9]+&#39;, &quot;&quot;, ncaa$Team) %&gt;% #remove ncaa/nit tourney rank
+  trimws(&quot;r&quot;) #remove trailing spaces
+ncaa$Conference &lt;- recode(ncaa$Conference, P10 = &quot;P12&quot;) #combine pac10 with pac12</code></pre>
+<p>In total, we’ll examine 17 years of data including 5,804 individual team seasons. Each season will be classified according to the year it ends, not the year it starts. For example, the 2017-18 college basketball season will be labeled simply as “2018”. A quick look at how the data is organized is shown below.</p>
+<pre class="r"><code>glimpse(ncaa)</code></pre>
+<pre><code>## Observations: 5,804
+## Variables: 14
+## $ Team         &lt;chr&gt; &quot;Duke&quot;, &quot;Cincinnati&quot;, &quot;Maryland&quot;, &quot;Kansas&quot;, &quot;Oklaho…
+## $ Conference   &lt;chr&gt; &quot;ACC&quot;, &quot;CUSA&quot;, &quot;ACC&quot;, &quot;B12&quot;, &quot;B12&quot;, &quot;B10&quot;, &quot;SEC&quot;, &quot;…
+## $ Wins         &lt;dbl&gt; 31, 31, 32, 33, 31, 25, 22, 26, 26, 22, 26, 22, 24,…
+## $ Losses       &lt;dbl&gt; 4, 4, 4, 4, 5, 12, 9, 9, 9, 10, 7, 10, 10, 6, 10, 6…
+## $ AdjEM        &lt;dbl&gt; 34.19, 30.19, 29.25, 28.99, 26.04, 24.80, 24.72, 23…
+## $ AdjO         &lt;dbl&gt; 121.0, 118.1, 119.2, 118.7, 114.9, 114.0, 115.1, 11…
+## $ AdjD         &lt;dbl&gt; 86.8, 87.9, 89.9, 89.7, 88.9, 89.2, 90.4, 92.5, 96.…
+## $ AdjT         &lt;dbl&gt; 74.5, 67.4, 73.7, 77.3, 66.5, 65.6, 69.6, 68.5, 71.…
+## $ Luck         &lt;dbl&gt; -0.027, 0.002, 0.025, 0.022, 0.043, -0.049, -0.073,…
+## $ SOS.AdjEM    &lt;dbl&gt; 9.87, 6.58, 9.88, 10.66, 8.77, 14.11, 9.11, 10.60, …
+## $ OppO         &lt;dbl&gt; 109.1, 106.3, 109.1, 110.3, 109.0, 110.8, 108.1, 10…
+## $ OppD         &lt;dbl&gt; 99.2, 99.7, 99.3, 99.6, 100.2, 96.7, 99.0, 99.1, 99…
+## $ NC.SOS.AdjEM &lt;dbl&gt; 6.66, 3.48, 1.62, 8.32, -0.45, 13.53, -0.56, 6.78, …
+## $ year         &lt;chr&gt; &quot;2002&quot;, &quot;2002&quot;, &quot;2002&quot;, &quot;2002&quot;, &quot;2002&quot;, &quot;2002&quot;, &quot;20…</code></pre>
+</div>
+</div>
+<div id="pace-of-play" class="section level1">
+<h1>Pace of Play</h1>
+<div id="overall-tempo" class="section level2">
+<h2>Overall Tempo</h2>
+<p>To begin, let’s look at how tempo has varied over time. Kenpom defines tempo as a team’s total possessions per 40 minutes (the length of a game minus overtime) adjusted for opponent. So, in general, the greater the tempo, the faster pace a team plays at. The plot below maps how tempo has evolved over time with the red dot representing each year’s mean.</p>
+<p><img src="/post/ncaa-conferences_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>It looks like most teams slowly but surely began slowing down overall pace; tempo was trending downwards right until the 2016 season. So, what happened in 2016? The NCAA reduced the shot clock from 35 seconds to 30 and looks to have made an immediate impact on the way teams play. The average team possessions jumped from 64.4 in 2015 to 68.2 in 2016, the highest since 2002. That’s an increase of about 8 more total possessions per game! Next, let’s break it down on the conference level.</p>
+</div>
+<div id="conference-tempo" class="section level2">
+<h2>Conference Tempo</h2>
+<p>The plot below shows how each of the major conferences transitioned in terms of pace during the five years prior to using a 30 second shot clock and the three years since.</p>
+<pre class="r"><code>before &lt;- ncaa %&gt;%
+  filter(Conference %in% c(&quot;B10&quot;, &quot;B12&quot;, &quot;P12&quot;, &quot;SEC&quot;, &quot;ACC&quot;, &quot;BE&quot;)) %&gt;%
+  filter(year &lt; 2016 &amp; year &gt; 2010) %&gt;%
+  group_by(Conference) %&gt;%
+  summarise(&quot;30 Seconds&quot; = mean(AdjT))
+
+after &lt;- ncaa %&gt;%
+  filter(Conference %in% c(&quot;B10&quot;, &quot;B12&quot;, &quot;P12&quot;, &quot;SEC&quot;, &quot;ACC&quot;, &quot;BE&quot;)) %&gt;%
+  filter(year &gt; 2015) %&gt;%
+  group_by(Conference) %&gt;%
+  summarise(&quot;35 Seconds&quot; = mean(AdjT))
+
+tempo &lt;- full_join(before, after, by = &quot;Conference&quot;) %&gt;% 
+  gather(&quot;Shot Clock&quot;, Tempo, 2:3)
+
+tempo$Conference &lt;- recode(tempo$Conference, B10 = &quot;Big 10&quot;, B12 = &quot;Big 12&quot;, P12 = &quot;Pac-12&quot;, BE = &quot;Big East&quot;)</code></pre>
+<iframe width="800" height="550" frameborder="0" scrolling="no" src="//plot.ly/~bixby96/7.embed?link=false&amp;logo=false">
+</iframe>
+<p>The Big East is no longer a slower paced, defensive-minded conference like the Big 10; they lead all conferences in terms of average tempo using a 30 second shot clock.</p>
+</div>
+</div>
+<div id="conference-clustering" class="section level1">
+<h1>Conference Clustering</h1>
+<div id="high-major-vs.mid-major" class="section level2">
+<h2>High-Major vs. Mid-Major</h2>
+<p>Each school competes in one of 32 different conferences which are determined primarily by geography and school size. Not all conferences are created equally, however. At the top of the food chain, “Power Six” conferences (ACC, Big 10, Big 12, Big East, Pac-12, SEC) recruit the top talent year in, year out and are the most competitive each year. The rest of the conferences could be considered “mid-major”, but some like to make the distinction to separate into one more category: “high-major.” They are typically a step above the rest of the mid-majors but aren’t as strong top-to-bottom as the Power Six. Let’s use k-means clustering to determine which conferences deserve the high-major distinction.</p>
+</div>
+<div id="k-means" class="section level2">
+<h2>K-means</h2>
+<p>First things first, let’s determine what data to use. <a href="https://en.wikipedia.org/wiki/2010%E2%80%932014_NCAA_conference_realignment">Conference realignment</a> kind of throws a wrench into things, so to get a better idea of the current landscape we’ll focus our efforts only on the past five seasons. We’ll use each conference’s median team offensive and defensive efficiency metric defined as the points scored or allowed per 100 possessions (adjusted for opponent) and tempo (described above) to paint a picture of each conference’s overall skill and style of play. Combining those features let’s determine the optimal number of clusters using silhouette coefficients.</p>
+<pre class="r"><code>set.seed(8675309)
+
+kmeans.data &lt;- ncaa %&gt;%
+  filter(year &gt; 2013) %&gt;%
+  group_by(Conference) %&gt;%
+  select(AdjO, AdjD, AdjT) %&gt;%
+  summarise_all(median) %&gt;%
+  column_to_rownames(&quot;Conference&quot;) %&gt;%
+  scale() </code></pre>
+<p><img src="/post/ncaa-conferences_files/figure-html/optimal%20clusters-1.png" width="672" /></p>
+<p>The optimal number of centers to use for k-means model is 2. The silhouette score measures the separation of each point between clusters. In short, the higher score, the better the clustering result. The silhouette plot with 2 clusters is shown below.</p>
+<pre class="r"><code>ncaa.km &lt;- kmeans(kmeans.data, 2, nstart = 33)</code></pre>
+<p><img src="/post/ncaa-conferences_files/figure-html/silhouette%20plots-1.png" width="672" /></p>
+<p>The results of our k-means cluster can be visualized on a PCA biplot showing <code>96.7%</code> (65.6 + 31.1) of the variability in the data.</p>
+<p><img src="/post/ncaa-conferences_files/figure-html/cluster-1.png" width="672" /></p>
+<p>Congratulations to members of the American, Atlantic 10, Mountain West, Missouri Valley, and West Coast Conferences. You have officially been promoted to High-Major status! Now of those High-Majors, let’s see which schools could make the jump to a Power Six conference based on recent performance.</p>
+<pre class="r"><code>#define conference type
+ncaa &lt;- ncaa %&gt;%
+  mutate(type = case_when(Conference %in% c(&quot;ACC&quot;, &quot;B10&quot;, &quot;B12&quot;, &quot;P12&quot;, &quot;SEC&quot;, &quot;BE&quot;) ~ &quot;Power 6&quot;,
+                          Conference %in% c(&quot;A10&quot;, &quot;Amer&quot;, &quot;MWC&quot;, &quot;MVC&quot;, &quot;WCC&quot;) ~ &quot;High-Major&quot;,
+                          TRUE ~ &quot;Mid-Major&quot;)) </code></pre>
+</div>
+<div id="the-best-of-the-rest" class="section level2">
+<h2>The Best of the Rest</h2>
+<p>Kenpom ranks each team by its efficiency margin which is a team’s offensive minus defensive efficiency. Since 2014, the average efficiency margin for Power Six schools’ is 13.80. During that same time, High-Majors with an overall efficiency margin of that or better are listed below.</p>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Team
+</th>
+<th style="text-align:right;">
+AdjEM
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Gonzaga
+</td>
+<td style="text-align:right;">
+24.764
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Wichita St.
+</td>
+<td style="text-align:right;">
+23.054
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cincinnati
+</td>
+<td style="text-align:right;">
+19.846
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SMU
+</td>
+<td style="text-align:right;">
+18.098
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Saint Mary’s
+</td>
+<td style="text-align:right;">
+15.658
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+San Diego St.
+</td>
+<td style="text-align:right;">
+14.752
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VCU
+</td>
+<td style="text-align:right;">
+13.898
+</td>
+</tr>
+</tbody>
+</table>
+<p>These schools will most likely be given a hard look from Power Six conferences looking to expand. Gonzaga, Wichita St., and VCU have all made the Final Four this decade as well.</p>
+</div>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="/tags/sports/">sports</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/r/">R</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/mlb-ejections/" data-tooltip="Baseball Ejections and Replay Review">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/ncaa-conferences/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/ncaa-conferences/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Chad Bixby. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/mlb-ejections/" data-tooltip="Baseball Ejections and Replay Review">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/ncaa-conferences/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/ncaa-conferences/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2Fncaa-conferences%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2Fncaa-conferences%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=110" alt="" />
+    
+    <h4 id="about-card-name">Chad Bixby</h4>
+    
+      <div id="about-card-bio">In Data We Trust</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Data Scientist
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Somewhere in America
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('/images/cover2.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = '\/ncaa-conferences\/';
+          
+            this.page.identifier = '\/ncaa-conferences\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'chad-bixby';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

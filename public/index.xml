@@ -1,11 +1,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Home</title>
+    <title>Rubix³: A Data Blog</title>
     <link>/</link>
-    <description>Recent content on Home</description>
+    <description>Recent content on Rubix³: A Data Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>Chad Bixby</copyright>
     <lastBuildDate>Sun, 18 Nov 2018 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
@@ -13,41 +12,16 @@
     
     <item>
       <title>NCAA Basketball: Clustering Conferences</title>
-      <link>/2018/11/18/ncaa-conferences/</link>
+      <link>/ncaa-conferences/</link>
       <pubDate>Sun, 18 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/18/ncaa-conferences/</guid>
+      <guid>/ncaa-conferences/</guid>
       <description>
 &lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
 
-&lt;div id=&#34;TOC&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#data-pre-processing&#34;&gt;Data Pre-Processing&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#load-packages&#34;&gt;Load Packages&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#scrape-and-clean-data&#34;&gt;Scrape and Clean Data&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#pace-of-play&#34;&gt;Pace of Play&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#overall-tempo&#34;&gt;Overall Tempo&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#conference-tempo&#34;&gt;Conference Tempo&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#conference-clustering&#34;&gt;Conference Clustering&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#high-major-vs.mid-major&#34;&gt;High-Major vs. Mid-Major&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#k-means&#34;&gt;K-means&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#the-best-of-the-rest&#34;&gt;The Best of the Rest&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
 
-&lt;div id=&#34;introduction&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;With the recent start of the college basketball season, I thought it would be fun to explore how style of play varies between conferences and reveal how the game has changed over time. Using yearly data for each school found on &lt;a href=&#34;https://kenpom.com/&#34;&gt;kenpom.com&lt;/a&gt;, a site for advanced college basketball stats, I examined the state of college hoops.&lt;/p&gt;
-&lt;center&gt;
-&lt;a id=&#39;eAxKbirnRk1Rr6XttVhhBw&#39; class=&#39;gie-single&#39; href=&#39;http://www.gettyimages.com/detail/507812780&#39; target=&#39;_blank&#39; style=&#39;color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;&#39;&gt;Embed from Getty Images&lt;/a&gt;
-&lt;script&gt;window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:&#39;eAxKbirnRk1Rr6XttVhhBw&#39;,sig:&#39;P0mKKrK_W5O5dp1MB3sota2haa1S6-rSbuy9mn54cy8=&#39;,w:&#39;594px&#39;,h:&#39;396px&#39;,items:&#39;507812780&#39;,caption: false ,tld:&#39;com&#39;,is360: false })});&lt;/script&gt;
-&lt;script src=&#39;//embed-cdn.gettyimages.com/widgets.js&#39; charset=&#39;utf-8&#39; async&gt;&lt;/script&gt;
-&lt;/center&gt;
-&lt;/div&gt;
+&lt;hr /&gt;
 &lt;div id=&#34;data-pre-processing&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Data Pre-Processing&lt;/h1&gt;
 &lt;div id=&#34;load-packages&#34; class=&#34;section level2&#34;&gt;
@@ -96,20 +70,20 @@ ncaa$Conference &amp;lt;- recode(ncaa$Conference, P10 = &amp;quot;P12&amp;quot;)
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;glimpse(ncaa)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Observations: 5,804
 ## Variables: 14
-## $ Team         &amp;lt;chr&amp;gt; &amp;quot;Duke&amp;quot;, &amp;quot;Cincinnati&amp;quot;, &amp;quot;Maryland&amp;quot;, &amp;quot;Kansas&amp;quot;, &amp;quot;Okla...
-## $ Conference   &amp;lt;chr&amp;gt; &amp;quot;ACC&amp;quot;, &amp;quot;CUSA&amp;quot;, &amp;quot;ACC&amp;quot;, &amp;quot;B12&amp;quot;, &amp;quot;B12&amp;quot;, &amp;quot;B10&amp;quot;, &amp;quot;SEC&amp;quot;,...
-## $ Wins         &amp;lt;dbl&amp;gt; 31, 31, 32, 33, 31, 25, 22, 26, 26, 22, 26, 22, 2...
-## $ Losses       &amp;lt;dbl&amp;gt; 4, 4, 4, 4, 5, 12, 9, 9, 9, 10, 7, 10, 10, 6, 10,...
-## $ AdjEM        &amp;lt;dbl&amp;gt; 34.19, 30.19, 29.25, 28.99, 26.04, 24.80, 24.72, ...
-## $ AdjO         &amp;lt;dbl&amp;gt; 121.0, 118.1, 119.2, 118.7, 114.9, 114.0, 115.1, ...
-## $ AdjD         &amp;lt;dbl&amp;gt; 86.8, 87.9, 89.9, 89.7, 88.9, 89.2, 90.4, 92.5, 9...
-## $ AdjT         &amp;lt;dbl&amp;gt; 74.5, 67.4, 73.7, 77.3, 66.5, 65.6, 69.6, 68.5, 7...
-## $ Luck         &amp;lt;dbl&amp;gt; -0.027, 0.002, 0.025, 0.022, 0.043, -0.049, -0.07...
-## $ SOS.AdjEM    &amp;lt;dbl&amp;gt; 9.87, 6.58, 9.88, 10.67, 8.77, 14.12, 9.11, 10.60...
-## $ OppO         &amp;lt;dbl&amp;gt; 109.3, 106.5, 109.4, 110.5, 109.2, 111.1, 108.3, ...
-## $ OppD         &amp;lt;dbl&amp;gt; 99.5, 100.0, 99.5, 99.9, 100.4, 96.9, 99.2, 99.4,...
-## $ NC.SOS.AdjEM &amp;lt;dbl&amp;gt; 6.66, 3.48, 1.62, 8.32, -0.44, 13.54, -0.56, 6.79...
-## $ year         &amp;lt;chr&amp;gt; &amp;quot;2002&amp;quot;, &amp;quot;2002&amp;quot;, &amp;quot;2002&amp;quot;, &amp;quot;2002&amp;quot;, &amp;quot;2002&amp;quot;, &amp;quot;2002&amp;quot;, &amp;quot;...&lt;/code&gt;&lt;/pre&gt;
+## $ Team         &amp;lt;chr&amp;gt; &amp;quot;Duke&amp;quot;, &amp;quot;Cincinnati&amp;quot;, &amp;quot;Maryland&amp;quot;, &amp;quot;Kansas&amp;quot;, &amp;quot;Oklaho…
+## $ Conference   &amp;lt;chr&amp;gt; &amp;quot;ACC&amp;quot;, &amp;quot;CUSA&amp;quot;, &amp;quot;ACC&amp;quot;, &amp;quot;B12&amp;quot;, &amp;quot;B12&amp;quot;, &amp;quot;B10&amp;quot;, &amp;quot;SEC&amp;quot;, &amp;quot;…
+## $ Wins         &amp;lt;dbl&amp;gt; 31, 31, 32, 33, 31, 25, 22, 26, 26, 22, 26, 22, 24,…
+## $ Losses       &amp;lt;dbl&amp;gt; 4, 4, 4, 4, 5, 12, 9, 9, 9, 10, 7, 10, 10, 6, 10, 6…
+## $ AdjEM        &amp;lt;dbl&amp;gt; 34.19, 30.19, 29.25, 28.99, 26.04, 24.80, 24.72, 23…
+## $ AdjO         &amp;lt;dbl&amp;gt; 121.0, 118.1, 119.2, 118.7, 114.9, 114.0, 115.1, 11…
+## $ AdjD         &amp;lt;dbl&amp;gt; 86.8, 87.9, 89.9, 89.7, 88.9, 89.2, 90.4, 92.5, 96.…
+## $ AdjT         &amp;lt;dbl&amp;gt; 74.5, 67.4, 73.7, 77.3, 66.5, 65.6, 69.6, 68.5, 71.…
+## $ Luck         &amp;lt;dbl&amp;gt; -0.027, 0.002, 0.025, 0.022, 0.043, -0.049, -0.073,…
+## $ SOS.AdjEM    &amp;lt;dbl&amp;gt; 9.87, 6.58, 9.88, 10.66, 8.77, 14.11, 9.11, 10.60, …
+## $ OppO         &amp;lt;dbl&amp;gt; 109.1, 106.3, 109.1, 110.3, 109.0, 110.8, 108.1, 10…
+## $ OppD         &amp;lt;dbl&amp;gt; 99.2, 99.7, 99.3, 99.6, 100.2, 96.7, 99.0, 99.1, 99…
+## $ NC.SOS.AdjEM &amp;lt;dbl&amp;gt; 6.66, 3.48, 1.62, 8.32, -0.45, 13.53, -0.56, 6.78, …
+## $ year         &amp;lt;chr&amp;gt; &amp;quot;2002&amp;quot;, &amp;quot;2002&amp;quot;, &amp;quot;2002&amp;quot;, &amp;quot;2002&amp;quot;, &amp;quot;2002&amp;quot;, &amp;quot;2002&amp;quot;, &amp;quot;20…&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;pace-of-play&#34; class=&#34;section level1&#34;&gt;
@@ -255,11 +229,11 @@ VCU
     </item>
     
     <item>
-      <title>MLB: Ejections and Replay Review</title>
-      <link>/2018/10/03/mlb-ejections/</link>
+      <title>Baseball Ejections and Replay Review</title>
+      <link>/mlb-ejections/</link>
       <pubDate>Wed, 03 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/03/mlb-ejections/</guid>
+      <guid>/mlb-ejections/</guid>
       <description>
 &lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
 &lt;script src=&#34;/rmarkdown-libs/d3/d3.min.js&#34;&gt;&lt;/script&gt;
@@ -267,29 +241,9 @@ VCU
 &lt;script src=&#34;/rmarkdown-libs/d3tree2-binding/d3tree2.js&#34;&gt;&lt;/script&gt;
 &lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
 
-&lt;div id=&#34;TOC&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#data-pre-processing&#34;&gt;Data Pre-Processing&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#load-packages&#34;&gt;Load Packages&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#import-data&#34;&gt;Import Data&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#clean-data&#34;&gt;Clean Data&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#ejections-by-year-cause&#34;&gt;Ejections By Year &amp;amp; Cause&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#ejections-by-division&#34;&gt;Ejections By Division&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#managerial-ejections&#34;&gt;Managerial Ejections&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
 
-&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire’s ruling. Although technically introduced in 2008, previously only home run boundary calls could be reviewed at an umpire’s discretion. Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected. But let’s consult the data first. I looked at ten years of ejection data (2008-2017) coming from &lt;a href=&#34;http://portal.closecallsports.com/&#34;&gt;UEFL Portal&lt;/a&gt; to see if I could reveal any interesting patterns. The steps of my analysis are outlined below.&lt;/p&gt;
-&lt;center&gt;
-&lt;a id=&#39;-RfwUO89RKVDqB8lDlcNUg&#39; class=&#39;gie-single&#39; href=&#39;http://www.gettyimages.com/detail/812815534&#39; target=&#39;_blank&#39; style=&#39;color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;&#39;&gt;Embed from Getty Images&lt;/a&gt;
-&lt;script&gt;window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:&#39;-RfwUO89RKVDqB8lDlcNUg&#39;,sig:&#39;UuXQGkUbkuRekzTXfmgErubmC_omFTfWIOXQb1WzpnY=&#39;,w:&#39;594px&#39;,h:&#39;396px&#39;,items:&#39;812815534&#39;,caption: false ,tld:&#39;com&#39;,is360: false })});&lt;/script&gt;
-&lt;script src=&#39;//embed-cdn.gettyimages.com/widgets.js&#39; charset=&#39;utf-8&#39; async&gt;&lt;/script&gt;
-&lt;/center&gt;
-&lt;/div&gt;
+&lt;hr /&gt;
 &lt;div id=&#34;data-pre-processing&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Data Pre-Processing&lt;/h2&gt;
 &lt;div id=&#34;load-packages&#34; class=&#34;section level3&#34;&gt;
@@ -307,7 +261,7 @@ library(ggtern)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;import-data&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Import Data&lt;/h3&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#load ejections data
-load(file = &amp;quot;ejections.rda&amp;quot;) &lt;/code&gt;&lt;/pre&gt;
+load(file = &amp;quot;data/ejections.rda&amp;quot;) &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;clean-data&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Clean Data&lt;/h3&gt;
@@ -344,19 +298,19 @@ ejections &amp;lt;- bind_rows(ejections)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;glimpse(ejections)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Observations: 1,930
 ## Variables: 13
-## $ Date          &amp;lt;dttm&amp;gt; 2017-04-05, 2017-04-06, 2017-04-09, 2017-04-10,...
-## $ Team          &amp;lt;chr&amp;gt; &amp;quot;MIA&amp;quot;, &amp;quot;LAD&amp;quot;, &amp;quot;TB&amp;quot;, &amp;quot;PHI&amp;quot;, &amp;quot;COL&amp;quot;, &amp;quot;SEA&amp;quot;, &amp;quot;TEX&amp;quot;, ...
-## $ `Ej Pos`      &amp;lt;chr&amp;gt; &amp;quot;Manager&amp;quot;, &amp;quot;CF&amp;quot;, &amp;quot;CF&amp;quot;, &amp;quot;Manager&amp;quot;, &amp;quot;Manager&amp;quot;, &amp;quot;Ma...
-## $ Name          &amp;lt;chr&amp;gt; &amp;quot;Don Mattingly&amp;quot;, &amp;quot;Joc Pederson&amp;quot;, &amp;quot;Kevin Kiermaie...
-## $ H             &amp;lt;dbl&amp;gt; NA, 0, 3, NA, NA, NA, NA, NA, NA, NA, NA, 1, NA,...
-## $ AB            &amp;lt;dbl&amp;gt; NA, 3, 4, NA, NA, NA, NA, NA, NA, NA, NA, 2, NA,...
-## $ `W/L Pre-`    &amp;lt;chr&amp;gt; &amp;quot;L&amp;quot;, &amp;quot;W&amp;quot;, &amp;quot;W&amp;quot;, &amp;quot;Tie&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;...
-## $ `W/L Final`   &amp;lt;chr&amp;gt; &amp;quot;L&amp;quot;, &amp;quot;W&amp;quot;, &amp;quot;W&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;W&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;W&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;L&amp;quot;...
-## $ RS            &amp;lt;dbl&amp;gt; 2, 0, 2, 1, 2, 3, 1, 2, 0, 0, 2, 2, 0, 2, 2, 6, ...
-## $ RA            &amp;lt;dbl&amp;gt; 0, 0, 0, 2, 4, 1, 5, 0, 2, 0, 2, 2, 2, 2, 2, 2, ...
-## $ Inn           &amp;lt;dbl&amp;gt; 7, 7, 7, 8, 5, 6, 3, 9, 8, 8, 5, 5, 8, 7, 7, 3, ...
-## $ Reason        &amp;lt;chr&amp;gt; &amp;quot;Unsportsmanlike-NEC&amp;quot;, &amp;quot;Balls/Strikes&amp;quot;, &amp;quot;Balls/S...
-## $ `Play Result` &amp;lt;chr&amp;gt; &amp;quot;HBP&amp;quot;, &amp;quot;K&amp;quot;, &amp;quot;K&amp;quot;, &amp;quot;Ball&amp;quot;, &amp;quot;No Balk&amp;quot;, &amp;quot;Fair&amp;quot;, &amp;quot;Fou...&lt;/code&gt;&lt;/pre&gt;
+## $ Date          &amp;lt;dttm&amp;gt; 2017-04-05, 2017-04-06, 2017-04-09, 2017-04-10, 2…
+## $ Team          &amp;lt;chr&amp;gt; &amp;quot;MIA&amp;quot;, &amp;quot;LAD&amp;quot;, &amp;quot;TB&amp;quot;, &amp;quot;PHI&amp;quot;, &amp;quot;COL&amp;quot;, &amp;quot;SEA&amp;quot;, &amp;quot;TEX&amp;quot;, &amp;quot;T…
+## $ `Ej Pos`      &amp;lt;chr&amp;gt; &amp;quot;Manager&amp;quot;, &amp;quot;CF&amp;quot;, &amp;quot;CF&amp;quot;, &amp;quot;Manager&amp;quot;, &amp;quot;Manager&amp;quot;, &amp;quot;Mana…
+## $ Name          &amp;lt;chr&amp;gt; &amp;quot;Don Mattingly&amp;quot;, &amp;quot;Joc Pederson&amp;quot;, &amp;quot;Kevin Kiermaier&amp;quot;…
+## $ H             &amp;lt;dbl&amp;gt; NA, 0, 3, NA, NA, NA, NA, NA, NA, NA, NA, 1, NA, 0…
+## $ AB            &amp;lt;dbl&amp;gt; NA, 3, 4, NA, NA, NA, NA, NA, NA, NA, NA, 2, NA, 3…
+## $ `W/L Pre-`    &amp;lt;chr&amp;gt; &amp;quot;L&amp;quot;, &amp;quot;W&amp;quot;, &amp;quot;W&amp;quot;, &amp;quot;Tie&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;L&amp;quot;…
+## $ `W/L Final`   &amp;lt;chr&amp;gt; &amp;quot;L&amp;quot;, &amp;quot;W&amp;quot;, &amp;quot;W&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;W&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;W&amp;quot;, &amp;quot;L&amp;quot;, &amp;quot;L&amp;quot;, …
+## $ RS            &amp;lt;dbl&amp;gt; 2, 0, 2, 1, 2, 3, 1, 2, 0, 0, 2, 2, 0, 2, 2, 6, 0,…
+## $ RA            &amp;lt;dbl&amp;gt; 0, 0, 0, 2, 4, 1, 5, 0, 2, 0, 2, 2, 2, 2, 2, 2, 1,…
+## $ Inn           &amp;lt;dbl&amp;gt; 7, 7, 7, 8, 5, 6, 3, 9, 8, 8, 5, 5, 8, 7, 7, 3, 7,…
+## $ Reason        &amp;lt;chr&amp;gt; &amp;quot;Unsportsmanlike-NEC&amp;quot;, &amp;quot;Balls/Strikes&amp;quot;, &amp;quot;Balls/Str…
+## $ `Play Result` &amp;lt;chr&amp;gt; &amp;quot;HBP&amp;quot;, &amp;quot;K&amp;quot;, &amp;quot;K&amp;quot;, &amp;quot;Ball&amp;quot;, &amp;quot;No Balk&amp;quot;, &amp;quot;Fair&amp;quot;, &amp;quot;Foul&amp;quot;…&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;After a few more housekeeping data manipulations, I think our data is ready to be explored!&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#convert from DateTime to Date
 ejections$Date &amp;lt;- ymd(ejections$Date)
@@ -510,44 +464,21 @@ manager_ej &amp;lt;- ejections %&amp;gt;%
     
     <item>
       <title>Avocado Market Research</title>
-      <link>/2018/09/13/avocados/</link>
+      <link>/avocado-market-research/</link>
       <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/13/avocados/</guid>
+      <guid>/avocado-market-research/</guid>
       <description>
 
-&lt;div id=&#34;TOC&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#data-pre-processing&#34;&gt;Data Pre-Processing&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#load-data&#34;&gt;Load Data&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#load-packages&#34;&gt;Load Packages&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#clean-data&#34;&gt;Clean Data&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#exploratory-data-analysis&#34;&gt;Exploratory Data Analysis&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#distribution&#34;&gt;Distribution&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#avocado-prices&#34;&gt;Avocado Prices&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#avocado-volume&#34;&gt;Avocado Volume&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#elasticity&#34;&gt;Elasticity&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
 
-&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;The following report intends to analyze avocado prices and sales volume from 2015 to early 2018 across the US. In addition to a thorough exploratory analysis, I’ll also try to calculate the price elasticity of demand for each individual market. The dataset comes from the &lt;a href=&#34;http://www.hassavocadoboard.com/&#34;&gt;Hass Avocado Board&lt;/a&gt;.&lt;/p&gt;
-&lt;center&gt;
-&lt;a id=&#39;JG4UGGuQRmpRoiIpLv_qhQ&#39; class=&#39;gie-single&#39; href=&#39;http://www.gettyimages.com/detail/880599028&#39; target=&#39;_blank&#39; style=&#39;color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;&#39;&gt;Embed from Getty Images&lt;/a&gt;
-&lt;script&gt;window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:&#39;JG4UGGuQRmpRoiIpLv_qhQ&#39;,sig:&#39;N6lPd_OPn_K7igBz9eUfQK5NML4OwTpfOsG8GwtiA8s=&#39;,w:&#39;511px&#39;,h:&#39;339px&#39;,items:&#39;880599028&#39;,caption: false ,tld:&#39;com&#39;,is360: false })});&lt;/script&gt;
-&lt;script src=&#39;//embed-cdn.gettyimages.com/widgets.js&#39; charset=&#39;utf-8&#39; async&gt;&lt;/script&gt;
-&lt;/center&gt;
-&lt;/div&gt;
+&lt;hr /&gt;
 &lt;div id=&#34;data-pre-processing&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Data Pre-Processing&lt;/h2&gt;
 &lt;div id=&#34;load-data&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Load Data&lt;/h3&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#load avocado data
-load(file = &amp;quot;avocados.Rda&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+load(&amp;quot;data/avocados.Rda&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;load-packages&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Load Packages&lt;/h3&gt;
@@ -659,21 +590,15 @@ elas &amp;lt;- do.call(rbind, elas) %&amp;gt;%
     
     <item>
       <title>The NFL, NBA, &amp; MLB&#39;s Center of Gravity</title>
-      <link>/2018/09/06/2018-09-06-the-nfl-nba-mlb-s-center-of-gravity/</link>
+      <link>/center-of-gravity/</link>
       <pubDate>Thu, 06 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/06/2018-09-06-the-nfl-nba-mlb-s-center-of-gravity/</guid>
+      <guid>/center-of-gravity/</guid>
       <description>
 
 
-&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Drawing inspiration from FiveThirtyEight’s &lt;a href=&#34;https://fivethirtyeight.com/features/the-stanley-cup-center-of-gravity-is-somewhere-in-lake-huron/&#34;&gt;article&lt;/a&gt; locating the Stanley Cup’s center of gravity, or the average geographic point of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies’ geographical center could lie. Using Cartesian coordinates for each champion’s city, I mapped the location for each league. The corresponding code and plots are shown below.&lt;/p&gt;
-&lt;center&gt;
-&lt;a id=&#39;3s-VE1qNTDFOtZ0g4Qj6Zw&#39; class=&#39;gie-single&#39; href=&#39;http://www.gettyimages.com/detail/103688056&#39; target=&#39;_blank&#39; style=&#39;color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;&#39;&gt;Embed from Getty Images&lt;/a&gt;
-&lt;script&gt;window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:&#39;3s-VE1qNTDFOtZ0g4Qj6Zw&#39;,sig:&#39;couWX4UO7XaU6K8BFiWkDuC8QGvALtOvtZCJy9SNP1E=&#39;,w:&#39;594px&#39;,h:&#39;498px&#39;,items:&#39;103688056&#39;,caption: false ,tld:&#39;com&#39;,is360: false })});&lt;/script&gt;
-&lt;script src=&#39;//embed-cdn.gettyimages.com/widgets.js&#39; charset=&#39;utf-8&#39; async&gt;&lt;/script&gt;
-&lt;/center&gt;
+&lt;hr /&gt;
 &lt;div id=&#34;load-packages&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Load Packages&lt;/h3&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rvest) 
@@ -781,7 +706,7 @@ for (i in 1:nrow(mlb)) {
                     mlb$lon_center[i] &amp;lt;- find_center(mlb[1:i,])[[1]]
                     mlb$lat_center[i] &amp;lt;- find_center(mlb[1:i,])[[2]]
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2018-09-06-the-nfl-nba-mlb-s-center-of-gravity_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/center-of-gravity_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The NBA and MLB seem to be trending westward while the NFL looks to be boomeranging back east of the Mississippi. With the Yankees’ 27 championships (not to mention the NY Giants 5 titles plus the Mets 2 in addition to the Brooklyn Dodgers’ lone Series win) it’s no surprise that the MLB’s center of gravity is the furthest east. The Boston Celtic’s ’60s dynasty seems to have left its mark on the Larry O’Brien trophy, carrying the midpoint to upstate New York before ultimately trickling down through Illinois. Use the map below to toggle between leagues and a see which cities have won the most hardware.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;total-titles-by-city&#34; class=&#34;section level3&#34;&gt;
@@ -804,8 +729,9 @@ nba_total &amp;lt;- nba %&amp;gt;%
 &lt;/iframe&gt;
 &lt;div id=&#34;references&#34; class=&#34;section level4&#34;&gt;
 &lt;h4&gt;References&lt;/h4&gt;
-&lt;p&gt;D. Kahle and H. Wickham. ggmap: Spatial Visualization with ggplot2. The R Journal, 5(1), 144-161. URL &lt;a href=&#34;http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf&#34; class=&#34;uri&#34;&gt;http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf&lt;/a&gt;&lt;/p&gt;
-&lt;/div&gt;
+&lt;p&gt;D. Kahle and H. Wickham. ggmap: Spatial Visualization with ggplot2. The R
+Journal, 5(1), 144-161. URL
+&lt;a href=&#34;http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf&#34; class=&#34;uri&#34;&gt;http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 </description>
@@ -813,23 +739,20 @@ nba_total &amp;lt;- nba %&amp;gt;%
     
     <item>
       <title>Spotify AnalYEsis</title>
-      <link>/2018/08/30/spotify/</link>
+      <link>/spotify-analyesis/</link>
       <pubDate>Thu, 30 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/30/spotify/</guid>
+      <guid>/spotify-analyesis/</guid>
       <description>
 &lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
 
 
-&lt;p&gt;##Introduction
-As the &lt;a href=&#34;https://en.wikipedia.org/wiki/Internet_of_things&#34;&gt;Internet of Things&lt;/a&gt; (IoT) landscape continues to grow, practically everyone and everything, it seems, is compiling data or at least generating statistics for any variable imaginable. And music is no exception. The music streaming service, Spotify, stores an array of features for each song in its library. They record characteristics such as acousticness, danceability, energy and more. With these variables in mind, I conducted some exploratory analysis along with a couple clustering methods on Kanye West’s &lt;em&gt;Spotify&lt;/em&gt; discography. The following report utilizes Spotify’s Web API through Charlie Thompson’s &lt;code&gt;spotifyr&lt;/code&gt; package which you can check out &lt;a href=&#34;http://www.rdocumentation.org/packages/spotifyr&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;center&gt;
-&lt;a id=&#39;N_ojmtFuShtIOBP5ugOPTQ&#39; class=&#39;gie-single&#39; href=&#39;http://www.gettyimages.com/detail/994892144&#39; target=&#39;_blank&#39; style=&#39;color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;&#39;&gt;Embed from Getty Images&lt;/a&gt;
-&lt;script&gt;window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:&#39;N_ojmtFuShtIOBP5ugOPTQ&#39;,sig:&#39;qWFJbSTJE8IEPUvJSx1oVvC5GR_qojY9INDpB7ctkm0=&#39;,w:&#39;594px&#39;,h:&#39;395px&#39;,items:&#39;994892144&#39;,caption: false ,tld:&#39;com&#39;,is360: false })});&lt;/script&gt;
-&lt;script src=&#39;//embed-cdn.gettyimages.com/widgets.js&#39; charset=&#39;utf-8&#39; async&gt;&lt;/script&gt;
-&lt;/center&gt;
-&lt;p&gt;##Exploratory Data Analysis
-###Load Packages&lt;/p&gt;
+&lt;p&gt;As the &lt;a href=&#34;https://en.wikipedia.org/wiki/Internet_of_things&#34;&gt;Internet of Things&lt;/a&gt; (IoT) landscape continues to grow, practically everyone and everything, it seems, is compiling data or at least generating statistics for any variable imaginable. And music is no exception. The music streaming service, Spotify, stores an array of features for each song in its library. They record characteristics such as acousticness, danceability, energy and more. With these variables in mind, I conducted some exploratory analysis along with a couple clustering methods on Kanye West’s &lt;em&gt;Spotify&lt;/em&gt; discography. The following report utilizes Spotify’s Web API through Charlie Thompson’s &lt;code&gt;spotifyr&lt;/code&gt; package which you can check out &lt;a href=&#34;http://www.rdocumentation.org/packages/spotifyr&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;div id=&#34;exploratory-data-analysis&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Exploratory Data Analysis&lt;/h2&gt;
+&lt;div id=&#34;load-packages&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Load Packages&lt;/h3&gt;
 &lt;p&gt;The following code and plots make use of these packages:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(spotifyr)
 library(tidyverse)
@@ -841,7 +764,9 @@ library(scales)
 library(ggfortify)
 library(ggdendro)
 library(dendextend)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;###Import Data&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;import-data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Import Data&lt;/h3&gt;
 &lt;p&gt;First let’s import the audio features for Kanye West and take a quick look at the data.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kanye &amp;lt;- get_artist_audio_features(artist = &amp;quot;kanye west&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;After viewing the data, I noticed a few tracks (rows) are duplicated since some albums contain edited, clean, and/or live versions. Those rows will be removed in addition to some irrelevant columns. Also let’s be sure we don’t have any missing values.&lt;/p&gt;
@@ -865,7 +790,7 @@ rhythm stability, beat strength, and overall regularity. A value of 0.0 is least
 1.0 is most danceable.”&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Before determining which album Spotify deems the most danceable, let’s take a look at how danceability is distributed on each album.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/post/spotify_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/spotify_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The dashed vertical line in the middle represents the midpoint on the danceability scale. Also, the smaller tick marks at the bottom of each shape represent one song on an album. Each album appears to be more danceable than not, but let’s weight each song by its duration to get a better picture of each album in its entirety. The following graph outlines the results.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kanye_dance &amp;lt;- kanye2 %&amp;gt;%
   mutate(total_dance = danceability*duration_ms) %&amp;gt;%
@@ -1007,15 +932,17 @@ KIDS SEE GHOSTS
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;###Valence
-Spotify defines Valence as&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;valence&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Valence&lt;/h3&gt;
+&lt;p&gt;Spotify defines Valence as&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;“A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a
 track. Tracks with high valence sound more positive (e.g. happy, cheerful,
 euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)”&amp;quot;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Again, let’s look at the overall distribution for each album, but for valence this time.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;/post/spotify_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/spotify_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Perhaps a bit more polarizing than the danceability metric, most albums seem to have their fair share of both positive and negative sounding songs. Now weighting valence by song duration, let’s discover Kanye’s happiest (and saddest) album.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kanye_val &amp;lt;- kanye2 %&amp;gt;%
   mutate(total_valence = valence*duration_ms) %&amp;gt;%
@@ -1157,13 +1084,19 @@ Wolves
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;###Other Variables&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;other-variables&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Other Variables&lt;/h3&gt;
 &lt;p&gt;Interested in exploring the rest of the variables? Choose which characteristics to plot and select which albums to compare using the interactive graph
 below!&lt;/p&gt;
 &lt;iframe width=&#34;800&#34; height=&#34;700&#34; frameborder=&#34;F&#34; src=&#34;https://chadbixby.shinyapps.io/kanye-app/&#34;&gt;
 &lt;/iframe&gt;
-&lt;p&gt;##Clustering&lt;/p&gt;
-&lt;p&gt;###Hierarchical Clustering&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;clustering&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Clustering&lt;/h2&gt;
+&lt;div id=&#34;hierarchical-clustering&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Hierarchical Clustering&lt;/h3&gt;
 &lt;p&gt;Now on to some clustering methods. Let’s determine which albums sound the most alike using hierarchical clustering. A tree with a height of 4 and complete linkage is shown below.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kanye3 &amp;lt;- kanye2 %&amp;gt;%
   select(-c(track_name, track_popularity)) %&amp;gt;%
@@ -1183,12 +1116,14 @@ below!&lt;/p&gt;
 kanye.hc &amp;lt;- hclust(dist(scale(kanye3)), method = &amp;quot;complete&amp;quot;)
 kanye.tree &amp;lt;- dendro_data(kanye.hc, type = &amp;quot;rectangle&amp;quot;)
 kanye.hc.4 &amp;lt;- cutree(kanye.hc, k = 4)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/spotify_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/spotify_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Kanye’s first three releases belong to one cluster while his last four belong to another. The middle releases, &lt;em&gt;808s &amp;amp; Heartbreak&lt;/em&gt; and &lt;em&gt;Twisted Fantasy&lt;/em&gt;, are not only his most danceable records but his most unique sounding as well; they each populate their own cluster.&lt;/p&gt;
-&lt;p&gt;###Principle Component Analysis&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;principle-component-analysis&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Principle Component Analysis&lt;/h3&gt;
 &lt;p&gt;Now let’s use those variables and see if we can discover if his more popular songs score similarly for each variable. Using a PCA to reduce dimensionality and account for correlation we can try to reveal any patterns.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kanye.pca &amp;lt;- prcomp(kanye2[,3:11], center = T, scale = T)
-summary(kanye.pca)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;kanye_pca &amp;lt;- prcomp(kanye2[,3:11], center = T, scale = T)
+summary(kanye_pca)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Importance of components:
 ##                           PC1    PC2    PC3    PC4    PC5     PC6     PC7
 ## Standard deviation     1.5958 1.2793 1.0779 0.9988 0.9512 0.84785 0.69853
@@ -1202,6 +1137,8 @@ summary(kanye.pca)&lt;/code&gt;&lt;/pre&gt;
 &lt;iframe width=&#34;800&#34; height=&#34;600&#34; frameborder=&#34;0&#34; scrolling=&#34;no&#34; src=&#34;//plot.ly/~bixby96/1.embed?link=false&amp;amp;logo=false&#34;&gt;
 &lt;/iframe&gt;
 &lt;p&gt;The most popular songs don’t appear to belong to any specific area or cluster on the graph, but it does look like &lt;code&gt;Energy&lt;/code&gt; and &lt;code&gt;Loudness&lt;/code&gt; are correlated. Try graphing them using the interactive plot above!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 </description>
     </item>
     
@@ -1226,10 +1163,10 @@ A Proud Contributer to &lt;a href=&#34;http://www.R-bloggers.com&#34;&gt;R-Blogg
     
     <item>
       <title>Contact</title>
-      <link>/page/contact/</link>
+      <link>/contact/contact/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/page/contact/</guid>
+      <guid>/contact/contact/</guid>
       <description>
 
 
@@ -1239,13 +1176,21 @@ A Proud Contributer to &lt;a href=&#34;http://www.R-bloggers.com&#34;&gt;R-Blogg
 &lt;br&gt;
 &lt;form class=&#34;form&#34; id=&#34;contactform&#34; action=&#34;//formspree.io/chadbixby15@gmail.com&#34; method=&#34;POST&#34;&gt;
 &lt;fieldset class=&#34;field&#34;&gt;
-&lt;label class=&#34;label&#34; for=&#34;name&#34;&gt;&lt;span class=&#34;label-content&#34;&gt;Enter Your Name:&lt;/span&gt;&lt;/label&gt;&lt;br&gt; &lt;input class=&#34;input&#34; type=&#34;text&#34; size = &#34;30&#34; name=&#34;name&#34; placeholder=&#34;Dwight K. Schrute&#34; id=&#34;name&#34; required&gt;&lt;br&gt;&lt;br&gt; &lt;label class=&#34;label&#34; for=&#34;_replyto&#34;&gt;&lt;span class=&#34;label-content&#34;&gt;Email Address: &lt;/span&gt;&lt;/label&gt;&lt;br&gt; &lt;input class=&#34;input&#34; type=&#34;email&#34; size = &#34;30&#34; name=&#34;_replyto&#34; placeholder=&#34;dwight@beetfarms.com&#34; id=&#34;_replyto&#34; required&gt;&lt;br&gt;&lt;br&gt; &lt;label class=&#34;label&#34; for=&#34;message&#34;&gt;&lt;span class=&#34;label-content&#34;&gt;Your message:&lt;/span&gt;&lt;/label&gt;
-&lt;textarea class=&#34;input&#34; name=&#34;message&#34; rows=&#34;4&#34; cols=&#34;94%&#34; placeholder=&#34;Message&#34; id=&#34;message&#34; required&gt;
+&lt;label class=&#34;label&#34; for=&#34;name&#34;&gt;&lt;span class=&#34;label-content&#34;&gt;Enter Your Name:&lt;/span&gt;&lt;/label&gt;&lt;br&gt;
+&lt;input class=&#34;input&#34; type=&#34;text&#34; size = &#34;30&#34; name=&#34;name&#34; placeholder=&#34;Dwight K. Schrute&#34; id=&#34;name&#34; required&gt;&lt;br&gt;&lt;br&gt;
+&lt;label class=&#34;label&#34; for=&#34;_replyto&#34;&gt;&lt;span class=&#34;label-content&#34;&gt;Email Address: &lt;/span&gt;&lt;/label&gt;&lt;br&gt;
+&lt;input class=&#34;input&#34; type=&#34;email&#34; size = &#34;30&#34; name=&#34;_replyto&#34; placeholder=&#34;dwight@beetfarms.com&#34; id=&#34;_replyto&#34; required&gt;&lt;br&gt;&lt;br&gt;
+&lt;label class=&#34;label&#34; for=&#34;message&#34;&gt;&lt;span class=&#34;label-content&#34;&gt;Your message:&lt;/span&gt;&lt;/label&gt;&lt;br&gt;
+&lt;textarea class=&#34;input&#34; name=&#34;message&#34; rows=&#34;4&#34; cols=&#34;100%&#34; placeholder=&#34;Message&#34; id=&#34;message&#34; required&gt;
 &lt;/textarea&gt;
-&lt;br&gt;&lt;br&gt; &lt;input class=&#34;hidden&#34; type=&#34;text&#34; name=&#34;_gotcha&#34; style=&#34;display:none&#34;&gt; &lt;input class=&#34;hidden&#34; type=&#34;hidden&#34; name=&#34;_subject&#34; value=&#34;Website Message&#34;&gt; &lt;input class=&#34;button submit&#34; type=&#34;submit&#34; value=&#34;Send&#34;&gt; &lt;input type=&#34;hidden&#34; name=&#34;_next&#34; value=&#34;/page/thanks&#34; /&gt;
+&lt;br&gt;
+&lt;input class=&#34;hidden&#34; type=&#34;text&#34; name=&#34;_gotcha&#34; style=&#34;display:none&#34;&gt;
+&lt;input class=&#34;hidden&#34; type=&#34;hidden&#34; name=&#34;_subject&#34; value=&#34;Website Message&#34;&gt;
+&lt;input class=&#34;button submit&#34; type=&#34;submit&#34; value=&#34;Send&#34;&gt;
+&lt;input type=&#34;hidden&#34; name=&#34;_next&#34; value=&#34;/page/thanks&#34; /&gt;
 &lt;/fieldset&gt;
 &lt;/form&gt;
-&lt;p&gt;&lt;br&gt; Additionally, my LinkedIn and Github accounts are linked at the top of each page.&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 </description>
     </item>
     
@@ -1258,15 +1203,10 @@ A Proud Contributer to &lt;a href=&#34;http://www.R-bloggers.com&#34;&gt;R-Blogg
       <description>
 
 
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/page/thanks_files/light-sign-typography-lighting.jpg&#34; /&gt;
-
-&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;/page/thanks_files/light-sign-typography-lighting.jpg&#34; /&gt;&lt;/p&gt;
 &lt;center&gt;
-&lt;div id=&#34;i-will-get-back-to-you-soon&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;I will get back to you soon!&lt;/h1&gt;
+#I will get back to you soon!
 &lt;/center&gt;
-&lt;/div&gt;
 </description>
     </item>
     

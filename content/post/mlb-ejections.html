@@ -1,13 +1,14 @@
 ---
-title: 'MLB: Ejections and Replay Review'
+title: 'Baseball Ejections and Replay Review'
 author: ''
 date: '2018-10-03'
 slug: mlb-ejections
-tags: ["sports", "R"]
+tags: ["R", "sports"]
 output:
   blogdown::html_page:
-    toc: true
-description: 'Analyzing the modern-day send-off'
+    toc: false
+summary: 'Does video replay descrease managerial ejections?'
+coverImage: https://images.unsplash.com/photo-1527573681-45d43bd20d92?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=751&q=80
 ---
 
 <script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
@@ -16,29 +17,9 @@ description: 'Analyzing the modern-day send-off'
 <script src="/rmarkdown-libs/d3tree2-binding/d3tree2.js"></script>
 <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
 
-<div id="TOC">
-<ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#data-pre-processing">Data Pre-Processing</a><ul>
-<li><a href="#load-packages">Load Packages</a></li>
-<li><a href="#import-data">Import Data</a></li>
-<li><a href="#clean-data">Clean Data</a></li>
-</ul></li>
-<li><a href="#ejections-by-year-cause">Ejections By Year &amp; Cause</a></li>
-<li><a href="#ejections-by-division">Ejections By Division</a></li>
-<li><a href="#managerial-ejections">Managerial Ejections</a></li>
-</ul>
-</div>
 
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
 <p>The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire’s ruling. Although technically introduced in 2008, previously only home run boundary calls could be reviewed at an umpire’s discretion. Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected. But let’s consult the data first. I looked at ten years of ejection data (2008-2017) coming from <a href="http://portal.closecallsports.com/">UEFL Portal</a> to see if I could reveal any interesting patterns. The steps of my analysis are outlined below.</p>
-<center>
-<a id='-RfwUO89RKVDqB8lDlcNUg' class='gie-single' href='http://www.gettyimages.com/detail/812815534' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a>
-<script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'-RfwUO89RKVDqB8lDlcNUg',sig:'UuXQGkUbkuRekzTXfmgErubmC_omFTfWIOXQb1WzpnY=',w:'594px',h:'396px',items:'812815534',caption: false ,tld:'com',is360: false })});</script>
-<script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
-</center>
-</div>
+<hr />
 <div id="data-pre-processing" class="section level2">
 <h2>Data Pre-Processing</h2>
 <div id="load-packages" class="section level3">
@@ -56,7 +37,7 @@ library(ggtern)</code></pre>
 <div id="import-data" class="section level3">
 <h3>Import Data</h3>
 <pre class="r"><code>#load ejections data
-load(file = &quot;ejections.rda&quot;) </code></pre>
+load(file = &quot;data/ejections.rda&quot;) </code></pre>
 </div>
 <div id="clean-data" class="section level3">
 <h3>Clean Data</h3>
@@ -93,19 +74,19 @@ ejections &lt;- bind_rows(ejections)</code></pre>
 <pre class="r"><code>glimpse(ejections)</code></pre>
 <pre><code>## Observations: 1,930
 ## Variables: 13
-## $ Date          &lt;dttm&gt; 2017-04-05, 2017-04-06, 2017-04-09, 2017-04-10,...
-## $ Team          &lt;chr&gt; &quot;MIA&quot;, &quot;LAD&quot;, &quot;TB&quot;, &quot;PHI&quot;, &quot;COL&quot;, &quot;SEA&quot;, &quot;TEX&quot;, ...
-## $ `Ej Pos`      &lt;chr&gt; &quot;Manager&quot;, &quot;CF&quot;, &quot;CF&quot;, &quot;Manager&quot;, &quot;Manager&quot;, &quot;Ma...
-## $ Name          &lt;chr&gt; &quot;Don Mattingly&quot;, &quot;Joc Pederson&quot;, &quot;Kevin Kiermaie...
-## $ H             &lt;dbl&gt; NA, 0, 3, NA, NA, NA, NA, NA, NA, NA, NA, 1, NA,...
-## $ AB            &lt;dbl&gt; NA, 3, 4, NA, NA, NA, NA, NA, NA, NA, NA, 2, NA,...
-## $ `W/L Pre-`    &lt;chr&gt; &quot;L&quot;, &quot;W&quot;, &quot;W&quot;, &quot;Tie&quot;, &quot;L&quot;, &quot;L&quot;, &quot;L&quot;, &quot;L&quot;, &quot;L&quot;, &quot;...
-## $ `W/L Final`   &lt;chr&gt; &quot;L&quot;, &quot;W&quot;, &quot;W&quot;, &quot;L&quot;, &quot;L&quot;, &quot;W&quot;, &quot;L&quot;, &quot;W&quot;, &quot;L&quot;, &quot;L&quot;...
-## $ RS            &lt;dbl&gt; 2, 0, 2, 1, 2, 3, 1, 2, 0, 0, 2, 2, 0, 2, 2, 6, ...
-## $ RA            &lt;dbl&gt; 0, 0, 0, 2, 4, 1, 5, 0, 2, 0, 2, 2, 2, 2, 2, 2, ...
-## $ Inn           &lt;dbl&gt; 7, 7, 7, 8, 5, 6, 3, 9, 8, 8, 5, 5, 8, 7, 7, 3, ...
-## $ Reason        &lt;chr&gt; &quot;Unsportsmanlike-NEC&quot;, &quot;Balls/Strikes&quot;, &quot;Balls/S...
-## $ `Play Result` &lt;chr&gt; &quot;HBP&quot;, &quot;K&quot;, &quot;K&quot;, &quot;Ball&quot;, &quot;No Balk&quot;, &quot;Fair&quot;, &quot;Fou...</code></pre>
+## $ Date          &lt;dttm&gt; 2017-04-05, 2017-04-06, 2017-04-09, 2017-04-10, 2…
+## $ Team          &lt;chr&gt; &quot;MIA&quot;, &quot;LAD&quot;, &quot;TB&quot;, &quot;PHI&quot;, &quot;COL&quot;, &quot;SEA&quot;, &quot;TEX&quot;, &quot;T…
+## $ `Ej Pos`      &lt;chr&gt; &quot;Manager&quot;, &quot;CF&quot;, &quot;CF&quot;, &quot;Manager&quot;, &quot;Manager&quot;, &quot;Mana…
+## $ Name          &lt;chr&gt; &quot;Don Mattingly&quot;, &quot;Joc Pederson&quot;, &quot;Kevin Kiermaier&quot;…
+## $ H             &lt;dbl&gt; NA, 0, 3, NA, NA, NA, NA, NA, NA, NA, NA, 1, NA, 0…
+## $ AB            &lt;dbl&gt; NA, 3, 4, NA, NA, NA, NA, NA, NA, NA, NA, 2, NA, 3…
+## $ `W/L Pre-`    &lt;chr&gt; &quot;L&quot;, &quot;W&quot;, &quot;W&quot;, &quot;Tie&quot;, &quot;L&quot;, &quot;L&quot;, &quot;L&quot;, &quot;L&quot;, &quot;L&quot;, &quot;L&quot;…
+## $ `W/L Final`   &lt;chr&gt; &quot;L&quot;, &quot;W&quot;, &quot;W&quot;, &quot;L&quot;, &quot;L&quot;, &quot;W&quot;, &quot;L&quot;, &quot;W&quot;, &quot;L&quot;, &quot;L&quot;, …
+## $ RS            &lt;dbl&gt; 2, 0, 2, 1, 2, 3, 1, 2, 0, 0, 2, 2, 0, 2, 2, 6, 0,…
+## $ RA            &lt;dbl&gt; 0, 0, 0, 2, 4, 1, 5, 0, 2, 0, 2, 2, 2, 2, 2, 2, 1,…
+## $ Inn           &lt;dbl&gt; 7, 7, 7, 8, 5, 6, 3, 9, 8, 8, 5, 5, 8, 7, 7, 3, 7,…
+## $ Reason        &lt;chr&gt; &quot;Unsportsmanlike-NEC&quot;, &quot;Balls/Strikes&quot;, &quot;Balls/Str…
+## $ `Play Result` &lt;chr&gt; &quot;HBP&quot;, &quot;K&quot;, &quot;K&quot;, &quot;Ball&quot;, &quot;No Balk&quot;, &quot;Fair&quot;, &quot;Foul&quot;…</code></pre>
 <p>After a few more housekeeping data manipulations, I think our data is ready to be explored!</p>
 <pre class="r"><code>#convert from DateTime to Date
 ejections$Date &lt;- ymd(ejections$Date)

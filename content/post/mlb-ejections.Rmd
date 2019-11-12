@@ -1,26 +1,23 @@
 ---
-title: 'MLB: Ejections and Replay Review'
+title: 'Baseball Ejections and Replay Review'
 author: ''
 date: '2018-10-03'
 slug: mlb-ejections
-tags: ["sports", "R"]
+tags: ["R", "sports"]
 output:
   blogdown::html_page:
-    toc: true
-description: 'Analyzing the modern-day send-off'
+    toc: false
+summary: 'Does video replay descrease managerial ejections?'
+coverImage: https://images.unsplash.com/photo-1527573681-45d43bd20d92?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=751&q=80
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
-## Introduction
-
 The 2014 MLB season marked the first time a team could utilize instant replay to challenge an umpire's ruling.  Although technically introduced in 2008, previously only home run boundary calls could be reviewed at an umpire's discretion.  Now with less time spent arguing safe/out calls and more time consulting replay officials in New York, there seems to be less opportunity for players and managers to argue and get ejected.  But let's consult the data first.  I looked at ten years of ejection data (2008-2017) coming from [UEFL Portal](http://portal.closecallsports.com/) to see if I could reveal any interesting patterns.  The steps of my analysis are outlined below.
 
-<center>
-<a id='-RfwUO89RKVDqB8lDlcNUg' class='gie-single' href='http://www.gettyimages.com/detail/812815534' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a><script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'-RfwUO89RKVDqB8lDlcNUg',sig:'UuXQGkUbkuRekzTXfmgErubmC_omFTfWIOXQb1WzpnY=',w:'594px',h:'396px',items:'812815534',caption: false ,tld:'com',is360: false })});</script><script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
-</center>
+**********
 
 ## Data Pre-Processing
 ### Load Packages
@@ -39,7 +36,7 @@ library(ggtern)
 ### Import Data
 ```{r, data}
 #load ejections data
-load(file = "ejections.rda") 
+load(file = "data/ejections.rda") 
 ```
 
 ### Clean Data
@@ -104,7 +101,7 @@ ejections$`W/L Final` <- recode(ejections$`W/L Final`, L = -1, W = 1)
 ```
 
 
-##Ejections By Year & Cause
+## Ejections By Year & Cause
 
 First let's take a look at how ejections have changed since replay was introduced in 2014.
 
@@ -161,7 +158,7 @@ geom_area(pos = "fill", color = "black", alpha = .78) +
 
 Arguing safe/out sharply declined after having the ability to challenge calls before going extinct in 2016.  A new type of ejection emerged as a result though.  Issues with the replay ruling or why a challenge was or was not granted seemed to fill the gap.  The "other" category refers to play regarding interference, balks, or any other less common ruling.  Perhaps what is most noteworthy, is that from 2013 to 2017 the percentage of yearly ejections via arguing balls/strikes (which also includes check swings) is up 17%.  The trust in an umpire's ability to manage the strike zone seems to be at least shrinking some.  If that number doesn't decrease anytime soon, I wouldn't be surprised to see the automated strike zone make its debut sooner rather than later.  
 
-##Ejections By Division
+## Ejections By Division
 
 The following chart outlines the total amount of ejections by division.  Try clicking on each square to explore which teams contribute the most to their respective divisions total and hover over each to see their count. 
 

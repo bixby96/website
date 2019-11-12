@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.56.3 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Chad Bixby">
+<meta name="keywords" content="">
+<meta name="description" content="Where is each trophy&rsquo;s average geographic location?">
+
+
+<meta property="og:description" content="Where is each trophy&rsquo;s average geographic location?">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The NFL, NBA, &amp; MLB&#39;s Center of Gravity">
+<meta name="twitter:title" content="The NFL, NBA, &amp; MLB&#39;s Center of Gravity">
+<meta property="og:url" content="/center-of-gravity/">
+<meta property="twitter:url" content="/center-of-gravity/">
+<meta property="og:site_name" content="Rubix³: A Data Blog">
+<meta property="og:description" content="Where is each trophy&rsquo;s average geographic location?">
+<meta name="twitter:description" content="Where is each trophy&rsquo;s average geographic location?">
+<meta property="og:locale" content="en">
+
+  
+    <meta property="article:published_time" content="2018-09-06T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2018-09-06T00:00:00">
+  
+  
+  
+  
+    
+      <meta property="article:tag" content="sports">
+    
+      <meta property="article:tag" content="R">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://images.unsplash.com/photo-1557656069-9066219a86b6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80">
+  <meta property="twitter:image" content="https://images.unsplash.com/photo-1557656069-9066219a86b6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80">
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=640">
+
+
+    <title>The NFL, NBA, &amp; MLB&#39;s Center of Gravity</title>
+
+    <link rel="icon" href="/content/page/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="/center-of-gravity/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-125431650-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="/">Rubix³: A Data Blog</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=90" alt="" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=110" alt="" />
+        </a>
+        <h4 class="sidebar-profile-name">Chad Bixby</h4>
+        
+          <h5 class="sidebar-profile-bio">In Data We Trust</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/contact/contact">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-paper-plane"></i>
+      
+      <span class="sidebar-button-desc">Contact</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/bixby96">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-left
+              "
+       style="background-image:url('https://images.unsplash.com/photo-1557656069-9066219a86b6?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1350&amp;q=80')"
+       data-behavior="5">
+    
+      <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      The NFL, NBA, &amp; MLB&#39;s Center of Gravity
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-09-06T00:00:00Z">
+        
+  
+  
+  
+  
+    9/6/2018
+  
+
+      </time>
+    
+    
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="5"
+        class="hasCover
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+
+<p>Drawing inspiration from FiveThirtyEight’s <a href="https://fivethirtyeight.com/features/the-stanley-cup-center-of-gravity-is-somewhere-in-lake-huron/">article</a> locating the Stanley Cup’s center of gravity, or the average geographic point of all Stanley Cup winners, I wondered where other leagues (MLB, NBA, NFL) championship trophies’ geographical center could lie. Using Cartesian coordinates for each champion’s city, I mapped the location for each league. The corresponding code and plots are shown below.</p>
+<hr />
+<div id="load-packages" class="section level3">
+<h3>Load Packages</h3>
+<pre class="r"><code>library(rvest) 
+library(tidyverse)
+library(ggmap) 
+library(DT)
+library(leaflet) </code></pre>
+</div>
+<div id="scrape-and-clean-data" class="section level3">
+<h3>Scrape and Clean Data</h3>
+<pre class="r"><code>#scrape NFL table
+nfl &lt;- read_html(&quot;http://www.espn.com/nfl/superbowl/history/winners&quot;) %&gt;%
+  html_node(&quot;table&quot;) %&gt;%
+  html_table()
+
+#remove top two header rows
+nfl &lt;- nfl[-c(1:2),]
+
+#remove losing teams
+nfl &lt;- nfl %&gt;%
+  separate(X4, into = &quot;Winner&quot;, sep = &quot;,&quot;)
+
+#remove winning team score
+nfl$Winner &lt;- gsub(&#39;[[:digit:]]+&#39;, &#39;&#39;, nfl[,&quot;Winner&quot;])
+
+#create vector of team names in column
+teams &lt;- c(&quot;Jets&quot;, &quot;Giants&quot;, &quot;Steelers&quot;, &quot;Saints&quot;, &quot;Packers&quot;, &quot;Ravens&quot;, &quot;Seahawks&quot;, &quot;Patriots&quot;, &quot;Broncos&quot;, &quot;Eagles&quot;)
+
+#remove team names from column and replace ambiguous city names
+nfl$Winner &lt;- gsub(paste0(teams,collapse = &quot;|&quot;),&quot;&quot;, nfl$Winner) %&gt;%
+  trimws(&quot;right&quot;) %&gt;%
+  recode(&quot;New York&quot; = &quot;New York, NY&quot;, &quot;New England&quot; = &quot;Boston&quot;, &quot;Washington&quot; = &quot;Washington, D.C.&quot;)
+
+#optain latitude and longitude
+nfl_locations &lt;- geocode(nfl$Winner)
+nfl &lt;- bind_cols(nfl, nfl_locations)</code></pre>
+<pre class="r"><code>#scrape NBA data
+nba &lt;- read_html(&quot;https://simple.wikipedia.org/wiki/List_of_NBA_champions&quot;) %&gt;%
+  html_node(&quot;table&quot;) %&gt;%
+  html_table()
+
+#clean data
+nba &lt;- nba[,1:2] %&gt;%
+  rename(winner = `Winning team`) %&gt;%
+  separate(winner, into = &quot;Winner&quot;, sep = &quot; &quot;)
+
+#replace ambiguous city names
+nba$Winner &lt;- recode(nba$Winner,&quot;St.&quot; = &quot;St. Louis&quot;, &quot;New&quot; = &quot;New York, NY&quot;, &quot;Los&quot; = &quot;Los Angeles&quot;,   &quot;Golden&quot; = &quot;Oakland&quot;, &quot;San&quot; = &quot;San Antonio&quot;, &quot;Washington&quot; = &quot;Washington, D.C.&quot;)
+
+#optain latitude and longitude
+nba_locations &lt;- geocode(nba$Winner)
+nba &lt;- bind_cols(nba, nba_locations)</code></pre>
+<pre class="r"><code>#scrape MLB data
+mlb &lt;- read_html(&quot;http://www.espn.com/mlb/worldseries/history/winners&quot;) %&gt;%
+  html_node(&quot;table&quot;) %&gt;%
+  html_table()
+
+#remove, sort, and seperate rows
+mlb &lt;- mlb[-c(1:2),] %&gt;%
+  separate(X2, into = &quot;Winner&quot;, sep = &quot; &quot;) %&gt;%
+  arrange(-row_number())
+
+#replace ambiguous city names
+mlb$Winner &lt;- recode(mlb$Winner, &quot;St.&quot; = &quot;St. Louis&quot;, &quot;New&quot; = &quot;New York, NY&quot;, &quot;Brooklyn&quot; = &quot;New York, NY&quot;, &quot;Los&quot; = &quot;Los Angeles&quot;, &quot;Kansas&quot; = &quot;Kansas City&quot;, &quot;Florida&quot; = &quot;Miami&quot;, &quot;Washington&quot; = &quot;Washington, D.C.&quot;, &quot;Arizona&quot; = &quot;Phoenix&quot;, &quot;San&quot; = &quot;San Francisco&quot;)
+
+#optain latitude and longitude
+mlb_locations &lt;- geocode(mlb$Winner)
+mlb &lt;- bind_cols(mlb, mlb_locations)</code></pre>
+</div>
+<div id="calculate-center-of-gravity" class="section level3">
+<h3>Calculate Center of Gravity</h3>
+<pre class="r"><code>#create function to find average point
+find_center &lt;- function(df){
+  
+df2 &lt;- df %&gt;%
+  mutate(rad_lon = df[,&quot;lon&quot;]*pi/180, rad_lat = df[,&quot;lat&quot;]*pi/180) %&gt;% 
+  mutate(X = cos(rad_lat) * cos(rad_lon)) %&gt;%
+  mutate(Y = cos(rad_lat) * sin(rad_lon)) %&gt;%
+  mutate(Z = sin(rad_lat)) %&gt;%
+  summarise(X = mean(X), Y = mean(Y), Z = mean(Z)) %&gt;% #find mean
+  mutate(Lon = atan2(Y,X), Hyp = sqrt(X*X+Y*Y), Lat = atan2(Z, Hyp)) %&gt;%  
+  select(Lon, Lat) %&gt;%
+  mutate(Lon = Lon*180/pi, Lat = Lat*180/pi)
+
+return(df2)
+}
+
+#locate center of gravity for each league
+nfl_center &lt;- find_center(nfl)
+nba_center &lt;- find_center(nba)
+mlb_center &lt;- find_center(mlb)</code></pre>
+<pre class="r"><code>#find center of gravity after each year
+for (i in 1:nrow(nfl)) {
+                    nfl$lon_center[i] &lt;- find_center(nfl[1:i,])[[1]]
+                    nfl$lat_center[i] &lt;- find_center(nfl[1:i,])[[2]]
+}
+
+
+for (i in 1:nrow(nba)) {
+                    nba$lon_center[i] &lt;- find_center(nba[1:i,])[[1]]
+                    nba$lat_center[i] &lt;- find_center(nba[1:i,])[[2]]
+  }
+
+for (i in 1:nrow(mlb)) {
+                    mlb$lon_center[i] &lt;- find_center(mlb[1:i,])[[1]]
+                    mlb$lat_center[i] &lt;- find_center(mlb[1:i,])[[2]]
+}</code></pre>
+<p><img src="/post/center-of-gravity_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>The NBA and MLB seem to be trending westward while the NFL looks to be boomeranging back east of the Mississippi. With the Yankees’ 27 championships (not to mention the NY Giants 5 titles plus the Mets 2 in addition to the Brooklyn Dodgers’ lone Series win) it’s no surprise that the MLB’s center of gravity is the furthest east. The Boston Celtic’s ’60s dynasty seems to have left its mark on the Larry O’Brien trophy, carrying the midpoint to upstate New York before ultimately trickling down through Illinois. Use the map below to toggle between leagues and a see which cities have won the most hardware.</p>
+</div>
+<div id="total-titles-by-city" class="section level3">
+<h3>Total Titles by City</h3>
+<pre class="r"><code>nfl_total &lt;- nfl %&gt;%
+  group_by(Winner) %&gt;%
+  select(Winner, lon, lat) %&gt;%
+  add_tally()
+
+mlb_total &lt;- mlb %&gt;%
+  group_by(Winner) %&gt;%
+  select(Winner, lon, lat) %&gt;%
+  add_tally()
+
+nba_total &lt;- nba %&gt;%
+  group_by(Winner) %&gt;%
+  select(Winner, lon, lat) %&gt;%
+  add_tally()</code></pre>
+<iframe width="100%" height="800" frameborder="F" src="https://chadbixby.shinyapps.io/Center-of-Gravity-App/">
+</iframe>
+<div id="references" class="section level4">
+<h4>References</h4>
+<p>D. Kahle and H. Wickham. ggmap: Spatial Visualization with ggplot2. The R
+Journal, 5(1), 144-161. URL
+<a href="http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf" class="uri">http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf</a></p>
+</div>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small"></span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="/tags/sports/">sports</a>
+
+  <a class="tag tag--primary tag--small" href="/tags/r/">R</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/avocado-market-research/" data-tooltip="Avocado Market Research">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/spotify-analyesis/" data-tooltip="Spotify AnalYEsis">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/center-of-gravity/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/center-of-gravity/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Chad Bixby. 
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/avocado-market-research/" data-tooltip="Avocado Market Research">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml"></span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="/spotify-analyesis/" data-tooltip="Spotify AnalYEsis">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr"></span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/center-of-gravity/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/center-of-gravity/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2Fcenter-of-gravity%2F">
+          <i class="fa fa-facebook-official"></i><span>%!(EXTRA string=Facebook)</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2Fcenter-of-gravity%2F">
+          <i class="fa fa-twitter"></i><span>%!(EXTRA string=Twitter)</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/6e229b8fc2796f605a51176e50499b91?s=110" alt="" />
+    
+    <h4 id="about-card-name">Chad Bixby</h4>
+    
+      <div id="about-card-bio">In Data We Trust</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Data Scientist
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Somewhere in America
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('/images/cover2.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = '\/center-of-gravity\/';
+          
+            this.page.identifier = '\/center-of-gravity\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'chad-bixby';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
