@@ -2,7 +2,7 @@ baseurl = "/"
 title = "Rubix³: A Data Blog"
 theme = "hugo-tranquilpeak-theme"
 languageCode = "en-us"
-disqusShortname = "chad-bixby"
+#disqusShortname = "" /utterances
 googleAnalytics = "UA-125431650-1"
 paginate = 10
 canonifyurls = true
@@ -149,7 +149,7 @@ canonifyurls = true
   autoThumbnailImage = true
 
   # Your favicon path, default is "/favicon.png"
-  favicon = "/content/page/favicon.png"
+  favicon = "/static/images/favicon.png"
 
   # Header configuration
   # The link at the right of the header is customizable
